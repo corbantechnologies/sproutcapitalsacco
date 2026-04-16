@@ -6,12 +6,17 @@ import { Label } from "@/components/ui/label";
 import { activateAccount } from "@/services/members";
 import { PasswordSetupSchema } from "@/validation";
 import { Field, Form, Formik } from "formik";
-import { Eye, EyeOff, Building2 } from "lucide-react";
+import { Eye, EyeOff, ShieldCheck, Lock } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import Image from "next/image";
-import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 function AccountActivation() {
   const { uid, token } = useParams();
@@ -21,69 +26,22 @@ function AccountActivation() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-white font-sans">
-      {/* Left Column - Branding/Promise */}
-      <div className="hidden md:flex md:w-[45%] lg:w-[40%] bg-[#0B0E14] text-white p-12 flex-col justify-between relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <Building2 className="absolute -right-20 -bottom-20 w-[400px] h-[400px] text-[#D4AF37]" />
-        </div>
-
-        <div className="relative z-10 flex items-center gap-3">
-          <div className="h-8 w-8 relative">
-            <Image
-              src="/wananchiLogoGoldNoBg.png"
-              alt="Sprout Capital Logo"
-              fill
-              className="object-contain"
-            />
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
+      <Card className="w-full max-w-md mx-auto shadow-2xl border-white/20 bg-white/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 relative z-10">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent"></div>
+        <CardHeader className="space-y-1 items-center text-center pb-2">
+          <div className="w-16 h-16 bg-primary/10 rounded flex items-center justify-center mb-4 text-primary mx-auto">
+            <ShieldCheck className="w-8 h-8" />
           </div>
-          <span className="font-bold text-lg  whitespace-nowrap text-white">
-            Sprout Capital
-          </span>
-        </div>
+          <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
+            Activate Account
+          </CardTitle>
+          <CardDescription className="text-gray-500 text-base max-w-[90%] mx-auto">
+            Set your password to activate your Sprout Capital SACCO account
+          </CardDescription>
+        </CardHeader>
 
-        <div className="relative z-10 max-w-sm mt-12">
-          <h1 className="text-lg font-bold leading-tight mb-8 text-white">
-            Initialize your <br />
-            <span className="text-[#D4AF37]">activation protocol.</span>
-          </h1>
-          <p className="text-lg text-black font-medium italic">
-            — The Wananchi Promise
-          </p>
-        </div>
-
-        {/* Footer */}
-        <div className="relative z-10">
-          <p className="text-xs text-black font-bold ">
-            Powered by Corban Technologies LTD
-          </p>
-        </div>
-      </div>
-
-      {/* Right Column - Form Area */}
-      <div className="flex-1 flex flex-col justify-center p-8 sm:p-12 lg:p-24 bg-white relative">
-        {/* Mobile Logo Only */}
-        <div className="md:hidden flex items-center gap-2 mb-12">
-          <Image
-            src="/wananchiLogoGold.png"
-            width={32}
-            height={32}
-            alt="Logo"
-            className="object-contain"
-          />
-          <span className="font-bold text-lg text-black">Sprout Capital</span>
-        </div>
-
-        <div className="w-full max-w-sm mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-700">
-          <div className="space-y-3">
-            <h2 className="text-lg font-bold text-black ">
-              Activate Account
-            </h2>
-            <p className="text-[15px] font-medium text-black leading-relaxed">
-              Set your password to activate your Sprout Capital account.
-            </p>
-          </div>
-
+        <CardContent className="space-y-6">
           <Formik
             initialValues={{
               uidb64: uid,
@@ -106,26 +64,27 @@ function AccountActivation() {
             }}
           >
             {({ values, errors, touched }) => (
-              <Form className="space-y-6">
-                <div className="space-y-1">
+              <Form className="space-y-5">
+                <div className="space-y-2">
                   <Label
                     htmlFor="password"
-                    className="text-[14px] font-bold text-black ml-1"
+                    className="text-sm font-medium text-gray-700"
                   >
                     Password
                   </Label>
                   <div className="relative group">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-primary transition-colors" />
                     <Field
                       as={Input}
                       type={showPassword ? "text" : "password"}
                       name="password"
                       id="password"
-                      placeholder="••••••••"
-                      className="h-12 px-4 pr-12 rounded border-transparent bg-slate-50 focus:bg-white focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37] transition-all text-black font-medium"
+                      placeholder="Enter your password"
+                      className="h-11 pl-10 pr-10 border-gray-200 focus:border-primary focus:ring-primary/20 transition-all bg-white/50"
                     />
                     <button
                       type="button"
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-black hover:text-black focus:bg-transparent"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
@@ -136,31 +95,32 @@ function AccountActivation() {
                     </button>
                   </div>
                   {touched.password && errors.password && (
-                    <p className="text-[11px] font-bold text-red-500 mt-1  px-1">
+                    <p className="text-sm text-red-600 mt-1">
                       {errors.password}
                     </p>
                   )}
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <Label
                     htmlFor="confirmPassword"
-                    className="text-[14px] font-bold text-black ml-1"
+                    className="text-sm font-medium text-gray-700"
                   >
                     Confirm Password
                   </Label>
                   <div className="relative group">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-primary transition-colors" />
                     <Field
                       as={Input}
                       type={showConfirmPassword ? "text" : "password"}
                       name="confirmPassword"
                       id="confirmPassword"
-                      placeholder="••••••••"
-                      className="h-12 px-4 pr-12 rounded border-transparent bg-slate-50 focus:bg-white focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37] transition-all text-black font-medium"
+                      placeholder="Confirm your password"
+                      className="h-11 pl-10 pr-10 border-gray-200 focus:border-primary focus:ring-primary/20 transition-all bg-white/50"
                     />
                     <button
                       type="button"
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-black hover:text-black focus:bg-transparent"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
@@ -173,7 +133,7 @@ function AccountActivation() {
                     </button>
                   </div>
                   {touched.confirmPassword && errors.confirmPassword && (
-                    <p className="text-[11px] font-bold text-red-500 mt-1  px-1">
+                    <p className="text-sm text-red-600 mt-1">
                       {errors.confirmPassword}
                     </p>
                   )}
@@ -181,7 +141,7 @@ function AccountActivation() {
 
                 <Button
                   type="submit"
-                  className="w-full h-12 text-[16px] font-bold  bg-[#D4AF37] hover:bg-[#b8962d] text-white shadow shadow-[#D4AF37]/20 transition-all active:scale-[0.98] rounded mt-4"
+                  className="w-full h-11 text-base font-bold bg-primary hover:bg-[#045e32] shadow-lg shadow-primary/20 transition-all mt-2"
                   disabled={loading}
                 >
                   {loading ? "Activating..." : "Activate Account"}
@@ -189,15 +149,8 @@ function AccountActivation() {
               </Form>
             )}
           </Formik>
-        </div>
-
-        <div className="mt-12 text-center text-[13px] font-medium text-black">
-          Need assistance?{" "}
-          <Link href="#" className="text-[#D4AF37] font-bold hover:underline">
-            Contact Support
-          </Link>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

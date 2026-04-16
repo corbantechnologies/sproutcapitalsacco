@@ -2,80 +2,81 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2, Home, ArrowRight } from "lucide-react";
 
 function SuccessPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-white font-sans overflow-hidden">
-      {/* Subtle decorative element */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4AF37]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none"></div>
-
-      <div className="w-full max-w-lg relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-        <div className="flex flex-col items-center text-center space-y-8 p-8">
-          <div className="w-24 h-24 rounded-full bg-[#D4AF37]/10 flex items-center justify-center mb-2">
-            <CheckCircle2
-              className="w-14 h-14 text-[#D4AF37]"
-              aria-hidden="true"
-            />
-          </div>
-
-          <div className="space-y-4">
-            <h1 className="text-lg font-bold text-black  leading-none">
-              Submission <br />
-              Acknowledged
-            </h1>
-            <p className="text-black text-lg font-medium leading-relaxed max-w-[85%] mx-auto">
-              Your application has been received and is currently being
-              vetted by our governance team.
-            </p>
-          </div>
-
-          <div className="bg-slate-50 rounded p-6 w-full border border-slate-100">
-            <p className="text-black text-[14px] font-bold ">
-              An email notification will be dispatched upon account verification.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 w-full pt-4">
-            <Button
-              asChild
-              variant="outline"
-              className="w-full h-12 text-[14px] font-bold  border-slate-200 hover:bg-slate-50 hover:text-[#D4AF37] transition-all rounded"
-            >
-              <Link href="/" aria-label="Return to home page">
-                <Home className="w-4 h-4 mr-2" />
-                Home
-              </Link>
-            </Button>
-            <Button
-              asChild
-              className="w-full h-12 text-[14px] font-bold  bg-[#D4AF37] hover:bg-[#b8962d] shadow shadow-[#D4AF37]/20 transition-all rounded text-white"
-            >
-              <Link href="/login" aria-label="Go to login">
-                Portal Access
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-          </div>
-
-          <div className="pt-12 border-t border-slate-50 w-full">
-            <div className="flex justify-center items-center gap-3">
-              <Image
-                src="/wananchiLogoGold.png"
-                width={32}
-                height={32}
-                alt="Sprout Capital Logo"
-                className="object-contain grayscale opacity-50"
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
+      <Card className="w-full max-w-lg bg-white/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 shadow-2xl border-white/20 relative z-10 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-primary"></div>
+        <CardContent className="p-8 sm:p-10">
+          <div className="flex flex-col items-center text-center space-y-6">
+            <div className="w-24 h-24 rounded bg-green-50 flex items-center justify-center mb-2 animate-in fade-in zoom-in duration-500">
+              <CheckCircle2
+                className="w-16 h-16 text-green-500"
+                aria-hidden="true"
               />
-              <span className="font-bold text-sm text-black ">
-                Sprout Capital
-              </span>
+            </div>
+
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
+                Application Received!
+              </h1>
+              <p className="text-gray-500 text-lg leading-relaxed max-w-[90%] mx-auto">
+                Your application has been received and is currently being
+                reviewed by our team.
+              </p>
+            </div>
+
+            <div className="bg-green-50/50 rounded p-4 w-full border border-green-100">
+              <p className="text-green-800 text-sm font-medium">
+                You will receive an email notification once your account has
+                been approved.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 w-full pt-4">
+              <Button
+                asChild
+                variant="outline"
+                className="w-full h-12 text-base font-semibold border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors"
+              >
+                <Link href="/" aria-label="Return to home page">
+                  <Home className="w-4 h-4 mr-2" />
+                  Back to Home
+                </Link>
+              </Button>
+              <Button
+                asChild
+                className="w-full h-12 text-base font-bold bg-primary hover:bg-[#045e32] shadow-lg shadow-primary/20 transition-all"
+              >
+                <Link href="/login" aria-label="Go to login">
+                  Login Page
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="pt-6 border-t border-gray-100 w-full">
+              <div className="flex justify-center items-center gap-2 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                <Image
+                  src="/sproutLarge.png"
+                  width={40}
+                  height={40}
+                  alt="Sprout Capital SACCO Logo"
+                  className="object-contain"
+                />
+                <span className="font-semibold text-sm text-gray-400">
+                  Sprout Capital SACCO
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

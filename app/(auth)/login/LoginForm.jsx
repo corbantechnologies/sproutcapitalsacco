@@ -1,15 +1,21 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Lock, User } from "lucide-react";
 import { getSession, signIn } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import Link from "next/link";
-import { Checkbox } from "@/components/ui/checkbox";
 
 function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -34,7 +40,9 @@ function LoginForm() {
         setLoading(false);
       } else {
         toast?.success("Login successful! Redirecting...");
-        if (session?.user?.is_staff === true || session?.user?.is_system_admin === true) {
+        if (session?.user?.is_staff === true) {
+          router.push("/sacco-admin/dashboard");
+        } else if (session?.user?.is_system_admin === true) {
           router.push("/sacco-admin/dashboard");
         } else if (session?.user?.is_member === true) {
           router.push("/member/dashboard");
@@ -49,93 +57,101 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-700">
-      <div className="space-y-3">
-        <h2 className="text-lg font-bold text-black">
-          Sign in
-        </h2>
-        <p className="text-[15px] font-medium text-black leading-relaxed">
-          Welcome back. Enter your credentials to continue.
-        </p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-2">
-          <Label
-            htmlFor="member_no"
-            className="text-[14px] font-bold text-black ml-1"
-          >
-            Member Number
-          </Label>
-          <Input
-            type="text"
-            id="member_no"
-            placeholder="123456"
-            className="h-12 px-4 rounded border-transparent bg-slate-50 focus:bg-white focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37] transition-all text-black font-medium"
-            value={member_no}
-            onChange={(e) => setMemberNo(e.target.value)}
-            required
+    <Card className="w-full max-w-md mx-auto shadow-2xl border-white/20 bg-white/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 relative z-10 overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent"></div>
+      <CardHeader className="space-y-2 items-center text-center pb-6">
+        <div className="w-20 h-20 relative mb-2 mx-auto">
+          <Image
+            src="/sproutLarge.png"
+            alt="Sprout Capital SACCO Logo"
+            fill
+            className="object-contain"
           />
         </div>
-
-        <div className="space-y-2">
-          <div className="flex items-center justify-between px-1">
+        <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
+          Welcome Back
+        </CardTitle>
+        <CardDescription className="text-gray-500 text-base">
+          Sign in to access your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-2">
             <Label
-              htmlFor="password"
-              className="text-[14px] font-bold text-black"
+              htmlFor="member_no"
+              className="text-sm font-medium text-gray-700"
             >
-              Password
+              Member Number
             </Label>
-            <Link
-              href="/forgot-password"
-              className="text-[13px] font-bold text-[#3b82f6] hover:text-[#2563eb] transition-colors"
-            >
-              Forgot password?
-            </Link>
+            <div className="relative group">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-primary transition-colors" />
+              <Input
+                type="text"
+                id="member_no"
+                placeholder="Enter your member number"
+                className="h-11 pl-10 border-gray-200 focus:border-primary focus:ring-primary/20 transition-all bg-white/50"
+                value={member_no}
+                onChange={(e) => setMemberNo(e.target.value)}
+                required
+              />
+            </div>
           </div>
-          <div className="relative group">
-            <Input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              placeholder="••••••••"
-              className="h-12 px-4 pr-12 rounded border-transparent bg-slate-50 focus:bg-white focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37] transition-all text-black font-medium"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button
-              type="button"
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-black hover:text-black transition-colors"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? (
-                <EyeOff className="w-5 h-5" />
-              ) : (
-                <Eye className="w-5 h-5" />
-              )}
-            </button>
-          </div>
-        </div>
 
-        <div className="flex items-center space-x-2 px-1">
-          <Checkbox id="remember" className="rounded border-slate-300 data-[state=checked]:bg-[#D4AF37] data-[state=checked]:border-[#D4AF37]" />
-          <Label
-            htmlFor="remember"
-            className="text-[14px] font-medium text-black leading-none cursor-pointer"
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label
+                htmlFor="password"
+                className="text-sm font-medium text-gray-700"
+              >
+                Password
+              </Label>
+              <a
+                href="/forgot-password"
+                className="text-xs text-primary hover:text-accent font-semibold hover:underline transition-colors"
+              >
+                Forgot Password?
+              </a>
+            </div>
+            <div className="relative group">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-primary transition-colors" />
+              <Input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="Enter your password"
+                className="h-11 pl-10 pr-10 border-gray-200 focus:border-primary focus:ring-primary/20 transition-all bg-white/50"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full h-11 text-base font-bold bg-gradient-to-r from-primary to-[#045e32] hover:bg-gradient-to-l hover:from-primary hover:to-[#045e32] shadow-lg shadow-primary/20 transition-all active:scale-[0.98]"
+            disabled={loading}
           >
-            Remember me
-          </Label>
-        </div>
+            {loading ? "Logging in..." : "Login"}
+          </Button>
+        </form>
 
-        <Button
-          type="submit"
-          className="w-full h-12 text-[16px] font-bold  bg-[#D4AF37] hover:bg-[#b8962d] text-white shadow shadow-[#D4AF37]/20 transition-all active:scale-[0.98] rounded"
-          disabled={loading}
-        >
-          {loading ? "Process..." : "Sign In"}
-        </Button>
-      </form>
-    </div>
+        <div className="text-center pt-2">
+          <p className="text-xs text-gray-400">Secure Access • Sprout Capital SACCO</p>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
