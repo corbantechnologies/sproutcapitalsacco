@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
+import { createLoanRepaymentMpesa } from "@/services/loanrepayments";
 
 export default function MpesaCreateLoanPaymentForm({
     isOpen,
