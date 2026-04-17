@@ -466,7 +466,7 @@ function MemberDetail() {
                       key={account.reference}
                       icon={CreditCard}
                       label={`${account.fee_type} - ${account.account_number}`}
-                      value={`${formatBalance(account.outstanding_balance)} KES`}
+                      value={`${formatBalance(account.outstanding_balance)} KES | ${formatBalance(account.amount_paid)} KES` }
                     />
                   ))}
                   <PaginationControls
