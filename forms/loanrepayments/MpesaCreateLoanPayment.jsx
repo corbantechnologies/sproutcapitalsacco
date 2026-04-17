@@ -21,7 +21,8 @@ import { createLoanRepaymentMpesa } from "@/services/loanrepayments";
 export default function MpesaCreateLoanPaymentForm({
     isOpen,
     onClose,
-    loan,           // This receives the account_number string (e.g. "LN123456")
+    loanReference,       // The correct loan reference (for URL)
+    loanAccountNumber,   // For the backend payload
 }) {
     const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();
@@ -39,7 +40,7 @@ export default function MpesaCreateLoanPaymentForm({
 
                 <Formik
                     initialValues={{
-                        loan_account: loan,          // Correct usage
+                        loan_account: loanAccountNumber,
                         amount: "",
                         phone_number: "",
                         transaction_status: "Pending",
@@ -50,17 +51,17 @@ export default function MpesaCreateLoanPaymentForm({
                         try {
                             const response = await createLoanRepaymentMpesa(values, token);
 
-                            toast.success("Payment Request Created Successfully. Proceed to make payment on the next step.");
+                            toast.success("Payment request created successfully!");
 
-                            // Fixed: Use the correct variable
-                            router.push(`/member/loans/${loan}/${response?.reference || ''}`);
+                            // CORRECT REDIRECT using loanReference
+                            router.push(`/member/loans/${loanReference}/${response?.reference || ''}`);
 
-                            onClose(); // Close modal after success
+                            onClose();
                         } catch (error) {
                             console.error(error);
                             const errorMsg = error?.response?.data?.error ||
                                 error?.response?.data?.loan_account?.[0] ||
-                                "Failed to initiate M-Pesa payment";
+                                "Failed to create payment request";
                             toast.error(errorMsg);
                         } finally {
                             setLoading(false);
@@ -98,22 +99,20 @@ export default function MpesaCreateLoanPaymentForm({
                                 </p>
                             </div>
 
-                            <div className="flex justify-end pt-4">
-                                <Button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="w-full bg-[#045e32] hover:bg-[#034625]"
-                                >
-                                    {loading ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Initiating Payment...
-                                        </>
-                                    ) : (
-                                        "Initiate M-Pesa Payment"
-                                    )}
-                                </Button>
-                            </div>
+                            <Button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-[#045e32] hover:bg-[#034625]"
+                            >
+                                {loading ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Initiating Payment...
+                                    </>
+                                ) : (
+                                    "Initiate M-Pesa Payment"
+                                )}
+                            </Button>
                         </Form>
                     )}
                 </Formik>

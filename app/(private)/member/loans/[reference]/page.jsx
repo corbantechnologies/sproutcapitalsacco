@@ -30,7 +30,7 @@ import {
 import MpesaCreateLoanPaymentForm from "@/forms/loanrepayments/MpesaCreateLoanPayment";
 
 function LoanDetail() {
-    const { reference } = useParams();
+    const { reference } = useParams(); // This is the correct loan REFERENCE for URLs
 
     const [activeTab, setActiveTab] = useState("overview");
     const [monthFilter, setMonthFilter] = useState("");
@@ -42,50 +42,41 @@ function LoanDetail() {
 
     const { isLoading: isLoadingLoan, data: loan } = useFetchLoanDetail(reference);
     const { isLoading: isLoadingMember } = useFetchMember();
-    const { data: payoffQuote, isLoading: isPayoffLoading } = useFetchLoanPayOffAmount(reference);
+    const { data: payoffQuote } = useFetchLoanPayOffAmount(reference);
 
-    // Repayment Schedule
     const schedule = useMemo(() =>
         loan?.application_details?.projection_snapshot?.schedule ||
         loan?.projection_snapshot?.schedule || [],
         [loan]
     );
 
-    // All Transactions (Disbursements + Payments)
     const allTransactions = useMemo(() => {
         if (!loan) return [];
-
         const disbursements = (loan.disbursements || []).map(d => ({
             ...d,
             type: 'Disbursement',
             date: d.created_at
         }));
-
         const payments = (loan.loan_payments || loan.repayments || []).map(p => ({
             ...p,
             type: 'Repayment',
             date: p.created_at
         }));
-
         return [...disbursements, ...payments].sort((a, b) =>
             new Date(b.date) - new Date(a.date)
         );
     }, [loan]);
 
-    // Filtered & Paginated Transactions
     const filteredTransactions = useMemo(() => {
         return allTransactions.filter((t) => {
             const tDate = new Date(t.date);
-
             if (monthFilter) {
                 const [year, month] = monthFilter.split("-").map(Number);
                 const start = startOfMonth(new Date(year, month - 1));
                 const end = endOfMonth(new Date(year, month - 1));
                 if (!isWithinInterval(tDate, { start, end })) return false;
             }
-
             if (statusFilter && t.status !== statusFilter) return false;
-
             return true;
         });
     }, [allTransactions, monthFilter, statusFilter]);
@@ -161,45 +152,25 @@ function LoanDetail() {
 
                 {/* Tab Content */}
                 <div className="space-y-6">
-                    {/* OVERVIEW TAB */}
                     {activeTab === 'overview' && (
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                             {/* Summary Cards */}
                             <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                 <Card className="border-l-4 border-l-[#174271]">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-xs uppercase tracking-wider text-slate-500">Outstanding Balance</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-3xl font-bold text-[#174271]">{formatCurrency(loan.outstanding_balance)}</p>
-                                    </CardContent>
+                                    <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Outstanding Balance</CardTitle></CardHeader>
+                                    <CardContent><p className="text-3xl font-bold text-[#174271]">{formatCurrency(loan.outstanding_balance)}</p></CardContent>
                                 </Card>
-
                                 <Card className="border-l-4 border-l-green-600">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-xs uppercase tracking-wider text-slate-500">Principal</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-3xl font-bold">{formatCurrency(loan.principal)}</p>
-                                    </CardContent>
+                                    <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Principal</CardTitle></CardHeader>
+                                    <CardContent><p className="text-3xl font-bold">{formatCurrency(loan.principal)}</p></CardContent>
                                 </Card>
-
                                 <Card className="border-l-4 border-l-amber-500">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-xs uppercase tracking-wider text-slate-500">Interest Accrued</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-3xl font-bold">{formatCurrency(loan.total_interest_accrued)}</p>
-                                    </CardContent>
+                                    <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Interest Accrued</CardTitle></CardHeader>
+                                    <CardContent><p className="text-3xl font-bold">{formatCurrency(loan.total_interest_accrued)}</p></CardContent>
                                 </Card>
-
                                 <Card className="border-l-4 border-l-[#045e32]">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle className="text-xs uppercase tracking-wider text-slate-500">Total Loan Amount</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-3xl font-bold text-[#045e32]">{formatCurrency(loan.total_loan_amount)}</p>
-                                    </CardContent>
+                                    <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Total Loan Amount</CardTitle></CardHeader>
+                                    <CardContent><p className="text-3xl font-bold text-[#045e32]">{formatCurrency(loan.total_loan_amount)}</p></CardContent>
                                 </Card>
                             </div>
 
@@ -222,9 +193,7 @@ function LoanDetail() {
                                                 <span>{formatCurrency(payoffQuote.total_payoff_amount)}</span>
                                             </div>
                                         </>
-                                    ) : (
-                                        <p className="text-center py-8 text-muted-foreground">Payoff quote not available</p>
-                                    )}
+                                    ) : <p className="text-center py-8 text-muted-foreground">Payoff quote not available</p>}
                                 </CardContent>
                             </Card>
 
@@ -241,7 +210,6 @@ function LoanDetail() {
                         </div>
                     )}
 
-                    {/* SCHEDULE TAB */}
                     {activeTab === 'schedule' && (
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between">
@@ -251,9 +219,9 @@ function LoanDetail() {
                                     </CardTitle>
                                     <CardDescription>Detailed projected repayment plan</CardDescription>
                                 </div>
-                                {/* <Button variant="outline">Download Schedule</Button> */}
                             </CardHeader>
                             <CardContent className="overflow-x-auto">
+                                {/* Your schedule table here - unchanged */}
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-gray-50">
@@ -300,7 +268,6 @@ function LoanDetail() {
                         </Card>
                     )}
 
-                    {/* TRANSACTIONS TAB */}
                     {activeTab === 'transactions' && (
                         <Card>
                             <CardHeader>
@@ -310,15 +277,9 @@ function LoanDetail() {
                             </CardHeader>
                             <CardContent>
                                 <div className="flex justify-between mb-4">
-                                    <select
-                                        value={monthFilter}
-                                        onChange={(e) => setMonthFilter(e.target.value)}
-                                        className="border rounded px-3 py-2 text-sm"
-                                    >
+                                    <select value={monthFilter} onChange={(e) => setMonthFilter(e.target.value)} className="border rounded px-3 py-2 text-sm">
                                         <option value="">All Months</option>
-                                        {/* Add dynamic month options if needed */}
                                     </select>
-                                    {/* <Button variant="outline">Download PDF</Button> */}
                                 </div>
 
                                 <Table>
@@ -360,11 +321,12 @@ function LoanDetail() {
                 </div>
             </div>
 
-            {/* M-Pesa Payment Modal */}
+            {/* Correct Modal */}
             <MpesaCreateLoanPaymentForm
                 isOpen={isMpesaModalOpen}
                 onClose={() => setIsMpesaModalOpen(false)}
-                loan={loan?.account_number}
+                loanReference={reference}           // Correct reference for URL
+                loanAccountNumber={loan?.account_number}
             />
         </div>
     );
