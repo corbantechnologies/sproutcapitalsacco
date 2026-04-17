@@ -21,7 +21,7 @@ import { Loader2 } from "lucide-react";
 export default function MpesaCreateLoanPaymentForm({
     isOpen,
     onClose,
-    savings_account,
+    loan_account,
 }) {
     const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();

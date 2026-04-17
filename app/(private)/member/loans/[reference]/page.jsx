@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import MpesaCreateLoanPaymentForm from "@/forms/loanrepayments/MpesaCreateLoanPayment";
 
 function LoanDetail() {
     const { reference } = useParams();
@@ -37,6 +38,7 @@ function LoanDetail() {
     const [statusFilter, setStatusFilter] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+    const [isMpesaModalOpen, setIsMpesaModalOpen] = useState(false);
 
     const { isLoading: isLoadingLoan, data: loan } = useFetchLoanDetail(reference);
     const { isLoading: isLoadingMember, data: member } = useFetchMember();
@@ -115,7 +117,7 @@ function LoanDetail() {
                         {/* <Button onClick={generateApplicationPDF} variant="outline" className="border-[#045e32] text-[#045e32] hover:bg-[#045e32]/10">
                             Download Schedule
                         </Button> */}
-                        <Button className="bg-[#045e32] hover:bg-[#034625]">
+                        <Button className="bg-[#045e32] hover:bg-[#034625]" onClick={() => setIsMpesaModalOpen(true)}>
                             {/* implementing Mpesa here in a bit */}
                             Make Repayment
                         </Button>
@@ -311,6 +313,11 @@ function LoanDetail() {
                     )}
                 </div>
             </div>
+            <MpesaCreateLoanPaymentForm
+                isOpen={isMpesaModalOpen}
+                onClose={() => setIsMpesaModalOpen(false)}
+                loan={loan}
+            />
         </div>
     );
 }
