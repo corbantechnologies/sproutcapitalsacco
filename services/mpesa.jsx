@@ -8,6 +8,6 @@ export const generateDepositSTKPush = async (payload) => {
 };
 
 export const generateLoanSTKPush = async (payload) => {
-  const response = await apiActions.post("/api/v1/mpesa/pay/loan/", payload);
+  const response = await apiActions.post("/api/v1/mpesa/pay/loan/member/", payload);
   return response.data;
 };
