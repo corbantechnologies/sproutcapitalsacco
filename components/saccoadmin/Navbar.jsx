@@ -42,6 +42,7 @@ const MENU_LINKS = [
     label: "Accounting & Financials",
     href: "/sacco-admin/accounting",
     children: [
+      { label: "Accounting Dashboard", href: "/sacco-admin/accounting" },
       { label: "GL Accounts", href: "/sacco-admin/setup/gl-accounts" },
       { label: "Fee Payments", href: "/sacco-admin/fee-payments" },
       { label: "Payment Accounts", href: "/sacco-admin/setup/payment-accounts" },
