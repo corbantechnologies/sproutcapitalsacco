@@ -5,10 +5,10 @@ import { format, startOfMonth, endOfMonth, isWithinInterval } from "date-fns";
 import { useParams } from "next/navigation";
 import { useFetchLoanDetail, useFetchLoanPayOffAmount } from "@/hooks/loans/actions";
 import { useFetchMember } from "@/hooks/members/actions";
-import { Banknote, Info, Calendar, History, AlertTriangle } from "lucide-react";
+import { Banknote, Calendar, History } from "lucide-react";
 import MemberLoadingSpinner from "@/components/general/MemberLoadingSpinner";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     Table,
     TableBody,
@@ -27,32 +27,44 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+import MpesaCreateLoanPaymentForm from "@/forms/loanrepayments/MpesaCreateLoanPayment";
 
 function LoanDetail() {
-    const { reference } = useParams();
+    const { reference } = useParams(); // This is the correct loan REFERENCE for URLs
+
     const [activeTab, setActiveTab] = useState("overview");
     const [monthFilter, setMonthFilter] = useState("");
     const [statusFilter, setStatusFilter] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [isMpesaModalOpen, setIsMpesaModalOpen] = useState(false);
+
     const itemsPerPage = 10;
 
     const { isLoading: isLoadingLoan, data: loan } = useFetchLoanDetail(reference);
-    const { isLoading: isLoadingMember, data: member } = useFetchMember();
-    const { data: payoffQuote, isLoading: isPayoffLoading } = useFetchLoanPayOffAmount(reference);
+    const { isLoading: isLoadingMember } = useFetchMember();
+    const { data: payoffQuote } = useFetchLoanPayOffAmount(reference);
 
-    const schedule = useMemo(() => loan?.application_details?.projection_snapshot?.schedule || loan?.projection_snapshot?.schedule || [], [loan]);
+    const schedule = useMemo(() =>
+        loan?.application_details?.projection_snapshot?.schedule ||
+        loan?.projection_snapshot?.schedule || [],
+        [loan]
+    );
 
     const allTransactions = useMemo(() => {
         if (!loan) return [];
         const disbursements = (loan.disbursements || []).map(d => ({
-            ...d, type: 'Disbursement', date: d.created_at
+            ...d,
+            type: 'Disbursement',
+            date: d.created_at
         }));
         const payments = (loan.loan_payments || loan.repayments || []).map(p => ({
-            ...p, type: 'Repayment', date: p.created_at
+            ...p,
+            type: 'Repayment',
+            date: p.created_at
         }));
-        return [...disbursements, ...payments].sort((a, b) => new Date(b.date) - new Date(a.date));
+        return [...disbursements, ...payments].sort((a, b) =>
+            new Date(b.date) - new Date(a.date)
+        );
     }, [loan]);
 
     const filteredTransactions = useMemo(() => {
@@ -77,10 +89,6 @@ function LoanDetail() {
     const formatCurrency = (amount) => `KES ${parseFloat(amount || 0).toFixed(2)}`;
     const formatDate = (dateStr) => dateStr ? format(new Date(dateStr), "MMM dd, yyyy") : "N/A";
 
-    // PDF Generators (kept and slightly improved)
-    const generateApplicationPDF = () => { /* ... same as before ... */ };
-    const generateTransactionPDF = () => { /* ... same as before ... */ };
-
     if (isLoadingLoan || isLoadingMember) return <MemberLoadingSpinner />;
     if (!loan) return <div className="p-8 text-center text-muted-foreground">Loan details not found.</div>;
 
@@ -91,9 +99,13 @@ function LoanDetail() {
                 {/* Breadcrumbs */}
                 <Breadcrumb>
                     <BreadcrumbList>
-                        <BreadcrumbItem><BreadcrumbLink href="/member/dashboard">Dashboard</BreadcrumbLink></BreadcrumbItem>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/member/dashboard">Dashboard</BreadcrumbLink>
+                        </BreadcrumbItem>
                         <BreadcrumbSeparator />
-                        <BreadcrumbItem><BreadcrumbLink href="/member/loans">Loans</BreadcrumbLink></BreadcrumbItem>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/member/loans">Loans</BreadcrumbLink>
+                        </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbPage>{loan.product} Loan</BreadcrumbPage>
                     </BreadcrumbList>
@@ -104,22 +116,22 @@ function LoanDetail() {
                     <div>
                         <div className="flex items-center gap-3 mb-1">
                             <h1 className="text-3xl font-bold text-gray-900">{loan.product} Loan</h1>
-                            <Badge variant={loan.status === 'Active' ? 'default' : 'secondary'}
-                                className={loan.status === 'Active' ? 'bg-[#045e32] text-white' : ''}>
+                            <Badge
+                                variant={loan.status === 'Active' ? 'default' : 'secondary'}
+                                className={loan.status === 'Active' ? 'bg-[#045e32] text-white' : ''}
+                            >
                                 {loan.status}
                             </Badge>
                         </div>
                         <p className="text-muted-foreground font-mono">{loan.account_number}</p>
                     </div>
-                    <div className="flex gap-3">
-                        {/* <Button onClick={generateApplicationPDF} variant="outline" className="border-[#045e32] text-[#045e32] hover:bg-[#045e32]/10">
-                            Download Schedule
-                        </Button> */}
-                        <Button className="bg-[#045e32] hover:bg-[#034625]">
-                            {/* implementing Mpesa here in a bit */}
-                            Make Repayment
-                        </Button>
-                    </div>
+
+                    <Button
+                        className="bg-[#045e32] hover:bg-[#034625]"
+                        onClick={() => setIsMpesaModalOpen(true)}
+                    >
+                        Make Repayment
+                    </Button>
                 </div>
 
                 {/* Tabs */}
@@ -185,7 +197,7 @@ function LoanDetail() {
                                 </CardContent>
                             </Card>
 
-                            {/* Terms */}
+                            {/* Loan Terms */}
                             <Card className="lg:col-span-7">
                                 <CardHeader><CardTitle>Loan Terms</CardTitle></CardHeader>
                                 <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
@@ -207,9 +219,9 @@ function LoanDetail() {
                                     </CardTitle>
                                     <CardDescription>Detailed projected repayment plan</CardDescription>
                                 </div>
-                                <Button variant="outline" onClick={generateApplicationPDF}>Download PDF</Button>
                             </CardHeader>
                             <CardContent className="overflow-x-auto">
+                                {/* Your schedule table here - unchanged */}
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-gray-50">
@@ -264,13 +276,10 @@ function LoanDetail() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                {/* Filters + Download */}
                                 <div className="flex justify-between mb-4">
                                     <select value={monthFilter} onChange={(e) => setMonthFilter(e.target.value)} className="border rounded px-3 py-2 text-sm">
                                         <option value="">All Months</option>
-                                        {/* You can dynamically generate months here if needed */}
                                     </select>
-                                    <Button variant="outline" onClick={generateTransactionPDF}>Download PDF</Button>
                                 </div>
 
                                 <Table>
@@ -311,6 +320,14 @@ function LoanDetail() {
                     )}
                 </div>
             </div>
+
+            {/* Correct Modal */}
+            <MpesaCreateLoanPaymentForm
+                isOpen={isMpesaModalOpen}
+                onClose={() => setIsMpesaModalOpen(false)}
+                loanReference={reference}           // Correct reference for URL
+                loanAccountNumber={loan?.account_number}
+            />
         </div>
     );
 }
