@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import MemberLoadingSpinner from "@/components/general/MemberLoadingSpinner";
 import { formatCurrency } from "@/lib/utils";
-import { generateDepositSTKPush } from "@/services/mpesa";
+import { generateLoanSTKPush } from "@/services/mpesa";
 import { useFetchLoanRepaymentDetail } from "@/hooks/loanrepayments/actions";
 
 export default function LoanPaymentProcessing() {
@@ -191,7 +191,7 @@ export default function LoanPaymentProcessing() {
                                         loan_payment_reference: values.loan_payment_reference,
                                     };
 
-                                    await generateDepositSTKPush(payload);
+                                    await generateLoanSTKPush(payload);
                                     setPaymentMessage(
                                         "STK Push sent! Please check your phone to complete the payment."
                                     );

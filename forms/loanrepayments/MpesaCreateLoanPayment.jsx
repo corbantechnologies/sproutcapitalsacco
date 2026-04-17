@@ -4,7 +4,6 @@ import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { createSavingsDepositMpesa } from "@/services/savingsdeposits";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -22,7 +21,7 @@ import { createLoanRepaymentMpesa } from "@/services/loanrepayments";
 export default function MpesaCreateLoanPaymentForm({
     isOpen,
     onClose,
-    loan_account,
+    loan,           // This receives the account_number string (e.g. "LN123456")
 }) {
     const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();
@@ -32,14 +31,15 @@ export default function MpesaCreateLoanPaymentForm({
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Make MPesa Loan Payment</DialogTitle>
+                    <DialogTitle>Make M-Pesa Loan Payment</DialogTitle>
                     <DialogDescription>
-                        Enter the amount and your M-Pesa phone number to initiate a loan payment.
+                        Enter the amount and your M-Pesa phone number to initiate payment.
                     </DialogDescription>
                 </DialogHeader>
+
                 <Formik
                     initialValues={{
-                        loan_account: loan_account?.account_number,
+                        loan_account: loan,          // Correct usage
                         amount: "",
                         phone_number: "",
                         transaction_status: "Pending",
@@ -49,49 +49,50 @@ export default function MpesaCreateLoanPaymentForm({
                         setLoading(true);
                         try {
                             const response = await createLoanRepaymentMpesa(values, token);
-                            toast?.success(
-                                "Loan payment created successfully!🎉 Proceed to make payment"
-                            );
-                            router?.push(
-                                `/member/loans/${loan_account?.reference}/${response?.reference}`
-                            );
+
+                            toast.success("Payment Request Created Successfully. Proceed to make payment on the next step.");
+
+                            // Fixed: Use the correct variable
+                            router.push(`/member/loans/${loan}/${response?.reference || ''}`);
+
+                            onClose(); // Close modal after success
                         } catch (error) {
-                            toast?.error("Failed to create loan payment!");
+                            console.error(error);
+                            const errorMsg = error?.response?.data?.error ||
+                                error?.response?.data?.loan_account?.[0] ||
+                                "Failed to initiate M-Pesa payment";
+                            toast.error(errorMsg);
                         } finally {
                             setLoading(false);
                         }
                     }}
                 >
-                    {({ errors, touched, setFieldValue }) => (
+                    {({ errors, touched }) => (
                         <Form className="space-y-4">
                             <div className="space-y-2">
-                                <Label htmlFor="amount">Amount</Label>
+                                <Label htmlFor="amount">Amount (KES)</Label>
                                 <Field
                                     as={Input}
                                     id="amount"
                                     name="amount"
                                     type="number"
                                     placeholder="Enter amount"
-                                    className={
-                                        errors.amount && touched.amount ? "border-red-500" : ""
-                                    }
+                                    className={errors.amount && touched.amount ? "border-red-500" : ""}
                                 />
+                                <ErrorMessage name="amount" component="p" className="text-red-500 text-sm" />
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="phone_number">Phone Number</Label>
+                                <Label htmlFor="phone_number">M-Pesa Phone Number</Label>
                                 <Field
                                     as={Input}
                                     id="phone_number"
                                     name="phone_number"
                                     type="text"
-                                    placeholder="2547XXXXXXXX or 2541XXXXXXXX"
-                                    className={
-                                        errors.phone_number && touched.phone_number
-                                            ? "border-red-500"
-                                            : ""
-                                    }
+                                    placeholder="254712345678"
+                                    className={errors.phone_number && touched.phone_number ? "border-red-500" : ""}
                                 />
+                                <ErrorMessage name="phone_number" component="p" className="text-red-500 text-sm" />
                                 <p className="text-[0.8rem] text-muted-foreground">
                                     Format: 2547XXXXXXXX
                                 </p>
@@ -106,10 +107,10 @@ export default function MpesaCreateLoanPaymentForm({
                                     {loading ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Processing...
+                                            Initiating Payment...
                                         </>
                                     ) : (
-                                        "Initiate Deposit"
+                                        "Initiate M-Pesa Payment"
                                     )}
                                 </Button>
                             </div>
