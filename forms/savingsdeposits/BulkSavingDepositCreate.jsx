@@ -145,7 +145,7 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
                 </div>
 
                 <div className="flex justify-end pt-2">
-                    <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-12 px-12 rounded shadow-lg shadow-emerald-50" disabled={loading}>
+                    <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-4 rounded" disabled={loading}>
                         {loading ? "Processing..." : "Commit Deposits"}
                     </Button>
                 </div>
