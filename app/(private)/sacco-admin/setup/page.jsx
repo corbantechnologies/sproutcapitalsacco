@@ -134,31 +134,31 @@ export default function SetupPage() {
                         Centralize management of your financial foundation and products.
                     </p>
                 </div>
-                
+
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button className="bg-[#174271] hover:bg-slate-800 text-white gap-2 font-bold shadow-sm rounded">
-                             <Plus className="w-4 h-4" /> Quick Create
+                            <Plus className="w-4 h-4" /> Quick Create
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-56 p-1 rounded shadow-xl border-slate-200" align="end">
-                         <div className="grid gap-0.5">
-                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateGLModalOpen(true)}>
-                                 <Building2 className="w-4 h-4 mr-2 opacity-70" /> GL Account
-                             </Button>
-                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreatePaymentModalOpen(true)}>
-                                 <Wallet className="w-4 h-4 mr-2 opacity-70" /> Payment Account
-                             </Button>
-                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateFeeModalOpen(true)} disabled={!mandatorySetupDone}>
-                                 <BadgePercent className="w-4 h-4 mr-2 opacity-70" /> Fee Type
-                             </Button>
-                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateSavingModalOpen(true)} disabled={!mandatorySetupDone}>
-                                 <PiggyBank className="w-4 h-4 mr-2 opacity-70" /> Saving Type
-                             </Button>
-                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateLoanModalOpen(true)} disabled={!mandatorySetupDone}>
-                                 <HandCoins className="w-4 h-4 mr-2 opacity-70" /> Loan Product
-                             </Button>
-                         </div>
+                        <div className="grid gap-0.5">
+                            <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateGLModalOpen(true)}>
+                                <Building2 className="w-4 h-4 mr-2 opacity-70" /> GL Account
+                            </Button>
+                            <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreatePaymentModalOpen(true)}>
+                                <Wallet className="w-4 h-4 mr-2 opacity-70" /> Payment Account
+                            </Button>
+                            <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateFeeModalOpen(true)} disabled={!mandatorySetupDone}>
+                                <BadgePercent className="w-4 h-4 mr-2 opacity-70" /> Fee Type
+                            </Button>
+                            <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateSavingModalOpen(true)} disabled={!mandatorySetupDone}>
+                                <PiggyBank className="w-4 h-4 mr-2 opacity-70" /> Saving Type
+                            </Button>
+                            <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateLoanModalOpen(true)} disabled={!mandatorySetupDone}>
+                                <HandCoins className="w-4 h-4 mr-2 opacity-70" /> Loan Product
+                            </Button>
+                        </div>
                     </PopoverContent>
                 </Popover>
             </div>
@@ -211,22 +211,43 @@ export default function SetupPage() {
                 </div>
 
                 <Tabs defaultValue="gl" className="w-full">
-                    <TabsList className="bg-white border p-1 h-12 shadow-sm rounded mb-6 flex overflow-x-auto no-scrollbar">
-                        <TabsTrigger value="gl" className="flex-1 px-4 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] text-sm ">
+                    <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1 overflow-hidden">
+
+                        <TabsTrigger
+                            value="gl"
+                            className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        >
                             GL Summary
                         </TabsTrigger>
-                        <TabsTrigger value="payment" className="flex-1 px-4 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] text-sm ">
+
+                        <TabsTrigger
+                            value="payment"
+                            className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        >
                             Payment Methods
                         </TabsTrigger>
-                        <TabsTrigger value="fees" className="flex-1 px-4 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] text-sm ">
+
+                        <TabsTrigger
+                            value="fees"
+                            className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        >
                             Fee Types
                         </TabsTrigger>
-                        <TabsTrigger value="savings" className="flex-1 px-4 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] text-sm ">
+
+                        <TabsTrigger
+                            value="savings"
+                            className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        >
                             Saving Types
                         </TabsTrigger>
-                        <TabsTrigger value="loans" className="flex-1 px-4 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] text-sm ">
+
+                        <TabsTrigger
+                            value="loans"
+                            className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        >
                             Loan Products
                         </TabsTrigger>
+
                     </TabsList>
 
                     {/* GL Accounts Summary */}
