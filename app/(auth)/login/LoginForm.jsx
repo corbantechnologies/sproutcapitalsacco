@@ -34,6 +34,8 @@ function LoginForm() {
         member_no,
         password,
       });
+
+
       const session = await getSession();
       if (response?.error) {
         toast?.error("Invalid member number or password");
@@ -43,6 +45,14 @@ function LoginForm() {
         if (session?.user?.is_staff === true) {
           router.push("/sacco-admin/dashboard");
         } else if (session?.user?.is_system_admin === true) {
+          router.push("/sacco-admin/dashboard");
+        } else if (session?.user?.is_treasurer === true) {
+          router.push("/sacco-admin/dashboard");
+        } else if (session?.user?.is_bookkeeper === true) {
+          router.push("/sacco-admin/dashboard");
+        } else if (session?.user?.is_sacco_staff === true) {
+          router.push("/sacco-admin/dashboard");
+        } else if (session?.user?.is_sacco_admin === true) {
           router.push("/sacco-admin/dashboard");
         } else if (session?.user?.is_member === true) {
           router.push("/member/dashboard");

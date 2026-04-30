@@ -49,8 +49,8 @@ import CreateLoanAccountAdmin from "@/forms/loans/CreateLoanAdmin";
 import CreateFeePayment from "@/forms/feepayments/CreateFeePayment";
 import UpdateMemberRole from "@/forms/members/UpdateMemberRole";
 import { useFetchLoanProducts } from "@/hooks/loanproducts/actions";
-// import { useFetchMemberSummary } from "@/hooks/summary/actions";
-// import MemberFinancialSummary from "@/components/members/dashboard/MemberFinancialSummary";
+import { useFetchMemberSummary } from "@/hooks/summary/actions";
+import MemberFinancialSummary from "@/components/members/dashboard/MemberFinancialSummary";
 import { downloadMemberSummary } from "@/services/membersummary";
 import { Download, Loader2 } from "lucide-react";
 import EmptyState from "@/components/general/EmptyState";
@@ -65,11 +65,11 @@ function MemberDetail() {
   } = useFetchMemberDetail(member_no);
 
 
-  // const {
-  //   isLoading: isLoadingSummary,
-  //   data: summary,
-  //   refetch: refetchSummary,
-  // } = useFetchMemberSummary(member_no);
+  const {
+    isLoading: isLoadingSummary,
+    data: summary,
+    refetch: refetchSummary,
+  } = useFetchMemberSummary(member_no);
 
   const { data: loanProducts } = useFetchLoanProducts();
 
@@ -378,9 +378,9 @@ function MemberDetail() {
         </Card>
 
         {/* Financial Summary */}
-        {/* <div className="mt-8">
+        <div className="mt-8">
           <MemberFinancialSummary summary={summary} memberNo={member_no} />
-        </div> */}
+        </div>
 
         {/* Quick Action Cards */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
