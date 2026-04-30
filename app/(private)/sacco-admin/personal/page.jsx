@@ -55,14 +55,14 @@ function MemberDashboard() {
     member?.guarantor_profile?.available_amount || 0;
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8">
+    <div className="min-h-screen bg-gray-50/50 p-4 sm:p-6 md:p-8 space-y-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             Dashboard
           </h1>
-          <p className="text-slate-500 mt-1 text-lg">
+          <p className="text-slate-500 mt-1 text-base sm:text-lg">
             Welcome back,{" "}
             <span className="font-semibold text-[#236c2e]">
               {member?.first_name} {member?.last_name}
@@ -79,7 +79,7 @@ function MemberDashboard() {
       </div>
 
       {/* Summary Cards Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card className="border-l-4 border-l-[#236c2e] hover:shadow-sm transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -132,7 +132,7 @@ function MemberDashboard() {
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
         {/* Savings Breakdown */}
         <Card className="col-span-1 lg:col-span-3 shadow-sm h-full">
           <CardHeader>
@@ -194,12 +194,12 @@ function MemberDashboard() {
       </div>
 
       {/* Financial Summary */}
-      {/* <div className="mt-8">
+      <div className="mt-8">
         <MemberFinancialSummary
           summary={summary}
           memberNo={member?.member_no}
         />
-      </div> */}
+      </div>
     </div>
   );
 }
