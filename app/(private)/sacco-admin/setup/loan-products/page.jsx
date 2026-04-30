@@ -60,7 +60,7 @@ export default function LoanProductsSetupPage() {
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                        <h1 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                             <HandCoins className="w-6 h-6 text-[#174271]" /> Loan Product Configuration
                         </h1>
                         <p className="text-slate-500 text-sm italic">
@@ -71,7 +71,7 @@ export default function LoanProductsSetupPage() {
                 <div className="flex gap-2">
                     <Button
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-bold shadow-sm rounded h-10 px-5"
+                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-semibold shadow-sm rounded h-10 px-5"
                     >
                         <Plus className="w-4 h-4 mr-1.5" /> New Loan Scheme
                     </Button>
@@ -79,16 +79,31 @@ export default function LoanProductsSetupPage() {
             </div>
 
             {/* Content Tabs */}
-            <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 h-12 shadow-sm mb-6 rounded">
-                    <TabsTrigger value="list" className="px-8 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-bold text-xs uppercase tracking-widest transition-all">
-                        <ListFilter className="w-4 h-4 mr-2" /> Schemes
+            <Tabs defaultValue="list">
+                <TabsList className="bg-white border p-1 h-auto shadow-sm mb-6">
+                    <TabsTrigger
+                        value="list"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                    >
+                        <ListFilter className="w-4 h-4" />
+                        <span className="hidden xs:inline">Schemes</span>
+                        <span className="xs:hidden">Schemes</span>
                     </TabsTrigger>
-                    <TabsTrigger value="bulk-create" className="px-8 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-bold text-xs uppercase tracking-widest transition-all">
-                        <Plus className="w-4 h-4 mr-2" /> Batch Entry
+                    <TabsTrigger
+                        value="bulk-create"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                    >
+                        <Plus className="w-4 h-4" />
+                        <span className="hidden xs:inline">Bulk Entry</span>
+                        <span className="xs:hidden">Bulk</span>
                     </TabsTrigger>
-                    <TabsTrigger value="bulk-upload" className="px-8 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-bold text-xs uppercase tracking-widest transition-all">
-                        <FileUp className="w-4 h-4 mr-2" /> Bulk Sync
+                    <TabsTrigger
+                        value="bulk-upload"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                    >
+                        <FileUp className="w-4 h-4" />
+                        <span className="hidden xs:inline">Bulk Upload</span>
+                        <span className="xs:hidden">Upload</span>
                     </TabsTrigger>
                 </TabsList>
 
@@ -96,40 +111,40 @@ export default function LoanProductsSetupPage() {
                 <TabsContent value="list" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                     <Card className="shadow-sm border-none overflow-hidden rounded">
                         <CardHeader className="bg-white border-b px-6 py-4">
-                            <CardTitle className="text-lg font-bold text-slate-800">Available Loan Facilities</CardTitle>
+                            <CardTitle className="text-lg font-semibold text-slate-800">Available Loan Facilities</CardTitle>
                             <CardDescription className="text-xs">System Registered Schemes: {loanProducts?.length || 0}</CardDescription>
                         </CardHeader>
                         <CardContent className="p-0">
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-xs font-bold uppercase tracking-widest text-slate-500 pl-6 px-4 py-4">Product Description</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-widest text-slate-500 px-4 py-4">Method</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-widest text-slate-500 px-4 py-4 text-center">Interest / Fee</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-widest text-slate-500 px-4 py-4">Ledger Tracking</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-widest text-slate-500 text-right pr-6 px-4 py-4">Action</TableHead>
+                                        <TableRow>
+                                            <TableHead>Product Description</TableHead>
+                                            <TableHead>Method</TableHead>
+                                            <TableHead>Interest / Fee</TableHead>
+                                            <TableHead>Ledger Tracking</TableHead>
+                                            <TableHead>Action</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {loanProducts?.length > 0 ? (
                                             loanProducts.map((p) => (
                                                 <TableRow key={p.reference} className="hover:bg-slate-50 transition-colors group border-b border-slate-50">
-                                                    <TableCell className="text-sm font-bold pl-6 py-5 text-slate-900">{p.name}</TableCell>
-                                                    <TableCell className="text-[11px] font-bold text-slate-600 uppercase">
+                                                    <TableCell>{p.name}</TableCell>
+                                                    <TableCell>
                                                         {p.interest_method}
                                                     </TableCell>
-                                                    <TableCell className="text-center">
+                                                    <TableCell>
                                                         <div className="flex items-center justify-center gap-2">
-                                                            <span className="text-sm font-bold text-green-700 font-mono">{p.interest_rate}%</span>
+                                                            <span className="text-sm font-semibold text-green-700 font-mono">{p.interest_rate}%</span>
                                                             <span className="text-slate-200">|</span>
-                                                            <span className="text-sm font-bold text-amber-600 font-mono">{p.processing_fee}%</span>
+                                                            <span className="text-sm font-semibold text-amber-600 font-mono">{p.processing_fee}%</span>
                                                         </div>
                                                     </TableCell>
-                                                    <TableCell className="text-[11px] font-medium text-slate-500 italic max-w-[200px] truncate">
-                                                        {p.gl_principal_asset || "NO LEDGER"}
+                                                    <TableCell>
+                                                        {p.gl_principal_asset}
                                                     </TableCell>
-                                                    <TableCell className="text-right pr-6 py-5">
+                                                    <TableCell>
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"

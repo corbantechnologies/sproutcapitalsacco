@@ -38,7 +38,6 @@ export default function LoansManagementPage() {
     const router = useRouter();
     const { data: loans, isLoading, refetch } = useFetchLoans();
 
-    console.log(loans);
 
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
