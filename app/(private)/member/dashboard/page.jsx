@@ -194,12 +194,12 @@ function MemberDashboard() {
       </div>
 
       {/* Financial Summary */}
-      <div className="mt-8">
+      {/* <div className="mt-8">
         <MemberFinancialSummary
           summary={summary}
           memberNo={member?.member_no}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

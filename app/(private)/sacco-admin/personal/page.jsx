@@ -14,7 +14,6 @@ import {
 import { formatCurrency } from "@/lib/utils";
 import SavingsCard from "@/components/members/dashboard/SavingsCard";
 import LoanCard from "@/components/members/dashboard/LoanCard";
-import VentureCard from "@/components/members/dashboard/VentureCard";
 import { useFetchMemberSummary } from "@/hooks/summary/actions";
 import MemberFinancialSummary from "@/components/members/dashboard/MemberFinancialSummary";
 
@@ -38,34 +37,34 @@ function MemberDashboard() {
   const totalSavings =
     member?.savings?.reduce(
       (acc, curr) => acc + parseFloat(curr.balance || 0),
-      0
+      0,
     ) || 0;
 
   const activeLoansCount =
     member?.loan_accounts?.filter(
-      (l) => l.status === "Active" || l.status === "Funded"
+      (l) => l.status === "Active" || l.status === "Funded",
     ).length || 0;
 
   const totalOutstandingLoan =
     member?.loan_accounts?.reduce(
       (acc, curr) => acc + parseFloat(curr.outstanding_balance || 0),
-      0
+      0,
     ) || 0;
 
   const availableGuarantorAmount =
     member?.guarantor_profile?.available_amount || 0;
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-6 md:p-8 space-y-8">
+    <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
             Dashboard
           </h1>
-          <p className="text-muted-foreground mt-1 text-lg">
+          <p className="text-slate-500 mt-1 text-lg">
             Welcome back,{" "}
-            <span className="font-semibold text-primary">
+            <span className="font-semibold text-[#236c2e]">
               {member?.first_name} {member?.last_name}
             </span>
             .
@@ -81,18 +80,18 @@ function MemberDashboard() {
 
       {/* Summary Cards Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+        <Card className="border-l-4 border-l-[#236c2e] hover:shadow-sm transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Total Savings
             </CardTitle>
-            <PiggyBank className="h-4 w-4 text-primary" />
+            <PiggyBank className="h-4 w-4 text-[#236c2e]" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-slate-900">
               {formatCurrency(totalSavings)}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-[11px] text-slate-400 mt-1">
               Across {member?.savings?.length || 0} accounts
             </p>
           </CardContent>
@@ -131,23 +130,6 @@ function MemberDashboard() {
             </p>
           </CardContent>
         </Card>
-
-        <Card className="border-l-4 border-l-purple-500 shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Venture Accounts
-            </CardTitle>
-            <TrendingUp className="h-4 w-4 text-purple-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {member?.venture_accounts?.length || 0}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Active Ventures
-            </p>
-          </CardContent>
-        </Card>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
@@ -165,7 +147,7 @@ function MemberDashboard() {
                 <SavingsCard
                   key={index}
                   account={account}
-                  memberPath="sacco-admin/personal"
+                  memberPath="member"
                 />
               ))}
               {(!member?.savings || member.savings.length === 0) && (
@@ -191,15 +173,11 @@ function MemberDashboard() {
                 ?.filter((l) => l.status === "Active" || l.status === "Funded")
                 .slice(0, 3)
                 .map((loan, index) => (
-                  <LoanCard
-                    key={index}
-                    loan={loan}
-                    memberPath="sacco-admin/personal"
-                  />
+                  <LoanCard key={index} loan={loan} memberPath="member" />
                 ))}
               {(!member?.loan_accounts ||
                 member.loan_accounts.filter(
-                  (l) => l.status === "Active" || l.status === "Funded"
+                  (l) => l.status === "Active" || l.status === "Funded",
                 ).length === 0) && (
                   <div className="flex flex-col items-center justify-center py-8 text-center h-full">
                     <div className="h-12 w-12 rounded bg-gray-100 flex items-center justify-center mb-3">
@@ -213,47 +191,15 @@ function MemberDashboard() {
             </div>
           </CardContent>
         </Card>
-
-        {/* Ventures Breakdown */}
-        <Card className="col-span-1 lg:col-span-2 shadow-sm h-full">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-purple-600" />
-              Ventures
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {member?.venture_accounts?.map((venture, index) => (
-                <VentureCard
-                  key={index}
-                  venture={venture}
-                  memberPath="sacco-admin/personal"
-                />
-              ))}
-              {(!member?.venture_accounts ||
-                member.venture_accounts.length === 0) && (
-                  <div className="flex flex-col items-center justify-center py-8 text-center h-full">
-                    <div className="h-12 w-12 rounded bg-gray-100 flex items-center justify-center mb-3">
-                      <TrendingUp className="h-6 w-6 text-gray-400" />
-                    </div>
-                    <p className="text-muted-foreground text-sm">
-                      No active ventures
-                    </p>
-                  </div>
-                )}
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Financial Summary */}
-      <div className="mt-8">
+      {/* <div className="mt-8">
         <MemberFinancialSummary
           summary={summary}
           memberNo={member?.member_no}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

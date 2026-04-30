@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import { useFetchMember, useFetchMembers } from "@/hooks/members/actions";
 import { useFetchSavingsTypes } from "@/hooks/savingtypes/actions";
 import { useFetchLoanProducts } from "@/hooks/loanproducts/actions";
-import { useFetchVentureTypes } from "@/hooks/venturetypes/actions";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -41,7 +39,6 @@ import BulkMemberCreate from "@/forms/members/BulkMemberCreate";
 import BulkMemberUploadCreate from "@/forms/members/BulkMemberUploadCreate";
 import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
-import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
 import { downloadBulkMembersTemplate } from "@/services/members";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
@@ -71,11 +68,6 @@ export default function SaccoAdminDashboard() {
     isLoading: isLoadingFeeTypes,
     refetch: refetchFeeTypes,
   } = useFetchFeeTypes();
-  const {
-    data: ventureTypes,
-    isLoading: isLoadingVentureTypes,
-    refetch: refetchVentureTypes,
-  } = useFetchVentureTypes();
 
   const [createMemberOpen, setCreateMemberOpen] = useState(false);
   const [bulkMemberCreateOpen, setBulkMemberCreateOpen] = useState(false);
@@ -83,7 +75,6 @@ export default function SaccoAdminDashboard() {
   const [memberPopoverOpen, setMemberPopoverOpen] = useState(false);
   const [createSavingTypeOpen, setCreateSavingTypeOpen] = useState(false);
   const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
-  const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
   const [createFeeTypeOpen, setCreateFeeTypeOpen] = useState(false);
 
   if (
@@ -91,8 +82,7 @@ export default function SaccoAdminDashboard() {
     isLoadingMembers ||
     isLoadingSavingTypes ||
     isLoadingLoanProducts ||
-    isLoadingFeeTypes ||
-    isLoadingVentureTypes
+    isLoadingFeeTypes
   ) {
     return <LoadingSpinner />;
   }
@@ -441,11 +431,6 @@ export default function SaccoAdminDashboard() {
         isOpen={createLoanProductOpen}
         onClose={() => setCreateLoanProductOpen(false)}
         refetchLoanTypes={refetchLoanProducts}
-      />
-      <CreateVentureType
-        isOpen={createVentureTypeOpen}
-        onClose={() => setCreateVentureTypeOpen(false)}
-        refetchVentureTypes={refetchVentureTypes}
       />
 
       <CreateFeeTypeModal
