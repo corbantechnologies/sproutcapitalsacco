@@ -163,7 +163,7 @@ export default function LoansManagementPage() {
                                 </div>
                             </div>
                         </CardHeader>
-                        <CardContent className="p-0">
+                        <CardContent>
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
@@ -231,11 +231,7 @@ export default function LoansManagementPage() {
 
                 {/* Bulk Form Tab */}
                 <TabsContent value="bulk-create" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none bg-transparent pt-4">
-                        <CardContent className="p-0">
-                            <BulkLoanDisbursementCreate onBatchSuccess={refetch} />
-                        </CardContent>
-                    </Card>
+                    <BulkLoanDisbursementCreate onBatchSuccess={refetch} />
                 </TabsContent>
 
                 {/* Bulk Upload Tab */}
