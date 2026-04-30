@@ -216,7 +216,7 @@ function MemberDetail() {
       <Icon className="h-5 w-5 text-primary mt-0.5" />
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-muted-foreground">{label}</p>
-        <p className="text-base font-semibold text-foreground truncate">
+        <p className="text-base font-semibold text-foreground break-words">
           {value || "N/A"}
         </p>
       </div>
@@ -387,7 +387,7 @@ function MemberDetail() {
           {/* Savings Accounts */}
           <Card className="shadow-md border-l-4 border-l-blue-500">
             <CardHeader>
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <Wallet className="h-6 w-6 text-primary" />
                   Savings Accounts
@@ -396,7 +396,7 @@ function MemberDetail() {
                   <Button
                     onClick={() => setDepositModal(true)}
                     size="sm"
-                    className="h-8 bg-primary hover:bg-primary/90 text-white"
+                    className="h-8 w-full sm:w-auto bg-primary hover:bg-primary/90 text-white"
                   >
                     Deposit
                   </Button>
@@ -436,7 +436,7 @@ function MemberDetail() {
           {/* Fee Accounts */}
           <Card className="shadow-md border-l-4 border-l-amber-500">
             <CardHeader>
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <Shield className="h-6 w-6 text-primary" />
                   Fee Accounts
@@ -445,7 +445,7 @@ function MemberDetail() {
                   <Button
                     onClick={() => setFeePaymentModal(true)}
                     size="sm"
-                    className="h-8 bg-amber-600 hover:bg-amber-700 text-white disabled:bg-slate-300 disabled:text-slate-500"
+                    className="h-8 w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white disabled:bg-slate-300 disabled:text-slate-500"
                   >
                     Pay Fee
                   </Button>
@@ -599,7 +599,7 @@ function MemberDetail() {
             {member?.guarantor_profile && (
               <Card className="shadow-md border-l-4 border-l-indigo-500">
                 <CardHeader>
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
                     <CardTitle className="flex items-center gap-2 text-2xl">
                       <Shield className="h-6 w-6 text-primary" />
                       Guarantor Profile
@@ -715,7 +715,7 @@ function MemberDetail() {
 
             <Card className="shadow-md">
               <CardHeader>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
                   <CardTitle className="flex items-center gap-2 text-xl">
                     <Settings className="h-5 w-5 text-primary" />
                     Roles & Permissions
@@ -724,7 +724,7 @@ function MemberDetail() {
                     onClick={() => setRoleModal(true)}
                     size="sm"
                     variant="outline"
-                    className="h-8 border-primary text-primary hover:bg-primary/5"
+                    className="h-8 w-full sm:w-auto border-primary text-primary hover:bg-primary/5"
                   >
                     Edit Roles
                   </Button>

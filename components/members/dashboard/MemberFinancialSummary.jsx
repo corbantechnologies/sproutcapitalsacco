@@ -28,9 +28,6 @@ import { formatCurrency } from "@/lib/utils";
 import {
   PiggyBank,
   CreditCard,
-  TrendingUp,
-  ArrowDownOriginal,
-  ArrowUpOriginal,
   CircleDollarSign,
 } from "lucide-react";
 
@@ -69,20 +66,21 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
 
   return (
     <Card className="shadow-md">
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <CardTitle>Financial Summary ({summary.year})</CardTitle>
+          <CardTitle className="text-xl">Financial Summary ({summary.year})</CardTitle>
           <CardDescription>
             Yearly breakdown of your financial activities
           </CardDescription>
         </div>
+
         {memberNo && (
           <Button
             variant="outline"
             size="sm"
             onClick={handleDownload}
             disabled={isDownloading}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full sm:w-auto"
           >
             {isDownloading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -93,21 +91,34 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
           </Button>
         )}
       </CardHeader>
+
       <CardContent>
         <Tabs defaultValue="savings" className="w-full">
-          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 mb-4 h-auto">
-            <TabsTrigger value="savings" className="flex items-center gap-2">
-              <PiggyBank className="h-4 w-4" /> Savings
+          <TabsList className="grid w-full grid-cols-3 mb-6 h-auto p-1 bg-muted">
+            <TabsTrigger
+              value="savings"
+              className="flex items-center justify-center gap-2 py-3 text-sm"
+            >
+              <PiggyBank className="h-4 w-4" />
+              <span className="hidden xs:inline">Savings</span>
             </TabsTrigger>
-            <TabsTrigger value="loans" className="flex items-center gap-2">
-              <CreditCard className="h-4 w-4" /> Loans
+            <TabsTrigger
+              value="loans"
+              className="flex items-center justify-center gap-2 py-3 text-sm"
+            >
+              <CreditCard className="h-4 w-4" />
+              <span className="hidden xs:inline">Loans</span>
             </TabsTrigger>
-            <TabsTrigger value="fees" className="flex items-center gap-2">
-              <CircleDollarSign className="h-4 w-4" /> Fees
+            <TabsTrigger
+              value="fees"
+              className="flex items-center justify-center gap-2 py-3 text-sm"
+            >
+              <CircleDollarSign className="h-4 w-4" />
+              <span className="hidden xs:inline">Fees</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="savings">
+          <TabsContent value="savings" className="mt-0">
             <SummaryTabContent
               data={summary.savings}
               type="savings"
@@ -115,7 +126,7 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
             />
           </TabsContent>
 
-          <TabsContent value="loans">
+          <TabsContent value="loans" className="mt-0">
             <SummaryTabContent
               data={summary.loans}
               type="loans"
@@ -123,7 +134,7 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
             />
           </TabsContent>
 
-          <TabsContent value="fees">
+          <TabsContent value="fees" className="mt-0">
             <SummaryTabContent
               data={summary.fees}
               type="fees"
@@ -139,10 +150,9 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
 function SummaryTabContent({ data, type, emptyMessage }) {
   const [selectedAccountIndex, setSelectedAccountIndex] = useState(0);
 
-  // If no data, show empty message
   if (!data || data.length === 0) {
     return (
-      <div className="py-8 text-center text-muted-foreground border rounded bg-gray-50/50">
+      <div className="py-12 text-center text-muted-foreground border rounded-lg bg-muted/30">
         {emptyMessage}
       </div>
     );
@@ -150,7 +160,6 @@ function SummaryTabContent({ data, type, emptyMessage }) {
 
   const selectedAccount = data[selectedAccountIndex];
 
-  // Use useEffect to reset index if data changes (though unlikely in this context without filters)
   useEffect(() => {
     if (selectedAccountIndex >= data.length) {
       setSelectedAccountIndex(0);
@@ -168,10 +177,10 @@ function SummaryTabContent({ data, type, emptyMessage }) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Account Selector */}
       {data.length > 1 && (
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
           <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">
             Select Account:
           </span>
@@ -179,7 +188,7 @@ function SummaryTabContent({ data, type, emptyMessage }) {
             value={selectedAccountIndex.toString()}
             onValueChange={(val) => setSelectedAccountIndex(parseInt(val))}
           >
-            <SelectTrigger className="w-full sm:w-[280px]">
+            <SelectTrigger className="w-full sm:w-[320px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -193,79 +202,79 @@ function SummaryTabContent({ data, type, emptyMessage }) {
         </div>
       )}
 
-      {/* Totals Summary for Selected Account */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-secondary/20 rounded border">
+      {/* Totals Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {type === "savings" && (
-          <>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                Total Deposits
-              </p>
-              <p className="font-bold text-lg text-green-700">
-                {formatCurrency(selectedAccount.totals?.total_deposits || 0)}
-              </p>
-            </div>
-          </>
+          <div className="bg-secondary/30 p-5 rounded-xl border">
+            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+              Total Deposits
+            </p>
+            <p className="font-bold text-2xl text-green-700">
+              {formatCurrency(selectedAccount.totals?.total_deposits || 0)}
+            </p>
+          </div>
         )}
+
         {type === "loans" && (
           <>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                 Principal
               </p>
-              <p className="font-bold text-lg">
+              <p className="font-bold text-2xl">
                 {formatCurrency(selectedAccount.initial_principal || 0)}
               </p>
             </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                 Disbursed
               </p>
-              <p className="font-bold text-lg text-blue-700">
+              <p className="font-bold text-2xl text-blue-700">
                 {formatCurrency(selectedAccount.totals?.total_disbursed || 0)}
               </p>
             </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                 Repaid
               </p>
-              <p className="font-bold text-lg text-green-700">
+              <p className="font-bold text-2xl text-green-700">
                 {formatCurrency(selectedAccount.totals?.total_repaid || 0)}
               </p>
             </div>
           </>
         )}
+
         {type === "fees" && (
           <>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                 Target Amount
               </p>
-              <p className="font-bold text-lg">
+              <p className="font-bold text-2xl">
                 {formatCurrency(selectedAccount.totals?.target_amount || 0)}
               </p>
             </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                 Paid (Year)
               </p>
-              <p className="font-bold text-lg text-green-700">
+              <p className="font-bold text-2xl text-green-700">
                 {formatCurrency(selectedAccount.totals?.total_paid_yearly || 0)}
               </p>
             </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                 Total Paid
               </p>
-              <p className="font-bold text-lg text-green-700">
+              <p className="font-bold text-2xl text-green-700">
                 {formatCurrency(selectedAccount.totals?.total_paid_to_date || 0)}
               </p>
             </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                 Remaining
               </p>
-              <p className="font-bold text-lg text-red-700">
+              <p className="font-bold text-2xl text-red-700">
                 {formatCurrency(selectedAccount.totals?.balance_remaining || 0)}
               </p>
             </div>
@@ -273,125 +282,102 @@ function SummaryTabContent({ data, type, emptyMessage }) {
         )}
       </div>
 
-      {/* Monthly Table */}
-      <div className="rounded border overflow-x-auto">
-        <Table>
-          <TableHeader className="bg-gray-50">
-            <TableRow>
-              <TableHead className="w-[120px]">Month</TableHead>
-              <TableHead className="text-right">Opening</TableHead>
-
-              {type === "savings" && (
-                <TableHead className="text-right text-green-600">
-                  Deposits
-                </TableHead>
-              )}
-              {type === "savings" && (
-                <TableHead className="text-right text-red-600">
-                  Withdrawals
-                </TableHead>
-              )}
-
-              {type === "loans" && (
-                <TableHead className="text-right text-blue-600">
-                  Disbursed
-                </TableHead>
-              )}
-              {type === "loans" && (
-                <TableHead className="text-right text-green-600">
-                  Paid
-                </TableHead>
-              )}
-
-              {type === "fees" && (
-                <TableHead className="text-right text-green-600">
-                  Payments
-                </TableHead>
-              )}
-
-              <TableHead className="text-right font-bold bg-gray-100/50">
-                Closing
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {selectedAccount.monthly_summary.map((month) => (
-              <TableRow
-                key={month.month}
-                className="hover:bg-gray-50/50 transition-colors"
-              >
-                <TableCell className="font-medium">{month.month}</TableCell>
-                <TableCell className="text-right text-muted-foreground">
-                  {formatCurrency(month.opening_balance)}
-                </TableCell>
+      {/* Monthly Table - Horizontal Scroll on Mobile */}
+      <div className="rounded-xl border overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader className="bg-muted">
+              <TableRow>
+                <TableHead className="w-[110px] sticky left-0 bg-muted z-10">Month</TableHead>
+                <TableHead className="text-right">Opening</TableHead>
 
                 {type === "savings" && (
                   <>
-                    <TableCell className="text-right font-medium">
-                      {month.deposits > 0 ? (
-                        <span className="text-green-700">
-                          +{formatCurrency(month.deposits)}
-                        </span>
-                      ) : (
-                        "-"
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right font-medium">
-                      {month.withdrawals > 0 ? (
-                        <span className="text-red-700">
-                          -{formatCurrency(month.withdrawals)}
-                        </span>
-                      ) : (
-                        "-"
-                      )}
-                    </TableCell>
+                    <TableHead className="text-right text-green-600">Deposits</TableHead>
+                    <TableHead className="text-right text-red-600">Withdrawals</TableHead>
                   </>
                 )}
 
                 {type === "loans" && (
                   <>
-                    <TableCell className="text-right font-medium">
-                      {month.disbursed > 0 ? (
-                        <span className="text-blue-700">
-                          +{formatCurrency(month.disbursed)}
-                        </span>
-                      ) : (
-                        "-"
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right font-medium">
-                      {month.paid > 0 ? (
-                        <span className="text-green-700">
-                          -{formatCurrency(month.paid)}
-                        </span>
-                      ) : (
-                        "-"
-                      )}
-                    </TableCell>
+                    <TableHead className="text-right text-blue-600">Disbursed</TableHead>
+                    <TableHead className="text-right text-green-600">Paid</TableHead>
                   </>
                 )}
 
                 {type === "fees" && (
-                  <>
+                  <TableHead className="text-right text-green-600">Payments</TableHead>
+                )}
+
+                <TableHead className="text-right font-bold bg-muted/80">Closing</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {selectedAccount.monthly_summary.map((month, index) => (
+                <TableRow key={index} className="hover:bg-muted/50">
+                  <TableCell className="font-medium sticky left-0 bg-background z-10 border-r">
+                    {month.month}
+                  </TableCell>
+                  <TableCell className="text-right text-muted-foreground">
+                    {formatCurrency(month.opening_balance)}
+                  </TableCell>
+
+                  {type === "savings" && (
+                    <>
+                      <TableCell className="text-right font-medium">
+                        {month.deposits > 0 ? (
+                          <span className="text-green-700">+{formatCurrency(month.deposits)}</span>
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right font-medium">
+                        {month.withdrawals > 0 ? (
+                          <span className="text-red-700">-{formatCurrency(month.withdrawals)}</span>
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
+                    </>
+                  )}
+
+                  {type === "loans" && (
+                    <>
+                      <TableCell className="text-right font-medium">
+                        {month.disbursed > 0 ? (
+                          <span className="text-blue-700">+{formatCurrency(month.disbursed)}</span>
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right font-medium">
+                        {month.paid > 0 ? (
+                          <span className="text-green-700">-{formatCurrency(month.paid)}</span>
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
+                    </>
+                  )}
+
+                  {type === "fees" && (
                     <TableCell className="text-right font-medium">
                       {month.payments > 0 ? (
-                        <span className="text-green-700">
-                          -{formatCurrency(month.payments)}
-                        </span>
+                        <span className="text-green-700">-{formatCurrency(month.payments)}</span>
                       ) : (
                         "-"
                       )}
                     </TableCell>
-                  </>
-                )}
+                  )}
 
-                <TableCell className="text-right font-bold bg-gray-50/30">
-                  {formatCurrency(month.closing_balance)}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                  <TableCell className="text-right font-bold bg-muted/30">
+                    {formatCurrency(month.closing_balance)}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );
