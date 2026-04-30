@@ -69,7 +69,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
     return (
         <div className="max-w-3xl mx-auto space-y-8 py-4">
             <div className="text-center space-y-2">
-                <h2 className="text-2xl font-semibold text-[#174271] uppercase tracking-tighter">Loan Product Ingestion</h2>
+                <h2 className="text-lg font-semibold text-[#174271]">Loan Product Ingestion</h2>
                 <p className="text-slate-500 text-sm max-w-lg mx-auto font-medium">
                     Automate the creation of complex loan schemes using our standardized CSV Template.
                 </p>
