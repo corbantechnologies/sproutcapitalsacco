@@ -31,6 +31,7 @@ import {
   TrendingUp,
   ArrowDownOriginal,
   ArrowUpOriginal,
+  CircleDollarSign,
 } from "lucide-react";
 
 import { downloadMemberSummary } from "@/services/membersummary";
@@ -101,9 +102,9 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
             <TabsTrigger value="loans" className="flex items-center gap-2">
               <CreditCard className="h-4 w-4" /> Loans
             </TabsTrigger>
-            {/* <TabsTrigger value="ventures" className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" /> Ventures
-            </TabsTrigger> */}
+            <TabsTrigger value="fees" className="flex items-center gap-2">
+              <CircleDollarSign className="h-4 w-4" /> Fees
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="savings">
@@ -122,11 +123,11 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
             />
           </TabsContent>
 
-          <TabsContent value="ventures">
+          <TabsContent value="fees">
             <SummaryTabContent
-              data={summary.ventures}
-              type="ventures"
-              emptyMessage="No venture activity found for this year."
+              data={summary.fees}
+              type="fees"
+              emptyMessage="No fee activity found for this year."
             />
           </TabsContent>
         </Tabs>
@@ -161,8 +162,8 @@ function SummaryTabContent({ data, type, emptyMessage }) {
       return `${account.type} - ${account.account_number}`;
     if (type === "loans")
       return `${account.product} - ${account.account_number}`;
-    if (type === "ventures")
-      return `${account.type} - ${account.account_number}`;
+    if (type === "fees")
+      return `${account.fee_type} - ${account.account_number}`;
     return account.account_number;
   };
 
@@ -234,22 +235,38 @@ function SummaryTabContent({ data, type, emptyMessage }) {
             </div>
           </>
         )}
-        {type === "ventures" && (
+        {type === "fees" && (
           <>
             <div className="space-y-1">
               <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                Deposits
+                Target Amount
               </p>
-              <p className="font-bold text-lg text-green-700">
-                {formatCurrency(selectedAccount.totals?.total_deposits || 0)}
+              <p className="font-bold text-lg">
+                {formatCurrency(selectedAccount.totals?.target_amount || 0)}
               </p>
             </div>
             <div className="space-y-1">
               <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                Payments
+                Paid (Year)
+              </p>
+              <p className="font-bold text-lg text-green-700">
+                {formatCurrency(selectedAccount.totals?.total_paid_yearly || 0)}
+              </p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                Total Paid
+              </p>
+              <p className="font-bold text-lg text-green-700">
+                {formatCurrency(selectedAccount.totals?.total_paid_to_date || 0)}
+              </p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                Remaining
               </p>
               <p className="font-bold text-lg text-red-700">
-                {formatCurrency(selectedAccount.totals?.total_payments || 0)}
+                {formatCurrency(selectedAccount.totals?.balance_remaining || 0)}
               </p>
             </div>
           </>
@@ -286,13 +303,8 @@ function SummaryTabContent({ data, type, emptyMessage }) {
                 </TableHead>
               )}
 
-              {type === "ventures" && (
+              {type === "fees" && (
                 <TableHead className="text-right text-green-600">
-                  Deposits
-                </TableHead>
-              )}
-              {type === "ventures" && (
-                <TableHead className="text-right text-red-600">
                   Payments
                 </TableHead>
               )}
@@ -359,20 +371,11 @@ function SummaryTabContent({ data, type, emptyMessage }) {
                   </>
                 )}
 
-                {type === "ventures" && (
+                {type === "fees" && (
                   <>
                     <TableCell className="text-right font-medium">
-                      {month.deposits > 0 ? (
-                        <span className="text-green-700">
-                          +{formatCurrency(month.deposits)}
-                        </span>
-                      ) : (
-                        "-"
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right font-medium">
                       {month.payments > 0 ? (
-                        <span className="text-red-700">
+                        <span className="text-green-700">
                           -{formatCurrency(month.payments)}
                         </span>
                       ) : (
