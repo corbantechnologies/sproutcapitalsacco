@@ -168,7 +168,7 @@ export default function LoanAccountDetail({ params }) {
           {/* Left Column */}
           <div className="lg:col-span-3 space-y-6">
             {/* Financial Summary */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
               <Card className="bg-white border-l-4 border-l-[#174271]">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
