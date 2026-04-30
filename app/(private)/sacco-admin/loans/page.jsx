@@ -109,17 +109,36 @@ export default function LoansManagementPage() {
             </div>
 
             {/* Main Content Tabs */}
-            <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 h-12 shadow-sm mb-6">
-                    <TabsTrigger value="list" className="px-6 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-semibold text-xs uppercase tracking-wider transition-all">
-                        <ListFilter className="w-4 h-4 mr-2" /> List View
+            <Tabs defaultValue="list" className="w-full ">
+                <TabsList className="bg-white border p-1 h-auto shadow-sm mb-6 w-full grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 gap-1 rounded overflow-hidden">
+
+                    <TabsTrigger
+                        value="list"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                    >
+                        <ListFilter className="w-4 h-4" />
+                        <span className="hidden xs:inline">List View</span>
+                        <span className="xs:hidden">List</span>
                     </TabsTrigger>
-                    <TabsTrigger value="bulk-create" className="px-6 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-semibold text-xs uppercase tracking-wider transition-all">
-                        <Plus className="w-4 h-4 mr-2" /> Manual Batch
+
+                    <TabsTrigger
+                        value="bulk-create"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                    >
+                        <Plus className="w-4 h-4" />
+                        <span className="hidden sm:inline">Manual Batch</span>
+                        <span className="sm:hidden">Batch</span>
                     </TabsTrigger>
-                    <TabsTrigger value="bulk-upload" className="px-6 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-semibold text-xs uppercase tracking-wider transition-all">
-                        <FileUp className="w-4 h-4 mr-2" /> CSV Upload
+
+                    <TabsTrigger
+                        value="bulk-upload"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                    >
+                        <FileUp className="w-4 h-4" />
+                        <span className="hidden md:inline">CSV Upload</span>
+                        <span className="md:hidden">Upload</span>
                     </TabsTrigger>
+
                 </TabsList>
 
                 {/* List Tab */}
