@@ -21,3 +21,8 @@ export const getCashBook = async (token) => {
     const response = await apiActions?.get("/api/v1/financials/cash-balance/", token);
     return response?.data;
 };
+
+export const getDebtors = async (token) => {
+    const response = await apiActions?.get("/api/v1/financials/debtors/", token);
+    return response?.data;
+};

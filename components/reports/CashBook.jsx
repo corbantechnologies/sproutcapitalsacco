@@ -13,7 +13,7 @@ export default function CashBook() {
     if (isLoading) return <MemberLoadingSpinner />;
     if (error || !data) return <div className="p-12 text-center text-muted-foreground">Unable to load Cash Book</div>;
 
-    const { accounts, total_cash, as_of, note } = data; // Note: structure may vary slightly
+    const { accounts, total_cash, as_of, note } = data; 
 
     return (
         <Card>

@@ -28,7 +28,7 @@ function LoansPage() {
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/member/dashboard">Dashboard</BreadcrumbLink>
+                            <BreadcrumbLink href="/sacco-admin/personal">Personal Profile</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbPage>Loans</BreadcrumbPage>

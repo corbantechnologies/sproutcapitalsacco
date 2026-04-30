@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
-import { PiggyBank, CreditCard, TrendingUp, Users } from "lucide-react";
+import { PiggyBank, CreditCard, TrendingUp, Users, CircleDollarSign } from "lucide-react";
 
 const SummaryCard = ({ title, amount, count, icon: Icon, color }) => (
     <Card>
@@ -22,7 +22,7 @@ export default function SaccoSummaryOverview({ summary }) {
     if (!summary) return null;
 
     return (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
             <SummaryCard
                 title="Total Savings"
                 amount={summary?.totals?.savings_deposits}
@@ -43,6 +43,13 @@ export default function SaccoSummaryOverview({ summary }) {
                 count={summary?.totals?.counts?.loan_repayments}
                 icon={TrendingUp}
                 color="text-indigo-600"
+            />
+            <SummaryCard
+                title="Fee Payments"
+                amount={summary?.totals?.fee_payments}
+                count={summary?.totals?.counts?.fee_payments}
+                icon={CircleDollarSign}
+                color="text-purple-600"
             />
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

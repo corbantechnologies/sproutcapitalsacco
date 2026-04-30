@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import { useFetchMember, useFetchMembers } from "@/hooks/members/actions";
 import { useFetchSavingsTypes } from "@/hooks/savingtypes/actions";
 import { useFetchLoanProducts } from "@/hooks/loanproducts/actions";
-import { useFetchVentureTypes } from "@/hooks/venturetypes/actions";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -41,10 +39,11 @@ import BulkMemberCreate from "@/forms/members/BulkMemberCreate";
 import BulkMemberUploadCreate from "@/forms/members/BulkMemberUploadCreate";
 import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
-import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
 import { downloadBulkMembersTemplate } from "@/services/members";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
+import { useFetchFeeTypes } from "@/hooks/feetypes/actions";
+import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
 
 export default function SaccoAdminDashboard() {
   const token = useAxiosAuth()
@@ -65,10 +64,10 @@ export default function SaccoAdminDashboard() {
     refetch: refetchLoanProducts,
   } = useFetchLoanProducts();
   const {
-    data: ventureTypes,
-    isLoading: isLoadingVentureTypes,
-    refetch: refetchVentureTypes,
-  } = useFetchVentureTypes();
+    data: feeTypes,
+    isLoading: isLoadingFeeTypes,
+    refetch: refetchFeeTypes,
+  } = useFetchFeeTypes();
 
   const [createMemberOpen, setCreateMemberOpen] = useState(false);
   const [bulkMemberCreateOpen, setBulkMemberCreateOpen] = useState(false);
@@ -76,14 +75,14 @@ export default function SaccoAdminDashboard() {
   const [memberPopoverOpen, setMemberPopoverOpen] = useState(false);
   const [createSavingTypeOpen, setCreateSavingTypeOpen] = useState(false);
   const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
-  const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
+  const [createFeeTypeOpen, setCreateFeeTypeOpen] = useState(false);
 
   if (
     isLoadingMyself ||
     isLoadingMembers ||
     isLoadingSavingTypes ||
     isLoadingLoanProducts ||
-    isLoadingVentureTypes
+    isLoadingFeeTypes
   ) {
     return <LoadingSpinner />;
   }
@@ -149,13 +148,13 @@ export default function SaccoAdminDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Venture Types
+              Fee Types
             </CardTitle>
             <TrendingUp className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {ventureTypes?.length || 0}
+              {feeTypes?.length || 0}
             </div>
           </CardContent>
         </Card>
@@ -167,7 +166,7 @@ export default function SaccoAdminDashboard() {
           <TabsTrigger value="members">Members</TabsTrigger>
           <TabsTrigger value="savings">Saving Types</TabsTrigger>
           <TabsTrigger value="loans">Loan Products</TabsTrigger>
-          <TabsTrigger value="ventures">Venture Types</TabsTrigger>
+          <TabsTrigger value="fee">Fee Types</TabsTrigger>
         </TabsList>
 
         {/* Members Tab */}
@@ -352,44 +351,48 @@ export default function SaccoAdminDashboard() {
           </Card>
         </TabsContent>
 
-        {/* Venture Types Tab */}
-        <TabsContent value="ventures" className="pt-6">
+        {/* Fee Types Tab */}
+        <TabsContent value="fee" className="pt-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Venture Types</CardTitle>
+              <CardTitle>Fee Types</CardTitle>
               <Button
                 size="sm"
-                onClick={() => setCreateVentureTypeOpen(true)}
+                onClick={() => setCreateFeeTypeOpen(true)}
                 className="bg-purple-600 hover:bg-purple-700 text-white"
               >
-                <Plus className="mr-2 h-4 w-4" /> Create Type
+                <Plus className="mr-2 h-4 w-4" /> Create Fee Type
               </Button>
             </CardHeader>
             <CardContent className="overflow-x-auto">
-              {ventureTypes?.length > 0 ? (
+              {feeTypes?.length > 0 ? (
                 <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Name</TableHead>
-                      <TableHead>Interest Rate</TableHead>
-                      <TableHead>Description</TableHead>
+                      <TableHead>Amount</TableHead>
+                      <TableHead>Applies All</TableHead>
+                      <TableHead>Exceeds Limit</TableHead>
+                      <TableHead>Gl Account</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {ventureTypes.map((type) => (
+                    {feeTypes.map((type) => (
                       <TableRow key={type.id || type.reference}>
                         <TableCell className="font-medium">
                           {type.name}
                         </TableCell>
-                        <TableCell>{type.interest_rate}%</TableCell>
-                        <TableCell>{type.description || "-"}</TableCell>
+                        <TableCell>{type.amount}</TableCell>
+                        <TableCell>{type.is_everyone ? "Yes" : "No"}</TableCell>
+                        <TableCell>{type.can_exceed_limit ? "Yes" : "No"}</TableCell>
+                        <TableCell>{type.gl_account || "-"}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
-                  No venture types found.
+                  No fee types found.
                 </div>
               )}
             </CardContent>
@@ -429,10 +432,11 @@ export default function SaccoAdminDashboard() {
         onClose={() => setCreateLoanProductOpen(false)}
         refetchLoanTypes={refetchLoanProducts}
       />
-      <CreateVentureType
-        isOpen={createVentureTypeOpen}
-        onClose={() => setCreateVentureTypeOpen(false)}
-        refetchVentureTypes={refetchVentureTypes}
+
+      <CreateFeeTypeModal
+        isOpen={createFeeTypeOpen}
+        onClose={() => setCreateFeeTypeOpen(false)}
+        refetchFeeTypes={refetchFeeTypes}
       />
     </div>
   );

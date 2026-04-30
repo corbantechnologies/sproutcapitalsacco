@@ -198,32 +198,6 @@ function AccountSettings() {
               </CardContent>
             </Card>
 
-            {/* Venture Accounts - new section */}
-            <Card className="shadow-md">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-2xl">
-                  <Briefcase className="h-6 w-6 text-primary" />
-                  Venture Accounts
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {member?.venture_accounts?.length > 0 ? (
-                  member.venture_accounts.map((account) => (
-                    <InfoField
-                      key={account.reference}
-                      icon={Wallet2}
-                      label={`${account.venture_type} - ${account.account_number}`}
-                      value={`${parseFloat(account.balance).toLocaleString()} KES`}
-                    />
-                  ))
-                ) : (
-                  <p className="text-muted-foreground text-center py-4">
-                    No venture accounts found.
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-
             {/* Loan Accounts */}
             <Card className="shadow-md">
               <CardHeader>

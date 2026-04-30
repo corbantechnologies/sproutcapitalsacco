@@ -74,7 +74,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl font-bold text-[#174271]">Batch Create Fee Types</h2>
+                    <h2 className="text-xl font-semibold text-[#174271]">Batch Create Fee Types</h2>
                     <p className="text-sm text-gray-500">Define multiple SACCO fees (Registration, Account Opening, etc.) in one go.</p>
                 </div>
                 <Button
@@ -95,7 +95,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                             className="p-5 border border-slate-100 rounded bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-[#174271]"
                         >
                             <div className="flex justify-between items-center mb-4">
-                                <span className="text-[10px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-400 uppercase tracking-widest">
+                                <span className="text-[10px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-black uppercase tracking-widest">
                                     Entry #{index + 1}
                                 </span>
                                 {fees.length > 1 && (
@@ -112,7 +112,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
 
                             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                                 <div className="md:col-span-3 space-y-1.5">
-                                    <Label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Fee Name</Label>
+                                    <Label className="text-[10px] font-semibold text-black">Fee Name</Label>
                                     <Input
                                         placeholder="e.g. Registration Fee"
                                         value={fee.name}
@@ -122,18 +122,18 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                                 </div>
 
                                 <div className="md:col-span-2 space-y-1.5">
-                                    <Label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Amount (KES)</Label>
+                                    <Label className="text-[10px] font-semibold text-black">Amount (KES)</Label>
                                     <Input
                                         type="number"
                                         placeholder=""
                                         value={fee.amount}
                                         onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                        className="h-10 text-sm border-slate-200 focus:border-[#174271] font-bold text-[#ea1315]"
+                                        className="h-10 text-sm border-slate-200 focus:border-[#174271] font-semibold text-[#ea1315]"
                                     />
                                 </div>
 
                                 <div className="md:col-span-3 space-y-1.5">
-                                    <Label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Revenue GL Account</Label>
+                                    <Label className="text-[10px] font-semibold text-black">Revenue GL Account</Label>
                                     <select
                                         value={fee.gl_account}
                                         onChange={(e) => handleInputChange(index, "gl_account", e.target.value)}
@@ -180,7 +180,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                             type="button"
                             variant="outline"
                             onClick={addFee}
-                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-5 text-xs font-bold transition-all rounded"
+                            className="w-full border-dashed border-2 border-slate-200 text-black hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-5 text-xs font-semibold transition-all rounded"
                         >
                             <Plus className="w-4 h-4" /> Add Another Fee Definition
                         </Button>
@@ -190,7 +190,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                 <div className="flex justify-end pt-4">
                     <Button
                         type="submit"
-                        className="bg-[#ea1315] hover:bg-[#c71012] text-white px-12 h-12 flex items-center gap-2 font-bold shadow-lg shadow-rose-100 rounded"
+                        className="bg-[#ea1315] hover:bg-[#c71012] text-white px-12 h-12 flex items-center gap-2 font-semibold shadow-lg shadow-rose-100 rounded"
                         disabled={loading || isLoadingGL}
                     >
                         {loading ? "Saving Batch..." : <><Save className="w-4 h-4" /> Commit Batch</>}

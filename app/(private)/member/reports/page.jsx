@@ -129,7 +129,7 @@ export default function SaccoAdminReports() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3">
         <SummaryCard
           title="Total Savings"
           amount={summary?.totals?.savings_deposits}
@@ -151,17 +151,9 @@ export default function SaccoAdminReports() {
           icon={TrendingUp}
           colorClass="text-indigo-600"
         />
-        {/* <SummaryCard
-          title="Venture Activity"
-          amount={summary?.totals?.venture_deposits} // Displaying deposits as main
-          // Optionally combine or show net, but keeping simple for now
-          count={summary?.totals?.counts?.venture_deposits}
-          icon={Wallet}
-          colorClass="text-purple-600"
-        /> */}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
         {/* Additional Stat for Members because it doesn't fit the currency card pattern exactly but can share style if we tweak */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -196,8 +188,6 @@ export default function SaccoAdminReports() {
                 <TableHead className="text-right">Savings</TableHead>
                 <TableHead className="text-right">Loans Disbursed</TableHead>
                 <TableHead className="text-right">Repayments</TableHead>
-                {/* <TableHead className="text-right">Venture Deposits</TableHead>
-                <TableHead className="text-right">Venture Payments</TableHead> */}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -216,12 +206,6 @@ export default function SaccoAdminReports() {
                   <TableCell className="text-right">
                     {formatCurrency(month.loans.repaid.total)}
                   </TableCell>
-                  {/* <TableCell className="text-right">
-                    {formatCurrency(month.ventures.deposits.total)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatCurrency(month.ventures.payments.total)}
-                  </TableCell> */}
                 </TableRow>
               ))}
               {(!summary?.monthly_summary ||
