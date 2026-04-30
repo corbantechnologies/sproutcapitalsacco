@@ -109,35 +109,31 @@ export default function LoansManagementPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="list">
-                <TabsList className="bg-white border p-1 h-auto shadow-sm mb-6">
-
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded-xl grid grid-cols-3 gap-1 overflow-hidden">
                     <TabsTrigger
                         value="list"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
-                        <ListFilter className="w-4 h-4" />
-                        <span className="hidden xs:inline">List View</span>
-                        <span className="xs:hidden">List</span>
+                        <ListFilter className="w-4 h-4 flex-shrink-0" />
+                        <span className="hidden sm:inline">List View</span>
+                        <span className="sm:hidden">List</span>
                     </TabsTrigger>
-
                     <TabsTrigger
                         value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
-                        <Plus className="w-4 h-4" />
+                        <Plus className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Manual Batch</span>
                         <span className="sm:hidden">Batch</span>
                     </TabsTrigger>
-
                     <TabsTrigger
                         value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
-                        <FileUp className="w-4 h-4" />
+                        <FileUp className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden md:inline">CSV Upload</span>
                         <span className="md:hidden">Upload</span>
                     </TabsTrigger>
-
                 </TabsList>
 
                 {/* List Tab */}

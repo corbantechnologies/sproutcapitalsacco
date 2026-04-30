@@ -164,18 +164,38 @@ export default function ExistingLoansOnboardingPage() {
 
             {/* Main Tabs */}
             <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 h-14 shadow-sm rounded mb-8 flex ring-1 ring-slate-100">
-                    <TabsTrigger value="list" className="flex-1 rounded data-[state=active]:bg-[#174271] data-[state=active]:text-white text-xs font-semibold uppercase tracking-wider transition-all">
-                        <ListFilter className="w-4 h-4 mr-2" /> List View
+                <TabsList className="bg-white border p-1 shadow-sm mb-8 w-full h-auto rounded-xl grid grid-cols-2 lg:grid-cols-4 gap-1 overflow-hidden ring-1 ring-slate-100">
+                    <TabsTrigger
+                        value="list"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-[#174271] data-[state=active]:text-white data-[state=active]:shadow-sm"
+                    >
+                        <ListFilter className="w-4 h-4 flex-shrink-0" />
+                        <span className="hidden sm:inline">List View</span>
+                        <span className="sm:hidden">List</span>
                     </TabsTrigger>
-                    <TabsTrigger value="manual" className="flex-1 rounded data-[state=active]:bg-[#174271] data-[state=active]:text-white text-xs font-semibold uppercase tracking-wider transition-all">
-                        <Plus className="w-4 h-4 mr-2" /> Manual Batch
+                    <TabsTrigger
+                        value="manual"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-[#174271] data-[state=active]:text-white data-[state=active]:shadow-sm"
+                    >
+                        <Plus className="w-4 h-4 flex-shrink-0" />
+                        <span className="hidden sm:inline">Manual Batch</span>
+                        <span className="sm:hidden">Batch</span>
                     </TabsTrigger>
-                    <TabsTrigger value="upload" className="flex-1 rounded data-[state=active]:bg-[#174271] data-[state=active]:text-white text-xs font-semibold uppercase tracking-wider transition-all">
-                        <FileUp className="w-4 h-4 mr-2" /> CSV Upload
+                    <TabsTrigger
+                        value="upload"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-[#174271] data-[state=active]:text-white data-[state=active]:shadow-sm"
+                    >
+                        <FileUp className="w-4 h-4 flex-shrink-0" />
+                        <span className="hidden md:inline">CSV Upload</span>
+                        <span className="md:hidden">CSV</span>
                     </TabsTrigger>
-                    <TabsTrigger value="payments" className="flex-1 rounded data-[state=active]:bg-[#174271] data-[state=active]:text-white text-xs font-semibold uppercase tracking-wider transition-all">
-                        <History className="w-4 h-4 mr-2" /> Payment Trails
+                    <TabsTrigger
+                        value="payments"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-[#174271] data-[state=active]:text-white data-[state=active]:shadow-sm"
+                    >
+                        <History className="w-4 h-4 flex-shrink-0" />
+                        <span className="hidden md:inline">Payment Trails</span>
+                        <span className="md:hidden">Trails</span>
                     </TabsTrigger>
                 </TabsList>
 
