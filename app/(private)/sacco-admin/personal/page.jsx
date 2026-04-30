@@ -147,7 +147,7 @@ function MemberDashboard() {
                 <SavingsCard
                   key={index}
                   account={account}
-                  memberPath="member"
+                  memberPath="sacco-admin/personal"
                 />
               ))}
               {(!member?.savings || member.savings.length === 0) && (
@@ -173,7 +173,7 @@ function MemberDashboard() {
                 ?.filter((l) => l.status === "Active" || l.status === "Funded")
                 .slice(0, 3)
                 .map((loan, index) => (
-                  <LoanCard key={index} loan={loan} memberPath="member" />
+                  <LoanCard key={index} loan={loan} memberPath="sacco-admin/personal" />
                 ))}
               {(!member?.loan_accounts ||
                 member.loan_accounts.filter(
