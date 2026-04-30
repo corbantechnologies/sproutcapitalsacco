@@ -26,7 +26,7 @@ const UpdatePaymentAccountModal = ({ isOpen, onClose, refetchPaymentAccounts, pa
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Update Payment Account: {paymentAccount?.name}</DialogTitle>
                 </DialogHeader>

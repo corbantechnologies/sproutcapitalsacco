@@ -33,7 +33,7 @@ const CreatePaymentAccountModal = ({ isOpen, onClose, refetchPaymentAccounts }) 
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Create New Payment Account</DialogTitle>
                 </DialogHeader>

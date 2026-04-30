@@ -179,7 +179,7 @@ export default function GuarantorProfilePage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="rounded border">
+          <div className="rounded border overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -378,7 +378,7 @@ export default function GuarantorProfilePage() {
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="p-0">
-                        <div className="max-h-[300px] overflow-y-auto">
+                        <div className="max-h-[300px] overflow-auto">
                           <Table>
                             <TableHeader>
                               <TableRow className="bg-gray-50/50">

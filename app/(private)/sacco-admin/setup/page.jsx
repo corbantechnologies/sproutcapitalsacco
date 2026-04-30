@@ -263,26 +263,28 @@ export default function SetupPage() {
                                 </div>
                             </CardHeader>
                             <CardContent >
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Name</TableHead>
-                                            <TableHead>Code</TableHead>
-                                            <TableHead>Category</TableHead>
-                                            <TableHead>Balance</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {glaccounts?.slice(0, 5).map((acc) => (
-                                            <TableRow key={acc.reference}>
-                                                <TableCell>{acc.name}</TableCell>
-                                                <TableCell>{acc.code}</TableCell>
-                                                <TableCell>{acc.category}</TableCell>
-                                                <TableCell>KES {Number(acc.balance).toLocaleString()}</TableCell>
+                                <div className="overflow-x-auto">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Name</TableHead>
+                                                <TableHead>Code</TableHead>
+                                                <TableHead>Category</TableHead>
+                                                <TableHead>Balance</TableHead>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {glaccounts?.slice(0, 5).map((acc) => (
+                                                <TableRow key={acc.reference}>
+                                                    <TableCell>{acc.name}</TableCell>
+                                                    <TableCell>{acc.code}</TableCell>
+                                                    <TableCell>{acc.category}</TableCell>
+                                                    <TableCell>KES {Number(acc.balance).toLocaleString()}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
@@ -300,28 +302,30 @@ export default function SetupPage() {
                                 </Button>
                             </CardHeader>
                             <CardContent>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Wallet Name</TableHead>
-                                            <TableHead>Link Ledger</TableHead>
-                                            <TableHead>Status</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {paymentaccounts?.map((acc) => (
-                                            <TableRow key={acc.reference}>
-                                                <TableCell>{acc.name}</TableCell>
-                                                <TableCell>{acc.gl_account}</TableCell>
-                                                <TableCell>
-                                                    <span className={acc.is_active ? "text-green-600" : "text-black"}>
-                                                        {acc.is_active ? "ACTIVE" : "INACTIVE"}
-                                                    </span>
-                                                </TableCell>
+                                <div className="overflow-x-auto">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Wallet Name</TableHead>
+                                                <TableHead>Link Ledger</TableHead>
+                                                <TableHead>Status</TableHead>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {paymentaccounts?.map((acc) => (
+                                                <TableRow key={acc.reference}>
+                                                    <TableCell>{acc.name}</TableCell>
+                                                    <TableCell>{acc.gl_account}</TableCell>
+                                                    <TableCell>
+                                                        <span className={acc.is_active ? "text-green-600" : "text-black"}>
+                                                            {acc.is_active ? "ACTIVE" : "INACTIVE"}
+                                                        </span>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
@@ -339,26 +343,28 @@ export default function SetupPage() {
                                 </Button>
                             </CardHeader>
                             <CardContent >
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Fee Name</TableHead>
-                                            <TableHead>Amount</TableHead>
-                                            <TableHead>Global</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {feetypes?.map((fee) => (
-                                            <TableRow key={fee.reference}>
-                                                <TableCell>{fee.name}</TableCell>
-                                                <TableCell>KES {Number(fee.amount).toLocaleString()}</TableCell>
-                                                <TableCell>
-                                                    {fee.is_everyone ? "Yes" : "No"}
-                                                </TableCell>
+                                <div className="overflow-x-auto">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Fee Name</TableHead>
+                                                <TableHead>Amount</TableHead>
+                                                <TableHead>Global</TableHead>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {feetypes?.map((fee) => (
+                                                <TableRow key={fee.reference}>
+                                                    <TableCell>{fee.name}</TableCell>
+                                                    <TableCell>KES {Number(fee.amount).toLocaleString()}</TableCell>
+                                                    <TableCell>
+                                                        {fee.is_everyone ? "Yes" : "No"}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
@@ -376,26 +382,28 @@ export default function SetupPage() {
                                 </Button>
                             </CardHeader>
                             <CardContent >
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Scheme Name</TableHead>
-                                            <TableHead>Interest (APY)</TableHead>
-                                            <TableHead>Guarantee</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {savingTypes?.map((type) => (
-                                            <TableRow key={type.reference}>
-                                                <TableCell>{type.name}</TableCell>
-                                                <TableCell>{type.interest_rate}%</TableCell>
-                                                <TableCell>
-                                                    {type.can_guarantee ? "Allowed" : "Restricted"}
-                                                </TableCell>
+                                <div className="overflow-x-auto">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Scheme Name</TableHead>
+                                                <TableHead>Interest (APY)</TableHead>
+                                                <TableHead>Guarantee</TableHead>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {savingTypes?.map((type) => (
+                                                <TableRow key={type.reference}>
+                                                    <TableCell>{type.name}</TableCell>
+                                                    <TableCell>{type.interest_rate}%</TableCell>
+                                                    <TableCell>
+                                                        {type.can_guarantee ? "Allowed" : "Restricted"}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>
@@ -413,24 +421,26 @@ export default function SetupPage() {
                                 </Button>
                             </CardHeader>
                             <CardContent >
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Facility Name</TableHead>
-                                            <TableHead>Int Rate</TableHead>
-                                            <TableHead>Proc Fee</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {loanProducts?.map((p) => (
-                                            <TableRow key={p.reference}>
-                                                <TableCell>{p.name}</TableCell>
-                                                <TableCell>{p.interest_rate}%</TableCell>
-                                                <TableCell>{p.processing_fee}%</TableCell>
+                                <div className="overflow-x-auto">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Facility Name</TableHead>
+                                                <TableHead>Int Rate</TableHead>
+                                                <TableHead>Proc Fee</TableHead>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {loanProducts?.map((p) => (
+                                                <TableRow key={p.reference}>
+                                                    <TableCell>{p.name}</TableCell>
+                                                    <TableCell>{p.interest_rate}%</TableCell>
+                                                    <TableCell>{p.processing_fee}%</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>

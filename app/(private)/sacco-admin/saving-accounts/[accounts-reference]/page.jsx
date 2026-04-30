@@ -155,63 +155,65 @@ export default function SavingAccountReferencePage() {
                     </div>
                 </CardHeader>
                 <CardContent className="p-0">
-                    <Table>
-                        <TableHeader>
-                            <TableRow className="bg-slate-50/50">
-                                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 pl-6 py-3">Reference</TableHead>
-                                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 py-3">Date</TableHead>
-                                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 py-3">Type</TableHead>
-                                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 py-3">Payment Method</TableHead>
-                                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 text-right pr-6 py-3">Amount</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {deposits.length > 0 ? (
-                                [...deposits].reverse().map((dep, index) => (
-                                    <TableRow key={dep.reference || index} className="hover:bg-slate-50 transition-colors border-b border-slate-50">
-                                        <TableCell className="pl-6 py-4">
-                                            <div className="flex flex-col">
-                                                <span className="text-xs font-bold text-[#174271] font-mono">{dep.identity || dep.reference}</span>
-                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">System ID</span>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell className="py-4">
-                                            <div className="flex flex-col">
-                                                <span className="text-xs font-bold text-slate-700">
-                                                    {new Date(dep.created_at).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' })}
+                    <div className="overflow-x-auto">
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="bg-slate-50/50">
+                                    <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 pl-6 py-3">Reference</TableHead>
+                                    <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 py-3">Date</TableHead>
+                                    <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 py-3">Type</TableHead>
+                                    <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 py-3">Payment Method</TableHead>
+                                    <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 text-right pr-6 py-3">Amount</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {deposits.length > 0 ? (
+                                    [...deposits].reverse().map((dep, index) => (
+                                        <TableRow key={dep.reference || index} className="hover:bg-slate-50 transition-colors border-b border-slate-50">
+                                            <TableCell className="pl-6 py-4">
+                                                <div className="flex flex-col">
+                                                    <span className="text-xs font-bold text-[#174271] font-mono">{dep.identity || dep.reference}</span>
+                                                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">System ID</span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="py-4">
+                                                <div className="flex flex-col">
+                                                    <span className="text-xs font-bold text-slate-700">
+                                                        {new Date(dep.created_at).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                    </span>
+                                                    <span className="text-[10px] text-slate-400 font-medium">
+                                                        {new Date(dep.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    </span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="py-4">
+                                                <div className="flex items-center gap-1.5">
+                                                    <ArrowDownLeft className="w-3.5 h-3.5 text-emerald-500" />
+                                                    <span className="text-xs font-bold text-slate-600 uppercase tracking-tight">{dep.deposit_type}</span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="py-4 text-xs font-medium text-slate-600">
+                                                <span className="bg-slate-100 px-2 py-0.5 rounded text-[10px] font-bold uppercase">
+                                                    {dep.payment_method}
                                                 </span>
-                                                <span className="text-[10px] text-slate-400 font-medium">
-                                                    {new Date(dep.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </TableCell>
+                                            <TableCell className="text-right pr-6 py-4">
+                                                <span className="text-sm font-bold text-emerald-600 font-mono tracking-tighter">
+                                                    + {parseFloat(dep.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                                 </span>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell className="py-4">
-                                            <div className="flex items-center gap-1.5">
-                                                <ArrowDownLeft className="w-3.5 h-3.5 text-emerald-500" />
-                                                <span className="text-xs font-bold text-slate-600 uppercase tracking-tight">{dep.deposit_type}</span>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell className="py-4 text-xs font-medium text-slate-600">
-                                            <span className="bg-slate-100 px-2 py-0.5 rounded text-[10px] font-bold uppercase">
-                                                {dep.payment_method}
-                                            </span>
-                                        </TableCell>
-                                        <TableCell className="text-right pr-6 py-4">
-                                            <span className="text-sm font-bold text-emerald-600 font-mono tracking-tighter">
-                                                + {parseFloat(dep.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                            </span>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="text-center h-48 text-slate-400 text-sm font-medium italic">
+                                            No deposits or transactions recorded for this account.
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={5} className="text-center h-48 text-slate-400 text-sm font-medium italic">
-                                        No deposits or transactions recorded for this account.
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </CardContent>
             </Card>
 

@@ -22,7 +22,7 @@ function CreateLoanPenalty({ isOpen, onClose, refetchLoan, loan_account }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Apply Loan Penalty</DialogTitle>
         </DialogHeader>

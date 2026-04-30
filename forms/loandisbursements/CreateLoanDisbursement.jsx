@@ -31,7 +31,7 @@ function CreateLoanDisbursementModal({ isOpen, onClose, refetch, application }) 
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Disburse Loan: {application?.reference}</DialogTitle>
                 </DialogHeader>
