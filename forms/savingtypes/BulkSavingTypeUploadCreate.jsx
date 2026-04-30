@@ -69,7 +69,7 @@ function BulkSavingTypeUpload({ onBatchSuccess }) {
     return (
         <div className="max-w-3xl mx-auto space-y-8 py-4">
             <div className="text-center space-y-2">
-                <h2 className="text-2xl font-bold text-emerald-700">Import Savings Products</h2>
+                <h2 className="text-2xl font-semibold text-emerald-700">Import Savings Products</h2>
                 <p className="text-slate-500 text-sm max-w-lg mx-auto italic font-medium">
                     Scale your SACCO offerings by importing multiple savings products at once.
                 </p>
@@ -89,7 +89,7 @@ function BulkSavingTypeUpload({ onBatchSuccess }) {
                     variant="outline"
                     size="sm"
                     onClick={handleDownloadTemplate}
-                    className="border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-6 h-10 transition-all shadow-sm"
+                    className="border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-semibold px-6 h-10 transition-all shadow-sm"
                 >
                     Get Template
                 </Button>
@@ -97,7 +97,7 @@ function BulkSavingTypeUpload({ onBatchSuccess }) {
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div
-                    className={`border-2 border-dashed rounded-[2.5rem] p-16 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
+                    className={`border-2 border-dashed rounded p-16 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
                         ? "border-emerald-500 bg-emerald-50/20 shadow-inner"
                         : "border-slate-200 bg-white hover:border-emerald-500 hover:bg-emerald-50/10"
                         }`}
@@ -129,7 +129,7 @@ function BulkSavingTypeUpload({ onBatchSuccess }) {
                                     e.stopPropagation();
                                     clearFile();
                                 }}
-                                className="text-emerald-700 border-emerald-100 hover:bg-emerald-50 hover:text-emerald-800 font-bold h-9 mt-4 px-6 rounded"
+                                className="text-emerald-700 border-emerald-100 hover:bg-emerald-50 hover:text-emerald-800 font-semibold h-9 mt-4 px-6 rounded"
                             >
                                 <X className="w-4 h-4 mr-1" /> Remove Selection
                             </Button>
@@ -154,7 +154,7 @@ function BulkSavingTypeUpload({ onBatchSuccess }) {
                 <div className="flex justify-center pt-2">
                     <Button
                         type="submit"
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white px-24 h-14 rounded font-semibold text-lg shadow-xl shadow-emerald-200 transition-all active:scale-95 disabled:opacity-30 flex items-center gap-3 uppercase tracking-tight"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded transition-all active:scale-95 disabled:opacity-30 flex items-center gap-3"
                         disabled={loading || !file}
                     >
                         {loading ? "Syncing Products..." : "Import Savings Data"}

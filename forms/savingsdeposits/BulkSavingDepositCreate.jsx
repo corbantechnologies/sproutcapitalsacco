@@ -73,10 +73,10 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl font-bold text-[#174271]">Batch Savings Deposit</h2>
+                    <h2 className="text-xl text-[#174271]">Batch Savings Deposit</h2>
                     <p className="text-sm text-gray-500 font-medium">Record multiple member savings deposits manually (max 15).</p>
+                    <Button variant="outline" onClick={() => setDeposits([{ ...emptyDeposit }])} className="text-xs h-8 mt-3">Clear All</Button>
                 </div>
-                <Button variant="outline" onClick={() => setDeposits([{ ...emptyDeposit }])} className="text-xs h-8">Clear All</Button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -145,7 +145,7 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
                 </div>
 
                 <div className="flex justify-end pt-2">
-                    <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-12 px-12 rounded shadow-lg shadow-emerald-50" disabled={loading}>
+                    <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-4 rounded" disabled={loading}>
                         {loading ? "Processing..." : "Commit Deposits"}
                     </Button>
                 </div>

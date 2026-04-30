@@ -271,7 +271,7 @@ function LoanDetail() {
                                     <History className="h-5 w-5" /> Transaction History
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="overflow-x-auto">
                                 <div className="flex justify-between mb-4">
                                     <select value={monthFilter} onChange={(e) => setMonthFilter(e.target.value)} className="border rounded px-3 py-2 text-sm">
                                         <option value="">All Months</option>

@@ -32,8 +32,8 @@ function UpdateLoanProduct({ isOpen, onClose, refetchLoanTypes, loanProduct }) {
   if (!loanProduct) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={isOpen} onOpenChange={onClose} >
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Update Loan Product: {loanProduct?.name}</DialogTitle>
         </DialogHeader>

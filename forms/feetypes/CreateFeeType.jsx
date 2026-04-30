@@ -34,7 +34,7 @@ const CreateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Create New Fee Type</DialogTitle>
         </DialogHeader>
