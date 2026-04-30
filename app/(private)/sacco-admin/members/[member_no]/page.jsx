@@ -54,6 +54,7 @@ import MemberFinancialSummary from "@/components/members/dashboard/MemberFinanci
 import { downloadMemberSummary } from "@/services/membersummary";
 import { Download, Loader2 } from "lucide-react";
 import EmptyState from "@/components/general/EmptyState";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 function MemberDetail() {
   const { member_no } = useParams();
@@ -358,8 +359,8 @@ function MemberDetail() {
                         onClick={handleToggleActiveStatus}
                         disabled={isTogglingStatus}
                         className={`justify-start font-normal h-9 w-full flex items-center gap-2 ${member?.is_active
-                            ? "text-destructive hover:text-destructive hover:bg-destructive/10"
-                            : "text-green-600 hover:text-green-700 hover:bg-green-50"
+                          ? "text-destructive hover:text-destructive hover:bg-destructive/10"
+                          : "text-green-600 hover:text-green-700 hover:bg-green-50"
                           }`}
                       >
                         {isTogglingStatus ? (
@@ -644,25 +645,25 @@ function MemberDetail() {
                       <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 ml-1">
                         Active Guarantees
                       </h4>
-                      <div className="overflow-x-auto rounded border border-secondary">
-                        <table className="w-full text-sm text-left">
-                          <thead className="bg-secondary/50 text-muted-foreground font-medium">
-                            <tr>
-                              <th className="p-3">Loan Application</th>
-                              <th className="p-3">Amount</th>
-                              <th className="p-3 text-right">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-secondary">
+                      <div className="overflow-x-auto">
+                        <Table className="w-full text-sm text-left">
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Loan Application</TableHead>
+                              <TableHead>Amount</TableHead>
+                              <TableHead>Status</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
                             {member.guarantor_profile.guarantees.map((guarantee, i) => (
-                              <tr key={i} className="hover:bg-secondary/20">
-                                <td className="p-3 font-mono text-xs">
+                              <TableRow key={i} className="hover:bg-secondary/20">
+                                <TableCell className="text-sm">
                                   {guarantee.loan_application}
-                                </td>
-                                <td className="p-3 font-semibold">
+                                </TableCell>
+                                <TableCell className="text-sm">
                                   {formatBalance(guarantee.guaranteed_amount)} KES
-                                </td>
-                                <td className="p-3 text-right">
+                                </TableCell>
+                                <TableCell className="text-sm">
                                   <Badge
                                     variant="outline"
                                     className={
@@ -673,11 +674,11 @@ function MemberDetail() {
                                   >
                                     {guarantee.status}
                                   </Badge>
-                                </td>
-                              </tr>
+                                </TableCell>
+                              </TableRow>
                             ))}
-                          </tbody>
-                        </table>
+                          </TableBody>
+                        </Table>
                       </div>
                     </div>
                   )}
