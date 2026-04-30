@@ -23,6 +23,7 @@ import PnLReport from "@/components/reports/PnLReport";
 import CashBook from "@/components/reports/CashBook";
 import TrialBalance from "@/components/reports/TrialBalance";
 import SaccoSummaryOverview from "@/components/reports/SaccoSummaryOverview";
+import DebtorsList from "@/components/reports/DebtorsList";
 
 export default function SaccoAdminReports() {
   const currentYear = new Date().getFullYear();
@@ -97,17 +98,19 @@ export default function SaccoAdminReports() {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="balance_sheet" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 mb-6">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 mb-6">
               <TabsTrigger value="balance_sheet">Balance Sheet</TabsTrigger>
               <TabsTrigger value="pnl">Profit &amp; Loss</TabsTrigger>
               <TabsTrigger value="trial_balance">Trial Balance</TabsTrigger>
               <TabsTrigger value="cash_book">Cash Book</TabsTrigger>
+              <TabsTrigger value="debtors">Debtors List</TabsTrigger>
             </TabsList>
 
             <TabsContent value="balance_sheet"><BalanceSheet /></TabsContent>
             <TabsContent value="pnl"><PnLReport /></TabsContent>
             <TabsContent value="trial_balance"><TrialBalance /></TabsContent>
             <TabsContent value="cash_book"><CashBook /></TabsContent>
+            <TabsContent value="debtors"><DebtorsList/></TabsContent>
           </Tabs>
         </CardContent>
       </Card>

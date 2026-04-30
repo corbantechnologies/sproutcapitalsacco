@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import useAxiosAuth from "../authentication/useAxiosAuth";
-import { getTrialBalance, getBalanceSheet, getPnL, getCashBook } from "@/services/financials";
+import { getTrialBalance, getBalanceSheet, getPnL, getCashBook, getDebtors } from "@/services/financials";
 
 export function useFetchTrialBalance() {
     const token = useAxiosAuth();
@@ -37,5 +37,14 @@ export function useFetchCashBook() {
     return useQuery({
         queryKey: ["cash-book"],
         queryFn: () => getCashBook(token),
+    });
+}
+
+export function useFetchDebtors() {
+    const token = useAxiosAuth();
+
+    return useQuery({
+        queryKey: ["debtors"],
+        queryFn: () => getDebtors(token),
     });
 }
