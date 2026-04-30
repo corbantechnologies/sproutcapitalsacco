@@ -112,11 +112,11 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
 
                     {file ? (
                         <div className="flex flex-col items-center space-y-6 animate-in zoom-in-95 duration-500">
-                            <div className="p-6 bg-[#174271] rounded text-white shadow-2xl shadow-slate-200 ring-8 ring-white">
-                                <FileCheck className="w-12 h-12" />
+                            <div className="p-4 bg-[#174271] rounded text-white shadow-2xl shadow-slate-200 ring-8 ring-white">
+                                <FileCheck className="w-8 h-8" />
                             </div>
                             <div className="space-y-1">
-                                <p className="font-semibold text-2xl text-slate-900 tracking-tighter">{file.name}</p>
+                                <p className="font-semibold text-lg text-slate-900 tracking-tighter">{file.name}</p>
                                 <p className="text-[12px] text-slate-400 font-semibold uppercase tracking-[0.3em] flex items-center justify-center gap-2">
                                     <span className="w-2 h-2 rounded bg-emerald-500 animate-pulse" />
                                     {(file.size / 1024).toFixed(2)} KB • READY TO SYNC
@@ -136,11 +136,11 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                         </div>
                     ) : (
                         <div className="flex flex-col items-center space-y-6">
-                            <div className="p-8 bg-slate-50 rounded text-slate-200 border-4 border-white shadow-inner">
-                                <FileUp className="w-16 h-16" />
+                            <div className="p-4 bg-slate-50 rounded text-slate-200 border-4 border-white shadow-inner">
+                                <FileUp className="w-8 h-8" />
                             </div>
                             <div className="space-y-2">
-                                <p className="font-semibold text-2xl text-slate-800 tracking-tight">
+                                <p className="font-semibold text-lg text-slate-800 tracking-tight">
                                     Drop Your Loan Template
                                 </p>
                                 <p className="text-sm text-slate-400 font-bold uppercase tracking-widest">
@@ -154,7 +154,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                 <div className="flex justify-center pt-4">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-slate-800 text-white px-24 h-16 rounded font-semibold text-xl shadow-2xl shadow-slate-200 transition-all active:scale-95 disabled:opacity-20 flex items-center gap-4 uppercase tracking-tighter"
+                        className="bg-[#174271] hover:bg-slate-800 text-white p-4 rounded font-semibold text-md  transition-all active:scale-95 disabled:opacity-20 flex items-center gap-4"
                         disabled={loading || !file}
                     >
                         {loading ? "Synchronizing Data..." : "Engage Bulk Upload"}
