@@ -127,7 +127,7 @@ export default function SetupPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                    <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
                         SACCO Configuration Hub
                     </h1>
                     <p className="text-black text-sm">
@@ -137,7 +137,7 @@ export default function SetupPage() {
 
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button className="bg-[#174271] hover:bg-slate-800 text-white gap-2 font-bold shadow-sm rounded">
+                        <Button className="bg-[#174271] hover:bg-slate-800 text-white gap-2 font-semibold shadow-sm rounded">
                             <Plus className="w-4 h-4" /> Quick Create
                         </Button>
                     </PopoverTrigger>
@@ -167,7 +167,7 @@ export default function SetupPage() {
                 <div className="bg-amber-50 border border-amber-200 p-4 rounded flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
                     <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5" />
                     <div>
-                        <h3 className="text-sm font-bold text-amber-900 uppercase tracking-tight">Initial Setup Required</h3>
+                        <h3 className="text-sm font-semibold text-amber-900 uppercase tracking-tight">Initial Setup Required</h3>
                         <p className="text-xs text-amber-700 font-medium">
                             Configure General Ledger and Payment Accounts first to unlock service fees and financial products.
                         </p>
@@ -207,7 +207,7 @@ export default function SetupPage() {
             <div className="space-y-4 pt-4">
                 <div className="flex items-center gap-2">
                     <ListFilter className="w-4 h-4 text-black" />
-                    <h2 className="text-sm font-bold text-black ">Configuration Inventory</h2>
+                    <h2 className="text-sm font-semibold text-black ">Configuration Inventory</h2>
                 </div>
 
                 <Tabs defaultValue="gl" className="w-full">
@@ -255,30 +255,30 @@ export default function SetupPage() {
                         <Card className="shadow-sm border-none overflow-hidden rounded">
                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
-                                    <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Active Chart of Accounts</CardTitle>
+                                    <CardTitle className="text-sm font-semibold text-black uppercase tracking-tight">Active Chart of Accounts</CardTitle>
                                     <CardDescription className="text-xs">Summary of your general ledger categories.</CardDescription>
+                                    <Button size="sm" variant="outline" className="text-[10px] h-8 font-semibold mt-3" onClick={() => router.push("/sacco-admin/setup/gl-accounts")}>
+                                        FULL SETUP <ArrowRight className="ml-2 w-3 h-3" />
+                                    </Button>
                                 </div>
-                                <Button size="sm" variant="outline" className="text-[10px] h-8 font-bold " onClick={() => router.push("/sacco-admin/setup/gl-accounts")}>
-                                    FULL SETUP <ArrowRight className="ml-2 w-3 h-3" />
-                                </Button>
                             </CardHeader>
-                            <CardContent className="p-0">
+                            <CardContent >
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-[10px] font-bold  pl-6">Name</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Code</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Category</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Balance</TableHead>
+                                        <TableRow>
+                                            <TableHead>Name</TableHead>
+                                            <TableHead>Code</TableHead>
+                                            <TableHead>Category</TableHead>
+                                            <TableHead>Balance</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {glaccounts?.slice(0, 5).map((acc) => (
-                                            <TableRow key={acc.reference} className="hover:bg-slate-50 transition-colors border-b border-slate-50">
-                                                <TableCell className="text-xs font-bold pl-6 py-4">{acc.name}</TableCell>
-                                                <TableCell className="text-xs font-mono">{acc.code}</TableCell>
-                                                <TableCell className="text-[10px] font-bold uppercase text-black">{acc.category}</TableCell>
-                                                <TableCell className="text-xs font-bold text-slate-900 font-mono tracking-tighter">KES {Number(acc.balance).toLocaleString()}</TableCell>
+                                            <TableRow key={acc.reference}>
+                                                <TableCell>{acc.name}</TableCell>
+                                                <TableCell>{acc.code}</TableCell>
+                                                <TableCell>{acc.category}</TableCell>
+                                                <TableCell>KES {Number(acc.balance).toLocaleString()}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -292,28 +292,28 @@ export default function SetupPage() {
                         <Card className="shadow-sm border-none overflow-hidden rounded">
                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
-                                    <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Payment Wallets</CardTitle>
+                                    <CardTitle className="text-sm font-semibold text-black uppercase tracking-tight">Payment Wallets</CardTitle>
                                     <CardDescription className="text-xs">Cash and Bank accounts linked to the GL.</CardDescription>
                                 </div>
-                                <Button size="sm" variant="outline" className="text-[10px] h-8 font-bold " onClick={() => router.push("/sacco-admin/setup/payment-accounts")}>
+                                <Button size="sm" variant="outline" className="text-[10px] h-8 font-semibold " onClick={() => router.push("/sacco-admin/setup/payment-accounts")}>
                                     FULL SETUP <ArrowRight className="ml-2 w-3 h-3" />
                                 </Button>
                             </CardHeader>
-                            <CardContent className="p-0">
+                            <CardContent>
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-[10px] font-bold  pl-6">Wallet Name</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Link Ledger</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Status</TableHead>
+                                        <TableRow>
+                                            <TableHead>Wallet Name</TableHead>
+                                            <TableHead>Link Ledger</TableHead>
+                                            <TableHead>Status</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {paymentaccounts?.map((acc) => (
-                                            <TableRow key={acc.reference} className="hover:bg-slate-50 border-b border-slate-50">
-                                                <TableCell className="text-xs font-bold pl-6 py-4">{acc.name}</TableCell>
-                                                <TableCell className="text-xs font-medium text-black italic">{acc.gl_account}</TableCell>
-                                                <TableCell className="text-[10px] font-bold tracking-tighter">
+                                            <TableRow key={acc.reference}>
+                                                <TableCell>{acc.name}</TableCell>
+                                                <TableCell>{acc.gl_account}</TableCell>
+                                                <TableCell>
                                                     <span className={acc.is_active ? "text-green-600" : "text-black"}>
                                                         {acc.is_active ? "ACTIVE" : "INACTIVE"}
                                                     </span>
@@ -331,28 +331,28 @@ export default function SetupPage() {
                         <Card className="shadow-sm border-none overflow-hidden rounded">
                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
-                                    <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Active Charges & Fees</CardTitle>
+                                    <CardTitle className="text-sm font-semibold text-black uppercase tracking-tight">Active Charges & Fees</CardTitle>
                                     <CardDescription className="text-xs">Registration, Service, and Insurance fees.</CardDescription>
                                 </div>
-                                <Button size="sm" variant="outline" className="text-[10px] h-8 font-bold " onClick={() => router.push("/sacco-admin/setup/feetypes")}>
+                                <Button size="sm" variant="outline" className="text-[10px] h-8 font-semibold " onClick={() => router.push("/sacco-admin/setup/feetypes")}>
                                     FULL SETUP <ArrowRight className="ml-2 w-3 h-3" />
                                 </Button>
                             </CardHeader>
-                            <CardContent className="p-0">
+                            <CardContent >
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-[10px] font-bold  pl-6">Fee Name</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Amount</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Global</TableHead>
+                                        <TableRow>
+                                            <TableHead>Fee Name</TableHead>
+                                            <TableHead>Amount</TableHead>
+                                            <TableHead>Global</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {feetypes?.map((fee) => (
-                                            <TableRow key={fee.reference} className="hover:bg-slate-50 border-b border-slate-50">
-                                                <TableCell className="text-xs font-bold pl-6 py-4">{fee.name}</TableCell>
-                                                <TableCell className="text-xs font-bold text-slate-900">KES {Number(fee.amount).toLocaleString()}</TableCell>
-                                                <TableCell className="text-[10px] font-bold uppercase text-black">
+                                            <TableRow key={fee.reference}>
+                                                <TableCell>{fee.name}</TableCell>
+                                                <TableCell>KES {Number(fee.amount).toLocaleString()}</TableCell>
+                                                <TableCell>
                                                     {fee.is_everyone ? "Yes" : "No"}
                                                 </TableCell>
                                             </TableRow>
@@ -368,28 +368,28 @@ export default function SetupPage() {
                         <Card className="shadow-sm border-none overflow-hidden rounded">
                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
-                                    <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Deposit Schemes</CardTitle>
+                                    <CardTitle className="text-sm font-semibold text-black uppercase tracking-tight">Deposit Schemes</CardTitle>
                                     <CardDescription className="text-xs">Configure interest-bearing savings types.</CardDescription>
                                 </div>
-                                <Button size="sm" variant="outline" className="text-[10px] h-8 font-bold " onClick={() => router.push("/sacco-admin/setup/saving-types")}>
+                                <Button size="sm" variant="outline" className="text-[10px] h-8 font-semibold " onClick={() => router.push("/sacco-admin/setup/saving-types")}>
                                     FULL SETUP <ArrowRight className="ml-2 w-3 h-3" />
                                 </Button>
                             </CardHeader>
-                            <CardContent className="p-0">
+                            <CardContent >
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-[10px] font-bold  pl-6">Scheme Name</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Interest (APY)</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Guarantee</TableHead>
+                                        <TableRow>
+                                            <TableHead>Scheme Name</TableHead>
+                                            <TableHead>Interest (APY)</TableHead>
+                                            <TableHead>Guarantee</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {savingTypes?.map((type) => (
-                                            <TableRow key={type.reference} className="hover:bg-slate-50 border-b border-slate-50">
-                                                <TableCell className="text-xs font-bold pl-6 py-4">{type.name}</TableCell>
-                                                <TableCell className="text-xs font-bold text-green-700">{type.interest_rate}%</TableCell>
-                                                <TableCell className="text-[10px] font-bold uppercase text-black">
+                                            <TableRow key={type.reference}>
+                                                <TableCell>{type.name}</TableCell>
+                                                <TableCell>{type.interest_rate}%</TableCell>
+                                                <TableCell>
                                                     {type.can_guarantee ? "Allowed" : "Restricted"}
                                                 </TableCell>
                                             </TableRow>
@@ -405,28 +405,28 @@ export default function SetupPage() {
                         <Card className="shadow-sm border-none overflow-hidden rounded">
                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
-                                    <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Loan Facilities</CardTitle>
+                                    <CardTitle className="text-sm font-semibold text-black uppercase tracking-tight">Loan Facilities</CardTitle>
                                     <CardDescription className="text-xs">Manage lending terms and rates.</CardDescription>
                                 </div>
-                                <Button size="sm" variant="outline" className="text-[10px] h-8 font-bold " onClick={() => router.push("/sacco-admin/setup/loan-products")}>
+                                <Button size="sm" variant="outline" className="text-[10px] h-8 font-semibold " onClick={() => router.push("/sacco-admin/setup/loan-products")}>
                                     FULL SETUP <ArrowRight className="ml-2 w-3 h-3" />
                                 </Button>
                             </CardHeader>
-                            <CardContent className="p-0">
+                            <CardContent >
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-[10px] font-bold  pl-6">Facility Name</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Int Rate</TableHead>
-                                            <TableHead className="text-[10px] font-bold ">Proc Fee</TableHead>
+                                        <TableRow>
+                                            <TableHead>Facility Name</TableHead>
+                                            <TableHead>Int Rate</TableHead>
+                                            <TableHead>Proc Fee</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {loanProducts?.map((p) => (
-                                            <TableRow key={p.reference} className="hover:bg-slate-50 border-b border-slate-50">
-                                                <TableCell className="text-sm font-bold pl-6 py-4">{p.name}</TableCell>
-                                                <TableCell className="text-xs font-bold text-red-600">{p.interest_rate}%</TableCell>
-                                                <TableCell className="text-xs font-bold text-black">{p.processing_fee}%</TableCell>
+                                            <TableRow key={p.reference}>
+                                                <TableCell>{p.name}</TableCell>
+                                                <TableCell>{p.interest_rate}%</TableCell>
+                                                <TableCell>{p.processing_fee}%</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -437,27 +437,7 @@ export default function SetupPage() {
                 </Tabs>
             </div>
 
-            {/* Support Grid */}
-            <div className="pt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Card className="bg-white border-dashed border-2 p-6 flex flex-col items-center justify-center text-center space-y-2">
-                    <div className="bg-slate-50 p-3 rounded">
-                        <Settings2 className="w-6 h-6 text-black" />
-                    </div>
-                    <div>
-                        <h4 className="font-bold text-sm text-black uppercase tracking-tight">Audit Trail</h4>
-                        <p className="text-[11px] text-black px-4">All configuration changes are monitored and logged for financial compliance.</p>
-                    </div>
-                </Card>
-                <Card className="bg-white border-dashed border-2 p-6 flex flex-col items-center justify-center text-center space-y-2">
-                    <div className="bg-slate-50 p-3 rounded">
-                        <AlertCircle className="w-6 h-6 text-black" />
-                    </div>
-                    <div>
-                        <h4 className="font-bold text-sm text-black uppercase tracking-tight">System Health</h4>
-                        <p className="text-[11px] text-black px-4">Ensure your GL is balanced before modifying product account linkage.</p>
-                    </div>
-                </Card>
-            </div>
+
 
             {/* Creation Modals */}
             <CreateGLAccountModal
