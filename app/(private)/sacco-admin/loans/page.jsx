@@ -72,7 +72,7 @@ export default function LoansManagementPage() {
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
-                        <h1 className="text-2xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
+                        <h1 className="text-lg font-semibold tracking-tight text-slate-900 flex items-center gap-2">
                             <HandCoins className="w-6 h-6 text-[#174271]" /> Loans Portfolio
                         </h1>
                         <p className="text-slate-500 text-sm font-medium">
@@ -109,8 +109,8 @@ export default function LoansManagementPage() {
             </div>
 
             {/* Main Content Tabs */}
-            <Tabs defaultValue="list" className="w-full ">
-                <TabsList className="bg-white border p-1 h-auto shadow-sm mb-6 w-full grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 gap-1 rounded overflow-hidden">
+            <Tabs defaultValue="list">
+                <TabsList className="bg-white border p-1 h-auto shadow-sm mb-6">
 
                     <TabsTrigger
                         value="list"
