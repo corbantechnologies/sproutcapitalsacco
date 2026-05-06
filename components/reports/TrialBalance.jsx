@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFetchTrialBalance } from "@/hooks/financials/actions";
 import MemberLoadingSpinner from "@/components/general/MemberLoadingSpinner";
 import { formatCurrency } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export default function TrialBalance() {
-    const { data, isLoading, error } = useFetchTrialBalance();
+    const [asOfDate, setAsOfDate] = useState("");
+    const [appliedDate, setAppliedDate] = useState("");
+    const { data, isLoading, error } = useFetchTrialBalance(appliedDate);
+
+    const handleApply = () => {
+        setAppliedDate(asOfDate);
+    };
 
     if (isLoading) return <MemberLoadingSpinner />;
     if (error || !data) return <div className="p-12 text-center text-muted-foreground">Unable to load Trial Balance</div>;
@@ -15,9 +24,22 @@ export default function TrialBalance() {
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>Trial Balance</CardTitle>
-                <CardDescription>As of {new Date(as_of).toLocaleDateString()}</CardDescription>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <CardTitle>Trial Balance</CardTitle>
+                    <CardDescription>As of {new Date(as_of).toLocaleDateString()}</CardDescription>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Label htmlFor="asOfDate" className="whitespace-nowrap text-sm text-muted-foreground">As Of Date:</Label>
+                    <Input
+                        type="date"
+                        id="asOfDate"
+                        value={asOfDate}
+                        onChange={(e) => setAsOfDate(e.target.value)}
+                        className="w-auto"
+                    />
+                    <Button onClick={handleApply} size="sm">Apply</Button>
+                </div>
             </CardHeader>
             <CardContent>
                 <Table>

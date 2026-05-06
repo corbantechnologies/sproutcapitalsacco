@@ -4,39 +4,39 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosAuth from "../authentication/useAxiosAuth";
 import { getTrialBalance, getBalanceSheet, getPnL, getCashBook, getDebtors } from "@/services/financials";
 
-export function useFetchTrialBalance() {
+export function useFetchTrialBalance(asOfDate) {
     const token = useAxiosAuth();
 
     return useQuery({
-        queryKey: ["trial-balance"],
-        queryFn: () => getTrialBalance(token),
+        queryKey: ["trial-balance", asOfDate],
+        queryFn: () => getTrialBalance(token, asOfDate),
     });
 }
 
-export function useFetchBalanceSheet() {
+export function useFetchBalanceSheet(asOfDate) {
     const token = useAxiosAuth();
 
     return useQuery({
-        queryKey: ["balance-sheet"],
-        queryFn: () => getBalanceSheet(token),
+        queryKey: ["balance-sheet", asOfDate],
+        queryFn: () => getBalanceSheet(token, asOfDate),
     });
 }
 
-export function useFetchPnL() {
+export function useFetchPnL(startDate, endDate) {
     const token = useAxiosAuth();
 
     return useQuery({
-        queryKey: ["pnl"],
-        queryFn: () => getPnL(token),
+        queryKey: ["pnl", startDate, endDate],
+        queryFn: () => getPnL(token, startDate, endDate),
     });
 }
 
-export function useFetchCashBook() {
+export function useFetchCashBook(asOfDate) {
     const token = useAxiosAuth();
 
     return useQuery({
-        queryKey: ["cash-book"],
-        queryFn: () => getCashBook(token),
+        queryKey: ["cash-book", asOfDate],
+        queryFn: () => getCashBook(token, asOfDate),
     });
 }
 
