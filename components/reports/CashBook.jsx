@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFetchCashBook } from "@/hooks/financials/actions";
 import MemberLoadingSpinner from "@/components/general/MemberLoadingSpinner";
 import { formatCurrency } from "@/lib/utils";
@@ -6,9 +6,18 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArrowUpCircle, ArrowDownCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export default function CashBook() {
-    const { data, isLoading, error } = useFetchCashBook();
+    const [asOfDate, setAsOfDate] = useState("");
+    const [appliedDate, setAppliedDate] = useState("");
+    const { data, isLoading, error } = useFetchCashBook(appliedDate);
+
+    const handleApply = () => {
+        setAppliedDate(asOfDate);
+    };
 
     if (isLoading) return <MemberLoadingSpinner />;
     if (error || !data) return <div className="p-12 text-center text-muted-foreground">Unable to load Cash Book</div>;
@@ -17,9 +26,22 @@ export default function CashBook() {
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>Cash Book</CardTitle>
-                <CardDescription>As of {new Date(as_of).toLocaleDateString()}</CardDescription>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <CardTitle>Cash Book</CardTitle>
+                    <CardDescription>As of {new Date(as_of).toLocaleDateString()}</CardDescription>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Label htmlFor="asOfDate" className="whitespace-nowrap text-sm text-muted-foreground">As Of Date:</Label>
+                    <Input
+                        type="date"
+                        id="asOfDate"
+                        value={asOfDate}
+                        onChange={(e) => setAsOfDate(e.target.value)}
+                        className="w-auto"
+                    />
+                    <Button onClick={handleApply} size="sm">Apply</Button>
+                </div>
             </CardHeader>
             <CardContent>
                 <div className="text-right mb-4">

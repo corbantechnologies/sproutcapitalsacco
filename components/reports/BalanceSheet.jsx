@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import MemberLoadingSpinner from "@/components/general/MemberLoadingSpinner";
 import { formatCurrency } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useFetchBalanceSheet } from "@/hooks/financials/actions";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export default function BalanceSheet() {
-    const { data, isLoading, error } = useFetchBalanceSheet();
+    const [asOfDate, setAsOfDate] = useState("");
+    const [appliedDate, setAppliedDate] = useState("");
+    const { data, isLoading, error } = useFetchBalanceSheet(appliedDate);
+
+    const handleApply = () => {
+        setAppliedDate(asOfDate);
+    };
 
     if (isLoading) return <MemberLoadingSpinner />;
     if (error || !data) return <div className="p-12 text-center text-muted-foreground">Unable to load Balance Sheet</div>;
@@ -15,9 +24,22 @@ export default function BalanceSheet() {
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>Balance Sheet</CardTitle>
-                <CardDescription>As of {new Date(as_of).toLocaleDateString()}</CardDescription>
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <CardTitle>Balance Sheet</CardTitle>
+                    <CardDescription>As of {new Date(as_of).toLocaleDateString()}</CardDescription>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Label htmlFor="asOfDate" className="whitespace-nowrap text-sm text-muted-foreground">As Of Date:</Label>
+                    <Input
+                        type="date"
+                        id="asOfDate"
+                        value={asOfDate}
+                        onChange={(e) => setAsOfDate(e.target.value)}
+                        className="w-auto"
+                    />
+                    <Button onClick={handleApply} size="sm">Apply</Button>
+                </div>
             </CardHeader>
             <CardContent className="space-y-8">
                 {/* Assets */}
