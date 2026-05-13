@@ -41,6 +41,10 @@ export default function MemberHelpCenter() {
             a: "This means the SACCO Admin has reviewed your request and suggested a different amount or term. You can accept these new terms to proceed or cancel the application."
         },
         {
+            q: "How long does it take for my payment to reflect?",
+            a: "To ensure accurate reconciliation with the SACCO's bank records, payment balances are typically updated by the end of the day. You can check your dashboard in the evening to see your new balance."
+        },
+        {
             q: "Can I use my savings as collateral?",
             a: "Yes! Most saving products in Sprout can be used to self-guarantee your own loan, depending on the SACCO's specific rules."
         }

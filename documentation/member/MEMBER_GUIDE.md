@@ -39,8 +39,9 @@ Navigate to the **Savings** section to see a list of all your accounts (e.g., Ma
 
 ### Repayments & Tracking
 Sprout makes it easy to stay on track:
-*   **Automatic Logging:** Every payment you make is instantly updated in your portal and reconciled with the SACCO's books.
+*   **Balance Updates:** Every payment you make is reconciled with the SACCO's books and your portal balance is typically updated by the **end of the day**.
 *   **Repayment Schedule:** View your personalized calendar of upcoming payments to avoid penalties.
+
 *   **Statement:** Download a full loan statement at any time to see your progress.
 
 
