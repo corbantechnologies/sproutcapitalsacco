@@ -118,20 +118,21 @@ export default function MemberHelpCenter() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <div className="flex items-center gap-4 p-3 bg-white/10 rounded-lg">
-                                <Mail className="w-5 h-5" />
+                            <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-white/10 rounded-lg text-center sm:text-left">
+                                <Mail className="w-5 h-5 flex-shrink-0" />
                                 <div className="text-sm">
                                     <p className="font-bold">Email Support</p>
                                     <p className="opacity-80 text-xs">support@sproutsacco.com</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-4 p-3 bg-white/10 rounded-lg">
-                                <UserCircle className="w-5 h-5" />
+                            <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-white/10 rounded-lg text-center sm:text-left">
+                                <UserCircle className="w-5 h-5 flex-shrink-0" />
                                 <div className="text-sm">
                                     <p className="font-bold">Admin Office</p>
                                     <p className="opacity-80 text-xs">Visit us during business hours</p>
                                 </div>
                             </div>
+
                             <Button className="w-full bg-white text-[#236c2e] hover:bg-slate-100 font-bold mt-4">
                                 Open a Support Ticket
                             </Button>

@@ -125,25 +125,26 @@ export default function MigrationHub() {
                                     {phase.steps.map((step, idx) => (
                                         <div 
                                             key={idx} 
-                                            className="p-4 hover:bg-slate-50 transition-colors flex items-center justify-between group cursor-pointer"
+                                            className="p-4 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer"
                                             onClick={() => router.push(step.href)}
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className="flex flex-col items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-500 text-xs font-bold">
+                                                <div className="flex-shrink-0 flex flex-col items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-500 text-xs font-bold">
                                                     {idx + 1}
                                                 </div>
                                                 <div>
                                                     <h3 className="font-semibold text-slate-800 flex items-center gap-2">
                                                         {step.title}
-                                                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                                                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 hidden sm:inline" />
                                                     </h3>
                                                     <p className="text-sm text-slate-500">{step.desc}</p>
                                                 </div>
                                             </div>
-                                            <Button variant="ghost" size="sm" className="text-[#174271] group-hover:bg-white group-hover:shadow-sm">
+                                            <Button variant="ghost" size="sm" className="text-[#174271] group-hover:bg-white group-hover:shadow-sm w-full sm:w-auto">
                                                 Configure
                                             </Button>
                                         </div>
+
                                     ))}
                                 </div>
                             </CardContent>
