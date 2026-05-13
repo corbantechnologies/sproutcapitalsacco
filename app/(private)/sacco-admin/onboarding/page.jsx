@@ -82,7 +82,7 @@ export default function MigrationHub() {
 
 
     return (
-        <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8 max-w-6xl mx-auto">
+        <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8 mx-auto">
             {/* Header Section */}
             <div className="space-y-2">
                 <div className="flex items-center gap-2 text-[#174271] font-semibold text-sm uppercase tracking-wider">
