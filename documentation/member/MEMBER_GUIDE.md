@@ -30,17 +30,19 @@ Navigate to the **Savings** section to see a list of all your accounts (e.g., Ma
 
 ## 📈 Loans & Credit
 
-### Applying for a Loan
-When you need a boost, you can apply for a loan directly from the **Loans** menu.
-1.  **Select Product:** Choose the type of loan you need (e.g., Emergency, Development).
-2.  **Calculate:** Enter the amount to see the estimated interest and repayment schedule.
-3.  **Guarantors:** Some loans require other members to guarantee you. You can invite them during the application process.
-4.  **Submit:** Your application will be sent to the SACCO Admin for review.
+### The Loan Application Journey
+1.  **Select Product:** Choose your loan type (Emergency, Development, etc.).
+2.  **Calculate & Apply:** Use the calculator to preview your interest and schedule.
+3.  **Amendment Phase:** If the SACCO Admin needs to adjust your requested amount, you will see an "Amended" status. You can **Accept** the new terms or **Cancel** the application.
+4.  **Guarantors:** If your loan isn't fully covered by your savings, you must invite other members to guarantee you. They will receive an invitation to accept or decline.
+5.  **Final Submission:** Once you are 100% guaranteed, click **Submit** for the Admin's final approval.
 
-### Repayments
-Stay on top of your schedule to maintain a healthy credit score.
-*   **Loan Details:** View your remaining principal, accrued interest, and next payment date.
-*   **Payment Methods:** Use the provided instructions (e.g., M-Pesa Paybill) to make your repayments.
+### Repayments & Tracking
+Sprout makes it easy to stay on track:
+*   **Automatic Logging:** Every payment you make is instantly updated in your portal and reconciled with the SACCO's books.
+*   **Repayment Schedule:** View your personalized calendar of upcoming payments to avoid penalties.
+*   **Statement:** Download a full loan statement at any time to see your progress.
+
 
 ---
 
