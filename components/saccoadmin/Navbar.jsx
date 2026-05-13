@@ -37,6 +37,15 @@ const MENU_LINKS = [
   },
 
   {
+    label: "Fees",
+    href: "/sacco-admin/fee-payments",
+    children: [
+      { label: "All Payments", href: "/sacco-admin/fee-payments" },
+      { label: "Fee Types", href: "/sacco-admin/setup/feetypes" },
+    ],
+  },
+
+  {
     label: "Accounting & Financials",
     href: "/sacco-admin/accounting",
     children: [
