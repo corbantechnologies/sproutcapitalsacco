@@ -119,10 +119,85 @@ The fastest way to move thousands of balances at once.
 
 ---
 
-## ⏭ Next Steps
-Finalize your migration by moving to **Phase 4: Active Loan Migration**. 
+## 🏦 Phase 4: Loan Migration (Critical)
 
-> [!IMPORTANT]
-> When migrating savings, ensure the total amount migrated matches the balance in your Bank/Cash accounts in Phase 1.
+Migrating existing loans is the most complex part of onboarding. You have two distinct paths depending on how much automation and visibility you want to give your members.
+
+### Option 1: Bulk Loan Application (Recommended) 🚀
+Use this if you want the loan to behave like a native Sprout loan.
+*   **The Concept:** You create a "Bulk Loan Application" where the **Book Outstanding Balance** is treated as the **Principal**.
+*   **Advantages:**
+    *   **Automation:** Sprout automatically generates a repayment schedule.
+    *   **Visibility:** Members can track their loan, see their balance, and view their schedule in the Member Portal.
+    *   **Accounting:** All repayments hit the General Ledger (GL) automatically.
+    *   **Life Cycle:** You can track disbursements, payments, and penalties normally.
+
+### Option 2: Legacy Loan Migration (Manual Bypass) 📜
+Use this for old, complicated loans that don't fit into standard products or if you just want a quick record without automation.
+*   **The Concept:** These are "Existing Loans" that bypass the standard loan machinery.
+*   **Disadvantages:**
+    *   **No Schedule:** The system does not generate a repayment schedule.
+    *   **Invisible to Members:** Members cannot track these loans in their portal.
+    *   **Manual Accounting:** Transactions do **not** hit the GL automatically. The admin must manage everything manually.
+*   **Use Case:** Only recommended for loans that are almost fully repaid or "bad debt" you just want to track for recovery.
+
+---
+
+---
+
+## 🔄 Phase 4 (Continued): The Loan Lifecycle
+
+Beyond migration, you will manage day-to-day loan applications initiated by your members. Here is how the "dance" between members and admins works in Sprout:
+
+### 1. The Application & Amendment Loop ➰
+*   **Member Starts:** A member applies for a loan.
+*   **Requesting Changes:** If the terms aren't quite right, the member can **Submit for Amendment**.
+*   **Admin Review:** You (the Admin) review and adjust the terms (amount, rate, etc.) and submit the amendment back to them.
+*   **Member Decision:**
+    *   **Reject:** The application ends immediately.
+    *   **Accept:** The process continues.
+
+### 2. Guarantees & Final Submission 🤝
+*   **Collateral Check:** Sprout checks if the loan is fully covered by the member's own savings.
+*   **Guarantors:** If it's **not fully guaranteed**, the member must invite other members to act as guarantors.
+*   **Final Submission:** Once the loan is 100% guaranteed, the member sends it for your **Final Approval**.
+
+### 3. Approval & Disbursement 💸
+*   **Final Verdict:** You review the fully-guaranteed application and **Approve** or **Decline**.
+*   **Disbursement:** After approval, you trigger the **Disburse** action to officially fund the loan.
+
+### 4. Ongoing Loan Management 🛠
+Once a loan is active, you can manage it from the **Member Detail Page**:
+*   **Access:** Search for the member → Click their name → Select the specific loan.
+*   **Penalty:** Trigger a manual penalty for policy violations.
+*   **Payments:** Log a manual payment if they pay via cash/cheque.
+*   **📊 Accounting:** Sprout automatically logs these management actions to your General Ledger.
+
+---
+
+## 📊 Phase 5: Reports & Validation
+
+Your data migration is complete! Now you can verify everything using Sprout's reporting engine.
+
+### 1. Member-Specific Reports 👤
+Need to see how a specific person is doing?
+*   **Where:** Visit the **Member Detail Page**.
+*   **What:** View individual statements, savings history, and detailed loan performance for that specific member.
+
+### 2. SACCO-Wide Reports 🏛
+View the overall health of your institution.
+*   **Where:** Navigate to the main **Reports** page.
+*   **What:**
+    *   **Financial Statements:** Trial Balance, Balance Sheets, and Profit & Loss.
+    *   **Portfolio Reports:** Total Savings, Loan Aging reports, and M-Pesa transaction logs.
+
+---
+
+## 🎉 Migration Complete
+Congratulations! You have successfully onboarded your SACCO to Sprout. Your foundation is solid, your members are in, and your books are balanced.
+
+> [!TIP]
+> **Check your Trial Balance daily** during the first week of adoption to ensure all automated entries align with your expectations.
+
 
 

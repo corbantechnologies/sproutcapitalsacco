@@ -55,9 +55,31 @@ export default function MigrationHub() {
                 { title: "Savings Migration", icon: PiggyBank, href: "/sacco-admin/saving-deposits", desc: "Post single deposits, batch forms, or bulk CSV uploads." },
                 { title: "Fee Migration", icon: BadgePercent, href: "/sacco-admin/fee-payments", desc: "Record single fees, batch forms, or bulk CSV uploads." },
             ]
-        }
+        },
 
+        {
+            id: "loans",
+            title: "Phase 4: Loan Migration",
+            description: "Moving active loans into the system.",
+            icon: HandCoins,
+            steps: [
+                { title: "Bulk Loan Apps", icon: HandCoins, href: "/sacco-admin/loan-applications", desc: "Best for automation and member tracking." },
+                { title: "Legacy Migration", icon: HelpCircle, href: "/sacco-admin/onboarding/existing-loans", desc: "Manual records for non-standard loans." },
+            ]
+        },
+        {
+            id: "reports",
+            title: "Phase 5: Validation",
+            description: "Verifying your migration with reports.",
+            icon: ShieldCheck,
+            steps: [
+                { title: "Sacco Reports", icon: ShieldCheck, href: "/sacco-admin/reports", desc: "Balance Sheets, P&L, and Portfolio summaries." },
+                { title: "Member Audit", icon: Users, href: "/sacco-admin/members", desc: "Verify individual statements and history." },
+            ]
+        }
     ];
+
+
 
     return (
         <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8 max-w-6xl mx-auto">
@@ -218,6 +240,55 @@ export default function MigrationHub() {
                                 </div>
                                 <Download className="w-4 h-4 text-slate-400" />
                             </div>
+                            <div 
+                                className="flex items-center justify-between p-3 rounded-lg border hover:bg-slate-50 cursor-pointer transition-colors"
+                                onClick={async () => {
+                                    try {
+                                        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/loanapplications/admin/bulk/template/`);
+                                        const blob = await response.blob();
+                                        const url = window.URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = 'loan_applications_bulk_template.csv';
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        window.URL.revokeObjectURL(url);
+                                    } catch (error) {
+                                        console.error("Failed to download template", error);
+                                    }
+                                }}
+                            >
+                                <div className="flex items-center gap-3">
+                                    <FileSpreadsheet className="w-5 h-5 text-green-600" />
+                                    <span className="text-sm font-medium">Bulk Loan Apps</span>
+                                </div>
+                                <Download className="w-4 h-4 text-slate-400" />
+                            </div>
+                            <div 
+                                className="flex items-center justify-between p-3 rounded-lg border hover:bg-slate-50 cursor-pointer transition-colors"
+                                onClick={async () => {
+                                    try {
+                                        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/existingloans/bulk/template/`);
+                                        const blob = await response.blob();
+                                        const url = window.URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = 'existing_loans_bulk_template.csv';
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        window.URL.revokeObjectURL(url);
+                                    } catch (error) {
+                                        console.error("Failed to download template", error);
+                                    }
+                                }}
+                            >
+                                <div className="flex items-center gap-3">
+                                    <FileSpreadsheet className="w-5 h-5 text-green-600" />
+                                    <span className="text-sm font-medium">Legacy Loans</span>
+                                </div>
+                                <Download className="w-4 h-4 text-slate-400" />
+                            </div>
+
 
                         </CardContent>
                     </Card>
