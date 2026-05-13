@@ -8,6 +8,7 @@ import React, { useState } from "react";
 
 const MENU_LINKS = [
   { label: "Dashboard", href: "/sacco-admin/dashboard" },
+  { label: "Onboarding", href: "/sacco-admin/onboarding" },
 
   {
     label: "Members",
@@ -33,6 +34,15 @@ const MENU_LINKS = [
     children: [
       { label: "All Deposits", href: "/sacco-admin/saving-deposits" },
       { label: "Savings Types", href: "/sacco-admin/setup/saving-types" },
+    ],
+  },
+
+  {
+    label: "Fees",
+    href: "/sacco-admin/fee-payments",
+    children: [
+      { label: "All Payments", href: "/sacco-admin/fee-payments" },
+      { label: "Fee Types", href: "/sacco-admin/setup/feetypes" },
     ],
   },
 
@@ -63,7 +73,7 @@ const MENU_LINKS = [
   },
 
   {
-    label: "Data Onboarding",
+    label: "Legacy Data",
     href: "/sacco-admin/onboarding/existing-loans",
     children: [
       { label: "Legacy Loans", href: "/sacco-admin/onboarding/existing-loans" },
