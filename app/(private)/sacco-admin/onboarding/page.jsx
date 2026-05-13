@@ -20,8 +20,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import { generateMigrationChecklist } from "@/lib/pdf-generator";
+
 export default function MigrationHub() {
     const router = useRouter();
+
+    const handleDownloadChecklist = () => {
+        generateMigrationChecklist();
+    };
+
 
     const phases = [
         {
@@ -157,9 +164,13 @@ export default function MigrationHub() {
                             <p className="text-sm text-slate-600">
                                 Migration can be complex. We recommend cleaning your data in Excel before attempting a bulk upload.
                             </p>
-                            <Button className="w-full bg-[#174271] hover:bg-[#174271]/90 text-white gap-2 font-semibold">
+                            <Button 
+                                className="w-full bg-[#174271] hover:bg-[#174271]/90 text-white gap-2 font-semibold"
+                                onClick={handleDownloadChecklist}
+                            >
                                 <Download className="w-4 h-4" /> Download Migration Checklist
                             </Button>
+
                         </CardContent>
                     </Card>
 
