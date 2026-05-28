@@ -15,7 +15,8 @@ import BulkMemberUploadCreate from "@/forms/members/BulkMemberUploadCreate";
 import { useFetchMembers } from "@/hooks/members/actions";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { downloadBulkMembersTemplate } from "@/services/members";
-import { User, Users, FileUp, UsersRound, ChevronDown } from "lucide-react";
+import { downloadAccountsListCSV } from "@/services/transactions";
+import { User, Users, FileUp, FileDown, UsersRound, ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 
 function Members() {
@@ -122,6 +123,20 @@ function Members() {
                     }}
                   >
                     <FileUp className="mr-2 h-4 w-4" /> Download CSV Template
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={async () => {
+                      try {
+                        await downloadAccountsListCSV(token);
+                        setPopoverOpen(false);
+                      } catch (error) {
+                        console.error("Download failed", error);
+                      }
+                    }}
+                  >
+                    <FileDown className="mr-2 h-4 w-4" /> Download Accounts List
                   </Button>
                 </div>
               </PopoverContent>
