@@ -1,6 +1,6 @@
 "use client";
 
-import { apiActions } from "@/tools/axios";
+import { apiActions, apiMultipartActions } from "@/tools/axios";
 
 export const getAccountsList = async (token) => {
   const response = await apiActions?.get("api/v1/transactions/", token);
@@ -48,5 +48,5 @@ export const downloadAccountsListCSV = async (token) => {
 };
 
 export const createBulkCombinedUpdates = async (formData, token) => {
-  await apiActions.post("api/v1/transactions/bulk/upload/", formData, token);
+  await apiMultipartActions?.post("api/v1/transactions/bulk/upload/", formData, token);
 };

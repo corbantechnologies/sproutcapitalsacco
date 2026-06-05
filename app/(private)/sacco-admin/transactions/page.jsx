@@ -13,16 +13,19 @@ import {
 import { useFetchAccountsList } from "@/hooks/transactions/actions";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { downloadAccountsListCSV } from "@/services/transactions";
-import { Users, Wallet, CreditCard, ChevronDown, FileDown } from "lucide-react";
+import BulkAccountsUpload from "@/forms/transactions/BulkAccountsUpload";
+import { Users, Wallet, CreditCard, ChevronDown, FileDown, FileUp } from "lucide-react";
 import toast from "react-hot-toast";
 
 function TransactionsPage() {
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const token = useAxiosAuth();
 
   const {
     isLoading: isLoadingAccounts,
     data: accountsList,
+    refetch: refetchAccounts,
   } = useFetchAccountsList();
 
   if (isLoadingAccounts) return <LoadingSpinner />;
@@ -79,6 +82,16 @@ function TransactionsPage() {
                   <Button
                     variant="ghost"
                     className="justify-start font-normal w-full"
+                    onClick={() => {
+                      setUploadModalOpen(true);
+                      setPopoverOpen(false);
+                    }}
+                  >
+                    <FileUp className="mr-2 h-4 w-4" /> Bulk CSV Upload
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal w-full"
                     onClick={async () => {
                       try {
                         await downloadAccountsListCSV(token);
@@ -121,6 +134,13 @@ function TransactionsPage() {
 
         {/* Accounts List Table */}
         <AccountsListTable accountsList={accountsList} />
+
+        {/* Bulk Upload Modal */}
+        <BulkAccountsUpload
+          openModal={uploadModalOpen}
+          closeModal={() => setUploadModalOpen(false)}
+          onSuccess={() => refetchAccounts()}
+        />
       </div>
     </div>
   );
