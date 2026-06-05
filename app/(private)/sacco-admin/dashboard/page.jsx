@@ -244,11 +244,27 @@ export default function SaccoAdminDashboard() {
                         // Clean up the URL object
                         window.URL.revokeObjectURL(url);
                       } catch (error) {
-                        console.error("Download failed", error);
+                        // console.error("Download failed", error);
+                        toast.error("Download failed");
                       }
                     }}
                   >
                     <FileUp className="mr-2 h-4 w-4" /> Download CSV Template
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={async () => {
+                      try {
+                        await downloadAccountsListCSV(token);
+                        setPopoverOpen(false);
+                      } catch (error) {
+                        // console.error("Download failed", error);
+                        toast.error("Download failed");
+                      }
+                    }}
+                  >
+                    <FileDown className="mr-2 h-4 w-4" /> Download Accounts List
                   </Button>
                 </div>
               </PopoverContent>
