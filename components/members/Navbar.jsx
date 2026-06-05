@@ -58,7 +58,7 @@ function MemberNavbar() {
               { label: "Dashboard", href: "/member/dashboard" },
               { label: "Loan Applications", href: "/member/loan-applications" },
               { label: "Guarantor Profile", href: "/member/guarantorprofile" },
-              { label: "Reports", href: "/member/reports" },
+              // { label: "Reports", href: "/member/reports" },
               { label: "Profile Settings", href: "/member/settings" },
               { label: "Help Center", href: "/member/help" },
 
