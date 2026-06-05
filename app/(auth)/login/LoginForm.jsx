@@ -55,7 +55,8 @@ function LoginForm() {
         } else if (session?.user?.is_sacco_admin === true) {
           router.push("/sacco-admin/dashboard");
         } else if (session?.user?.is_member === true) {
-          router.push("/member/dashboard");
+          // disabled for now until full migration
+          router.push("/");
         } else {
           router.push("/");
         }
