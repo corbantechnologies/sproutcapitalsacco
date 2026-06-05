@@ -47,7 +47,7 @@ const MENU_LINKS = [
   },
 
   {
-    label: "Accounts List",
+    label: "Accounts List & Transactions",
     href: "/sacco-admin/transactions",
   },
 
