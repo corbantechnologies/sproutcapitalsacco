@@ -100,21 +100,21 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
               className="flex items-center justify-center gap-2 py-3 text-sm"
             >
               <PiggyBank className="h-4 w-4" />
-              <span className="hidden xs:inline">Savings</span>
+              <span className="xs:inline">Savings</span>
             </TabsTrigger>
             <TabsTrigger
               value="loans"
               className="flex items-center justify-center gap-2 py-3 text-sm"
             >
               <CreditCard className="h-4 w-4" />
-              <span className="hidden xs:inline">Loans</span>
+              <span className="xs:inline">Loans</span>
             </TabsTrigger>
             <TabsTrigger
               value="fees"
               className="flex items-center justify-center gap-2 py-3 text-sm"
             >
               <CircleDollarSign className="h-4 w-4" />
-              <span className="hidden xs:inline">Fees</span>
+              <span className="xs:inline">Fees</span>
             </TabsTrigger>
           </TabsList>
 

@@ -118,7 +118,8 @@ function Members() {
                         window.URL.revokeObjectURL(url);
                         setPopoverOpen(false);
                       } catch (error) {
-                        console.error("Download failed", error);
+                        // console.error("Download failed", error);
+                        toast.error("Download failed");
                       }
                     }}
                   >
@@ -132,7 +133,8 @@ function Members() {
                         await downloadAccountsListCSV(token);
                         setPopoverOpen(false);
                       } catch (error) {
-                        console.error("Download failed", error);
+                        // console.error("Download failed", error);
+                        toast.error("Download failed");
                       }
                     }}
                   >
