@@ -19,7 +19,6 @@ import {
   Wallet,
   Wallet2,
   Briefcase,
-  CheckCircle,
 } from "lucide-react";
 import {
   Breadcrumb,
@@ -31,6 +30,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import UpdateAccount from "@/forms/member/UpdateAccount";
 import ChangePassword from "@/forms/member/ChangePassword";
+import NextOfKinTable from "@/components/nextofkin/NextOfKinTable";
+import NextOfKinFormDialog from "@/forms/nextofkin/NextOfKinFormDialog";
 
 function AccountSettings() {
   const {
@@ -41,6 +42,7 @@ function AccountSettings() {
 
   const [updateModal, setUpdateModal] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
+  const [nextOfKinModal, setNextOfKinModal] = useState(false);
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -66,6 +68,16 @@ function AccountSettings() {
       </div>
     </div>
   );
+
+  const totalAllocatedPercentage = React.useMemo(() => {
+    if (!member?.next_of_kin || member.next_of_kin.length === 0) return 0;
+    return member.next_of_kin.reduce((sum, kin) => {
+      return sum + (parseFloat(kin.percentage) || 0);
+    }, 0);
+  }, [member?.next_of_kin]);
+
+  const isPercentageFull = totalAllocatedPercentage >= 100;
+  const remainingPercentage = Math.max(0, 100 - totalAllocatedPercentage);
 
   if (isLoadingMember) return <LoadingSpinner />;
 
@@ -172,7 +184,7 @@ function AccountSettings() {
               </Card>
             )}
 
-            {/* Savings Accounts - using correct field: savings */}
+            {/* Savings Accounts */}
             <Card className="shadow-md">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-2xl">
@@ -221,6 +233,76 @@ function AccountSettings() {
                     No active loans.
                   </p>
                 )}
+              </CardContent>
+            </Card>
+
+            {/* Next of Kin */}
+            <Card className="shadow-md">
+              <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <CardTitle className="flex items-center gap-2 text-2xl">
+                  <User className="h-6 w-6 text-primary" />
+                  Next of Kin
+                  <span className="text-sm font-normal text-muted-foreground ml-2">
+                    ({totalAllocatedPercentage}% allocated)
+                  </span>
+                </CardTitle>
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  {isPercentageFull ? (
+                    <div className="text-sm text-orange-600 font-medium bg-orange-50 px-3 py-2 rounded-md border border-orange-200">
+                      100% Allocated — Cannot add more
+                    </div>
+                  ) : (
+                    <Button
+                      onClick={() => setNextOfKinModal(true)}
+                      size="sm"
+                      className="bg-primary hover:bg-primary/90 text-white whitespace-nowrap"
+                    >
+                      Add New ({remainingPercentage}% left)
+                    </Button>
+                  )}
+                </div>
+              </CardHeader>
+              <CardContent>
+                {/* Allocation Progress Bar */}
+                <div className="mb-6">
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="font-medium text-foreground">Total Allocation</span>
+                    <span
+                      className={
+                        totalAllocatedPercentage > 100
+                          ? "text-red-600 font-semibold"
+                          : "text-primary font-semibold"
+                      }
+                    >
+                      {totalAllocatedPercentage}% / 100%
+                    </span>
+                  </div>
+                  <div className="w-full bg-secondary rounded-full h-3 overflow-hidden">
+                    <div
+                      className={`h-3 rounded-full transition-all duration-500 ${
+                        totalAllocatedPercentage >= 100
+                          ? "bg-red-500"
+                          : totalAllocatedPercentage >= 80
+                          ? "bg-orange-500"
+                          : "bg-primary"
+                      }`}
+                      style={{
+                        width: `${Math.min(totalAllocatedPercentage, 100)}%`,
+                      }}
+                    />
+                  </div>
+                  {totalAllocatedPercentage > 100 && (
+                    <p className="text-red-600 text-xs mt-1 font-medium">
+                      ⚠ Warning: Over 100% allocated!
+                    </p>
+                  )}
+                </div>
+
+                <NextOfKinTable
+                  nextofkin={member?.next_of_kin}
+                  refetchAccount={refetchMember}
+                />
               </CardContent>
             </Card>
           </div>
@@ -274,6 +356,11 @@ function AccountSettings() {
           member={member}
         />
         <ChangePassword isOpen={passwordModal} onClose={() => setPasswordModal(false)} />
+        <NextOfKinFormDialog
+          isOpen={nextOfKinModal}
+          onClose={() => setNextOfKinModal(false)}
+          refetchAccount={refetchMember}
+        />
       </div>
     </div>
   );
