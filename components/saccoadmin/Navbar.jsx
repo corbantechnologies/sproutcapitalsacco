@@ -8,8 +8,17 @@ import React, { useState } from "react";
 
 const MENU_LINKS = [
   { label: "Dashboard", href: "/sacco-admin/dashboard" },
+  // Setup
   { label: "Onboarding", href: "/sacco-admin/onboarding" },
+  {
+    label: "Setup & Configuration",
+    href: "/sacco-admin/setup",
+    children: [
+      { label: "Platform Setup", href: "/sacco-admin/setup" },
 
+    ],
+  },
+  // Members
   {
     label: "Members",
     href: "/sacco-admin/members",
@@ -17,7 +26,23 @@ const MENU_LINKS = [
       { label: "All Members", href: "/sacco-admin/members" },
     ],
   },
-
+  // Products
+  {
+    label: "Savings & Deposits",
+    href: "/sacco-admin/saving-deposits",
+    children: [
+      { label: "All Deposits", href: "/sacco-admin/saving-deposits" },
+      { label: "Savings Types", href: "/sacco-admin/setup/saving-types" },
+    ],
+  },
+  {
+    label: "Fees",
+    href: "/sacco-admin/fee-payments",
+    children: [
+      { label: "All Payments", href: "/sacco-admin/fee-payments" },
+      { label: "Fee Types", href: "/sacco-admin/setup/feetypes" },
+    ],
+  },
   {
     label: "Loans",
     href: "/sacco-admin/loans",
@@ -27,30 +52,12 @@ const MENU_LINKS = [
       { label: "Loan Products", href: "/sacco-admin/setup/loan-products" },
     ],
   },
-
-  {
-    label: "Savings & Deposits",
-    href: "/sacco-admin/saving-deposits",
-    children: [
-      { label: "All Deposits", href: "/sacco-admin/saving-deposits" },
-      { label: "Savings Types", href: "/sacco-admin/setup/saving-types" },
-    ],
-  },
-
-  {
-    label: "Fees",
-    href: "/sacco-admin/fee-payments",
-    children: [
-      { label: "All Payments", href: "/sacco-admin/fee-payments" },
-      { label: "Fee Types", href: "/sacco-admin/setup/feetypes" },
-    ],
-  },
-
+  // Transactions
   {
     label: "Accounts List & Transactions",
     href: "/sacco-admin/transactions",
   },
-
+  // Accounting & Reports
   {
     label: "Accounting & Financials",
     href: "/sacco-admin/accounting",
@@ -62,30 +69,11 @@ const MENU_LINKS = [
       { label: "Fee Types", href: "/sacco-admin/setup/feetypes" },
     ],
   },
-
   {
     label: "Reports",
     href: "/sacco-admin/reports",
   },
-
-  {
-    label: "Setup & Configuration",
-    href: "/sacco-admin/setup",
-    children: [
-      { label: "Platform Setup", href: "/sacco-admin/setup" },
-
-    ],
-  },
-
-  {
-    label: "Legacy Data",
-    href: "/sacco-admin/onboarding/existing-loans",
-    children: [
-      { label: "Legacy Loans", href: "/sacco-admin/onboarding/existing-loans" },
-      { label: "Legacy Payments", href: "/sacco-admin/onboarding/existing-loan-payments" },
-    ],
-  },
-
+  // Personal
   {
     label: "Personal",
     href: "/sacco-admin/personal",
