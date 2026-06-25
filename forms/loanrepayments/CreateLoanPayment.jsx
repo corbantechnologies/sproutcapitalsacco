@@ -27,7 +27,6 @@ import toast from "react-hot-toast";
 const REPAYMENT_TYPE_CHOICES = [
   { value: "Regular Repayment", label: "Regular Repayment" },
   { value: "Partial Payment", label: "Partial Payment" },
-  { value: "Early Settlement", label: "Early Settlement" },
   { value: "Penalty Payment", label: "Penalty Payment" },
   { value: "Loan Clearance", label: "Loan Clearance" },
   { value: "Interest Only", label: "Interest Only" },

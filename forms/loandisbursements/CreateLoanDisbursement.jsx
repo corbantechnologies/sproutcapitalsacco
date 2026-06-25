@@ -107,7 +107,6 @@ function CreateLoanDisbursementModal({ isOpen, onClose, refetch, application }) 
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="Principal">Principal</SelectItem>
-                                        <SelectItem value="Refill">Refill</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
