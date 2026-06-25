@@ -47,7 +47,16 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
         <Formik
           initialValues={{
             loan_account: loan_account || "",
-            amount: "",
+            amount: (() => {
+              if (loanData?.projection_snapshot?.schedule) {
+                const nextUnpaid = loanData.projection_snapshot.schedule.find(item => !item.is_paid);
+                if (nextUnpaid) {
+                  const amt = parseFloat(nextUnpaid.total_due) - parseFloat(nextUnpaid.amount_paid || 0);
+                  return amt > 0 ? amt : "";
+                }
+              }
+              return "";
+            })(),
             payment_method: "",
             repayment_type: "Regular Repayment",
             transaction_status: "Completed",
@@ -104,6 +113,14 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                       // Prefer exact server-calculated figure; fall back to model estimate
                       const fillAmount = exactClearanceAmount ?? parseFloat(loanData?.total_clearance_amount ?? 0);
                       if (fillAmount > 0) setFieldValue("amount", fillAmount);
+                    } else if (value === "Regular Repayment") {
+                      if (loanData?.projection_snapshot?.schedule) {
+                        const nextUnpaid = loanData.projection_snapshot.schedule.find(item => !item.is_paid);
+                        if (nextUnpaid) {
+                          const amt = parseFloat(nextUnpaid.total_due) - parseFloat(nextUnpaid.amount_paid || 0);
+                          if (amt > 0) setFieldValue("amount", amt);
+                        }
+                      }
                     }
                   }}
                   required

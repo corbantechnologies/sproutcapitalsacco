@@ -389,7 +389,7 @@ export default function LoanApplicationDetail({ params }) {
                 </CardTitle>
                 <CardDescription>
                   {application.product_details?.interest_method === "Flat"
-                    ? "Flat-rate: interest is charged on the original principal every period. Processing fee is spread evenly. The balance column shows total amount still outstanding."
+                    ? "Flat-rate: interest is charged on the original principal. Processing fee is spread evenly. The balance column shows total amount still outstanding."
                     : "Reducing balance: interest is charged on the remaining principal each period. The balance column shows remaining principal after each payment."}
                 </CardDescription>
               </CardHeader>

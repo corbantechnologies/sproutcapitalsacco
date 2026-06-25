@@ -83,20 +83,33 @@ export function CreateLoanApplication({ onSuccess, memberPath }) {
               <Label htmlFor="product" className="text-sm font-semibold">
                 Loan Product
               </Label>
-              <Field
-                as="select"
-                name="product"
-                id="product"
-                className="flex h-11 w-full items-center justify-between rounded border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-[#045e32] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <option value="" disabled>
-                  Select a loan product
-                </option>
-                {availableProducts.map((product) => (
-                  <option key={product?.reference} value={product?.name}>
-                    {product?.name} - {product?.interest_method} ({product?.interest_rate}% p.a) {product?.processing_fee}% processing fee
-                  </option>
-                ))}
+              <Field name="product">
+                {({ field }) => (
+                  <select
+                    {...field}
+                    id="product"
+                    className="flex h-11 w-full items-center justify-between rounded border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-[#045e32] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    onChange={(e) => {
+                      field.onChange(e);
+                      const selectedProd = availableProducts.find(
+                        (p) => p.name === e.target.value
+                      );
+                      if (selectedProd?.interest_method === "Flat") {
+                        setFieldValue("calculation_mode", "fixed_term");
+                        setFieldValue("monthly_payment", "");
+                      }
+                    }}
+                  >
+                    <option value="" disabled>
+                      Select a loan product
+                    </option>
+                    {availableProducts.map((product) => (
+                      <option key={product?.reference} value={product?.name}>
+                        {product?.name} - {product?.interest_method} ({product?.interest_rate}% p.a) {product?.processing_fee}% processing fee
+                      </option>
+                    ))}
+                  </select>
+                )}
               </Field>
             </div>
 
@@ -141,26 +154,42 @@ export function CreateLoanApplication({ onSuccess, memberPath }) {
                 Calculation Mode
               </Label>
               <Field name="calculation_mode">
-                {({ field }) => (
-                  <select
-                    {...field}
-                    id="calculation_mode"
-                    onChange={(e) => {
-                      field.onChange(e);
-                      // Clear complementary fields when mode changes
-                      if (e.target.value === "fixed_term") {
-                        setFieldValue("monthly_payment", "");
-                      } else if (e.target.value === "fixed_payment") {
-                        setFieldValue("term_months", "");
-                      }
-                    }}
-                    className="flex h-11 w-full rounded border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-[#045e32] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <option value="">Select mode</option>
-                    <option value="fixed_term">Fixed Term</option>
-                    <option value="fixed_payment">Fixed Payment</option>
-                  </select>
-                )}
+                {({ field }) => {
+                  const selectedProd = availableProducts.find(
+                    (p) => p.name === values.product
+                  );
+                  const isFlatRate = selectedProd?.interest_method === "Flat";
+
+                  return (
+                    <div>
+                      <select
+                        {...field}
+                        id="calculation_mode"
+                        onChange={(e) => {
+                          field.onChange(e);
+                          // Clear complementary fields when mode changes
+                          if (e.target.value === "fixed_term") {
+                            setFieldValue("monthly_payment", "");
+                          } else if (e.target.value === "fixed_payment") {
+                            setFieldValue("term_months", "");
+                          }
+                        }}
+                        className="flex h-11 w-full rounded border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-[#045e32] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        <option value="">Select mode</option>
+                        <option value="fixed_term">Fixed Term</option>
+                        <option value="fixed_payment" disabled={isFlatRate}>
+                          Fixed Payment {isFlatRate && "(Not available for Flat Rate)"}
+                        </option>
+                      </select>
+                      {isFlatRate && (
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Flat-rate loans require a fixed term.
+                        </p>
+                      )}
+                    </div>
+                  );
+                }}
               </Field>
             </div>
 
