@@ -80,14 +80,21 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
                     <SelectValue placeholder="Select fee account" />
                   </SelectTrigger>
                   <SelectContent>
-                    {accounts?.map((account) => (
-                      <SelectItem
-                        key={account.id || account.reference}
-                        value={account.account_number}
-                      >
-                        {account.fee_type} ({account.account_number}) - {account.outstanding_balance} KES
-                      </SelectItem>
-                    ))}
+                    {accounts
+                      ?.filter(
+                        (account) =>
+                          parseFloat(account.outstanding_balance) > 0 ||
+                          account.can_exceed_limit
+                      )
+                      .map((account) => (
+                        <SelectItem
+                          key={account.id || account.reference}
+                          value={account.account_number}
+                        >
+                          {account.fee_type} ({account.account_number}) -{" "}
+                          {account.outstanding_balance} KES
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
               </div>
