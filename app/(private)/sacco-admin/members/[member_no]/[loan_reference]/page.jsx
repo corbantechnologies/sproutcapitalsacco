@@ -321,7 +321,9 @@ export default function LoanAccountDetail({ params }) {
                   <Calendar className="h-5 w-5" /> Projected Repayment Schedule
                 </CardTitle>
                 <CardDescription>
-                  Original schedule generated from the loan projection
+                  {loan.product_details?.interest_method === "Flat"
+                    ? "Flat-rate: interest is charged on the original principal every period. Processing fee is spread evenly. The balance column shows total amount still outstanding."
+                    : "Reducing balance: interest is charged on the remaining principal each period. The balance column shows remaining principal after each payment."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 sm:p-6">
@@ -332,8 +334,8 @@ export default function LoanAccountDetail({ params }) {
                         <TableHead>Code</TableHead>
                         <TableHead>Due Date</TableHead>
                         <TableHead>Principal</TableHead>
-                        <TableHead>Interest</TableHead>
-                        <TableHead>Fees</TableHead>
+                        <TableHead>{loan.product_details?.interest_method === "Flat" ? "Interest (Flat)" : "Interest (Reducing)"}</TableHead>
+                        <TableHead>Processing Fee</TableHead>
                         <TableHead>Total Due</TableHead>
                         <TableHead>Principal Paid</TableHead>
                         <TableHead>Interest Paid</TableHead>
@@ -341,7 +343,7 @@ export default function LoanAccountDetail({ params }) {
                         <TableHead>Total Paid</TableHead>
                         <TableHead>Total Uncleared</TableHead>
                         <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Balance After</TableHead>
+                        <TableHead className="text-right">{loan.product_details?.interest_method === "Flat" ? "Remaining Balance (Total)" : "Remaining Principal"}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
