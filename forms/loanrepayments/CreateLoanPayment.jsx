@@ -76,6 +76,7 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
               toast?.success("Repayment logged successfully!");
               onClose();
               if (refetchLoan) refetchLoan();
+              window.location.reload();
             } catch (error) {
               console.log(error);
               toast?.error("Failed to log repayment!");
