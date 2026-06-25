@@ -203,7 +203,16 @@ function LoanDetail() {
                                 <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
                                     <div><span className="text-muted-foreground">Start Date</span><p className="font-medium">{formatDate(loan.start_date)}</p></div>
                                     <div><span className="text-muted-foreground">End Date</span><p className="font-medium">{formatDate(loan.end_date)}</p></div>
-                                    <div><span className="text-muted-foreground">Interest Rate</span><p className="font-medium">{loan.product_details?.interest_rate}% {loan.product_details?.interest_period}</p></div>
+                                    <div>
+                                        <span className="text-muted-foreground">Interest Rate</span>
+                                        <p className="font-medium">
+                                            {loan.product_details?.interest_rate}% {loan.product_details?.interest_period}
+                                            {" "}·{" "}
+                                            <span className={loan.product_details?.interest_method === "Flat" ? "text-amber-600" : "text-blue-600"}>
+                                                {loan.product_details?.interest_method === "Flat" ? "Flat-rate" : "Reducing Balance"}
+                                            </span>
+                                        </p>
+                                    </div>
                                     <div><span className="text-muted-foreground">Product</span><p className="font-medium">{loan.product}</p></div>
                                 </CardContent>
                             </Card>
@@ -217,19 +226,22 @@ function LoanDetail() {
                                     <CardTitle className="flex items-center gap-2">
                                         <Calendar className="h-5 w-5" /> Repayment Schedule
                                     </CardTitle>
-                                    <CardDescription>Detailed projected repayment plan</CardDescription>
+                                    <CardDescription>
+                                        {loan.product_details?.interest_method === "Flat"
+                                            ? "Flat-rate: interest is charged on the original principal. Processing fee is spread evenly. The balance column shows total amount still outstanding."
+                                            : "Reducing balance: interest is charged on the remaining principal each period. The balance column shows remaining principal after each payment."}
+                                    </CardDescription>
                                 </div>
                             </CardHeader>
                             <CardContent className="overflow-x-auto">
-                                {/* Your schedule table here - unchanged */}
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-gray-50">
                                             <TableHead>Installment</TableHead>
                                             <TableHead>Due Date</TableHead>
                                             <TableHead>Principal</TableHead>
-                                            <TableHead>Interest</TableHead>
-                                            <TableHead>Fees</TableHead>
+                                            <TableHead>{loan.product_details?.interest_method === "Flat" ? "Interest (Flat)" : "Interest (Reducing)"}</TableHead>
+                                            <TableHead>Processing Fee</TableHead>
                                             <TableHead>Total Due</TableHead>
                                             <TableHead>Principal Paid</TableHead>
                                             <TableHead>Interest Paid</TableHead>
@@ -237,7 +249,7 @@ function LoanDetail() {
                                             <TableHead>Total Paid</TableHead>
                                             <TableHead>Uncleared</TableHead>
                                             <TableHead>Status</TableHead>
-                                            <TableHead className="text-right">Balance After</TableHead>
+                                            <TableHead className="text-right">{loan.product_details?.interest_method === "Flat" ? "Remaining Balance (Total)" : "Remaining Principal"}</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>

@@ -103,26 +103,41 @@ export function MemberUpdateLoanApplication({
                 Calculation Mode
               </Label>
               <Field name="calculation_mode">
-                {({ field }) => (
-                  <select
-                    {...field}
-                    id="calculation_mode"
-                    onChange={(e) => {
-                      field.onChange(e);
-                      // Clear complementary fields when mode changes
-                      if (e.target.value === "fixed_term") {
-                        setFieldValue("monthly_payment", "");
-                      } else if (e.target.value === "fixed_payment") {
-                        setFieldValue("term_months", "");
-                      }
-                    }}
-                    className="flex h-11 w-full rounded border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-[#045e32] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <option value="">Select mode</option>
-                    <option value="fixed_term">Fixed Term</option>
-                    <option value="fixed_payment">Fixed Payment</option>
-                  </select>
-                )}
+                {({ field }) => {
+                  const isFlatRate =
+                    loanApplication?.product_details?.interest_method === "Flat" ||
+                    loanApplication?.interest_method === "Flat";
+
+                  return (
+                    <div>
+                      <select
+                        {...field}
+                        id="calculation_mode"
+                        onChange={(e) => {
+                          field.onChange(e);
+                          // Clear complementary fields when mode changes
+                          if (e.target.value === "fixed_term") {
+                            setFieldValue("monthly_payment", "");
+                          } else if (e.target.value === "fixed_payment") {
+                            setFieldValue("term_months", "");
+                          }
+                        }}
+                        className="flex h-11 w-full rounded border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-[#045e32] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        <option value="">Select mode</option>
+                        <option value="fixed_term">Fixed Term</option>
+                        <option value="fixed_payment" disabled={isFlatRate}>
+                          Fixed Payment {isFlatRate && "(Not available for Flat Rate)"}
+                        </option>
+                      </select>
+                      {isFlatRate && (
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Flat-rate loans require a fixed term.
+                        </p>
+                      )}
+                    </div>
+                  );
+                }}
               </Field>
             </div>
 

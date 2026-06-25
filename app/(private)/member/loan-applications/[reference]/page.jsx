@@ -388,7 +388,9 @@ export default function LoanApplicationDetail({ params }) {
                   Projected Repayment Schedule
                 </CardTitle>
                 <CardDescription>
-                  Estimated breakdown of your payments
+                  {application.product_details?.interest_method === "Flat"
+                    ? "Flat-rate: interest is charged on the original principal. Processing fee is spread evenly. The balance column shows total amount still outstanding."
+                    : "Reducing balance: interest is charged on the remaining principal each period. The balance column shows remaining principal after each payment."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 sm:p-6">
@@ -398,11 +400,11 @@ export default function LoanApplicationDetail({ params }) {
                       <TableRow className="bg-gray-50/50">
                         <TableHead>Due Date</TableHead>
                         <TableHead>Principal</TableHead>
-                        <TableHead>Interest</TableHead>
-                        <TableHead>Fees</TableHead>
+                        <TableHead>{application.product_details?.interest_method === "Flat" ? "Interest (Flat)" : "Interest (Reducing)"}</TableHead>
+                        <TableHead>Processing Fee</TableHead>
                         <TableHead>Total Due</TableHead>
                         <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Balance</TableHead>
+                        <TableHead className="text-right">{application.product_details?.interest_method === "Flat" ? "Remaining Balance (Total)" : "Remaining Principal"}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
