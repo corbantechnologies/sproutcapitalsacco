@@ -9,6 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogFooter,
+    DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,12 +35,14 @@ function CreateLoanDisbursementModal({ isOpen, onClose, refetch, application }) 
             <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Disburse Loan: {application?.reference}</DialogTitle>
+                    <DialogDescription className="hidden">Disburse Loan</DialogDescription>
                 </DialogHeader>
 
                 <Formik
                     initialValues={{
                         loan_account: application?.loan_account || "",
-                        amount: application?.requested_amount || 0,
+                        amount: application?.approved_amount || application?.requested_amount || "",
+                        transaction_date: new Date().toISOString().split('T')[0],
                         disbursement_type: "Principal",
                         payment_method: "",
                         transaction_status: "Completed",
@@ -51,7 +54,7 @@ function CreateLoanDisbursementModal({ isOpen, onClose, refetch, application }) 
                             await createLoanDisbursement(values, token);
                             toast.success("Loan disbursed successfully!");
                             onClose();
-                            refetch();
+                            if (typeof refetch === "function") refetch();
                         } catch (error) {
                             console.error("Disbursement failed", error);
                             toast.error("Failed to disburse loan!");
@@ -94,22 +97,19 @@ function CreateLoanDisbursementModal({ isOpen, onClose, refetch, application }) 
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="disbursement_type" className="text-black">
-                                    Disbursement Type
+                                <Label htmlFor="transaction_date" className="text-black">
+                                    Transaction Date
                                 </Label>
-                                <Select
-                                    value={values.disbursement_type}
-                                    onValueChange={(value) => setFieldValue("disbursement_type", value)}
+                                <Field
+                                    as={Input}
+                                    type="date"
+                                    id="transaction_date"
+                                    name="transaction_date"
+                                    className="border-black"
                                     required
-                                >
-                                    <SelectTrigger className="border-black w-full">
-                                        <SelectValue placeholder="Select disbursement type" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Principal">Principal</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                />
                             </div>
+
 
                             <div className="space-y-2">
                                 <Label htmlFor="payment_method" className="text-black">

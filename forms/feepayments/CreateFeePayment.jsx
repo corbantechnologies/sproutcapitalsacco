@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -31,7 +32,7 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="">
             Pay Member Fee
@@ -44,6 +45,7 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
             amount: 0,
             payment_method: "",
             transaction_status: "Completed",
+            notes: "",
           }}
           onSubmit={async (values) => {
             setLoading(true);
@@ -59,7 +61,11 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
             }
           }}
         >
-          {({ values, setFieldValue }) => (
+          {({ values, setFieldValue }) => {
+            const selectedAccount = accounts?.find(a => a.account_number === values.fee_account);
+            const isFullyPaid = selectedAccount ? parseFloat(selectedAccount.outstanding_balance) <= 0 : false;
+
+            return (
             <Form className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="fee_account" className="text-black">
@@ -80,21 +86,18 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
                     <SelectValue placeholder="Select fee account" />
                   </SelectTrigger>
                   <SelectContent>
-                    {accounts
-                      ?.filter(
-                        (account) =>
-                          parseFloat(account.outstanding_balance) > 0 ||
-                          account.can_exceed_limit
-                      )
-                      .map((account) => (
-                        <SelectItem
-                          key={account.id || account.reference}
-                          value={account.account_number}
-                        >
-                          {account.fee_type} ({account.account_number}) -{" "}
-                          {account.outstanding_balance} KES
-                        </SelectItem>
-                      ))}
+                    {accounts?.filter(account => {
+                      const balance = parseFloat(account.outstanding_balance) || 0;
+                      const canExceed = account.can_exceed_limit || account.fee_type_details?.can_exceed_limit;
+                      return balance > 0 || canExceed;
+                    }).map((account) => (
+                      <SelectItem
+                        key={account.id || account.reference}
+                        value={account.account_number}
+                      >
+                        {account.fee_type} ({account.account_number}) - {account.outstanding_balance} KES
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -143,6 +146,20 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
                 </Select>
               </div>
 
+              <div className="space-y-2">
+                <Label htmlFor="notes" className="text-black">
+                  Notes {isFullyPaid && <span className="text-red-500">*</span>}
+                </Label>
+                <Field
+                  as={Textarea}
+                  id="notes"
+                  name="notes"
+                  className="border-black min-h-[80px]"
+                  placeholder="Enter notes (Required when exceeding fully paid amount)"
+                  required={isFullyPaid}
+                />
+              </div>
+
               <DialogFooter>
                 <Button
                   type="submit"
@@ -154,7 +171,8 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
                 </Button>
               </DialogFooter>
             </Form>
-          )}
+            );
+          }}
         </Formik>
       </DialogContent>
     </Dialog>

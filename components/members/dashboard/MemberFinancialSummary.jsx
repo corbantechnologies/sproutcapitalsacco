@@ -37,9 +37,12 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { Download, Loader2 } from "lucide-react";
 
-export default function MemberFinancialSummary({ summary, memberNo }) {
+export default function MemberFinancialSummary({ summary, memberNo, summaryYear, setSummaryYear }) {
   const token = useAxiosAuth();
   const [isDownloading, setIsDownloading] = useState(false);
+  
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
   const handleDownload = async () => {
     if (!memberNo) return;
@@ -68,13 +71,30 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
     <Card className="shadow-md">
       <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <CardTitle className="text-xl">Financial Summary ({summary.year})</CardTitle>
+          <CardTitle className="text-xl">Financial Summary</CardTitle>
           <CardDescription>
             Yearly breakdown of your financial activities
           </CardDescription>
         </div>
 
-        {memberNo && (
+        <div className="flex items-center gap-3">
+          {summaryYear && setSummaryYear && (
+            <Select 
+              value={summaryYear.toString()} 
+              onValueChange={(val) => setSummaryYear(parseInt(val))}
+            >
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="Select Year" />
+              </SelectTrigger>
+              <SelectContent>
+                {years.map(y => (
+                  <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+
+          {memberNo && (
           <Button
             variant="outline"
             size="sm"
@@ -90,6 +110,7 @@ export default function MemberFinancialSummary({ summary, memberNo }) {
             Download PDF
           </Button>
         )}
+        </div>
       </CardHeader>
 
       <CardContent>
@@ -203,20 +224,64 @@ function SummaryTabContent({ data, type, emptyMessage }) {
       )}
 
       {/* Totals Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {type === "savings" && (
-          <div className="bg-secondary/30 p-5 rounded-xl border">
-            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
-              Total Deposits
-            </p>
-            <p className="font-bold text-2xl text-green-700">
-              {formatCurrency(selectedAccount.totals?.total_deposits || 0)}
-            </p>
-          </div>
-        )}
+      <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${type === 'savings' ? 4 : 5} gap-4`}>
+        {type === "savings" && (() => {
+          const openingBalance = selectedAccount.monthly_summary?.[0]?.opening_balance || 0;
+          const closingBalance = selectedAccount.monthly_summary?.[11]?.closing_balance || 0;
+          const totalWithdrawals = selectedAccount.monthly_summary?.reduce((sum, m) => sum + parseFloat(m.withdrawals || 0), 0) || 0;
+          
+          return (
+            <>
+              <div className="bg-secondary/30 p-5 rounded-xl border">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                  Opening Balance
+                </p>
+                <p className="font-bold text-2xl">
+                  {formatCurrency(openingBalance)}
+                </p>
+              </div>
+              <div className="bg-secondary/30 p-5 rounded-xl border">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                  Total Deposits
+                </p>
+                <p className="font-bold text-2xl text-green-700">
+                  {formatCurrency(selectedAccount.totals?.total_deposits || 0)}
+                </p>
+              </div>
+              <div className="bg-secondary/30 p-5 rounded-xl border">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                  Total Withdrawals
+                </p>
+                <p className="font-bold text-2xl text-red-700">
+                  {formatCurrency(totalWithdrawals)}
+                </p>
+              </div>
+              <div className="bg-secondary/30 p-5 rounded-xl border">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                  Closing Balance
+                </p>
+                <p className="font-bold text-2xl text-blue-700">
+                  {formatCurrency(closingBalance)}
+                </p>
+              </div>
+            </>
+          );
+        })()}
 
-        {type === "loans" && (
+        {type === "loans" && (() => {
+          const openingBalance = selectedAccount.monthly_summary?.[0]?.opening_balance || 0;
+          const closingBalance = selectedAccount.monthly_summary?.[11]?.closing_balance || 0;
+          
+          return (
           <>
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                Opening Balance
+              </p>
+              <p className="font-bold text-2xl">
+                {formatCurrency(openingBalance)}
+              </p>
+            </div>
             <div className="bg-secondary/30 p-5 rounded-xl border">
               <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                 Principal
@@ -241,11 +306,30 @@ function SummaryTabContent({ data, type, emptyMessage }) {
                 {formatCurrency(selectedAccount.totals?.total_repaid || 0)}
               </p>
             </div>
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                Closing Balance
+              </p>
+              <p className="font-bold text-2xl text-red-700">
+                {formatCurrency(closingBalance)}
+              </p>
+            </div>
           </>
-        )}
+          );
+        })()}
 
-        {type === "fees" && (
+        {type === "fees" && (() => {
+          const openingBalance = selectedAccount.monthly_summary?.[0]?.opening_balance || 0;
+          return (
           <>
+            <div className="bg-secondary/30 p-5 rounded-xl border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                Opening Balance
+              </p>
+              <p className="font-bold text-2xl">
+                {formatCurrency(openingBalance)}
+              </p>
+            </div>
             <div className="bg-secondary/30 p-5 rounded-xl border">
               <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                 Target Amount
@@ -279,7 +363,8 @@ function SummaryTabContent({ data, type, emptyMessage }) {
               </p>
             </div>
           </>
-        )}
+          );
+        })()}
       </div>
 
       {/* Monthly Table - Horizontal Scroll on Mobile */}

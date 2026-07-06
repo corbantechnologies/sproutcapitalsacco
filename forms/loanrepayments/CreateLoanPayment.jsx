@@ -4,11 +4,12 @@ import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+    DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,11 +26,9 @@ import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import toast from "react-hot-toast";
 
 const REPAYMENT_TYPE_CHOICES = [
-  { value: "Regular Repayment", label: "Regular Repayment" },
+  { value: "Regular Repayment", label: "Regular Repayment" }, //initialize so it picks the amount to be paid that month in the schedule
   { value: "Partial Payment", label: "Partial Payment" },
-  { value: "Penalty Payment", label: "Penalty Payment" },
   { value: "Loan Clearance", label: "Loan Clearance" },
-  { value: "Interest Only", label: "Interest Only" },
 ];
 
 function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmount, loanData, exactClearanceAmount }) {
@@ -42,21 +41,23 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
       <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Log Loan Repayment</DialogTitle>
+          <DialogDescription className="hidden">Log Loan Repayment</DialogDescription>
         </DialogHeader>
 
         <Formik
           initialValues={{
             loan_account: loan_account || "",
             amount: (() => {
-              if (loanData?.projection_snapshot?.schedule) {
+              if (loanData?.projection_snapshot?.schedule?.length > 0) {
                 const nextUnpaid = loanData.projection_snapshot.schedule.find(item => !item.is_paid);
-                if (nextUnpaid) {
-                  const amt = parseFloat(nextUnpaid.total_due) - parseFloat(nextUnpaid.amount_paid || 0);
-                  return amt > 0 ? amt : "";
+                const targetItem = nextUnpaid || loanData.projection_snapshot.schedule[0];
+                if (targetItem) {
+                  return parseFloat(targetItem.total_due) || "";
                 }
               }
               return "";
             })(),
+            transaction_date: new Date().toISOString().split('T')[0],
             payment_method: "",
             repayment_type: "Regular Repayment",
             transaction_status: "Completed",
@@ -64,9 +65,8 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
           enableReinitialize={true}
           onSubmit={async (values) => {
             const isLoanClearance = values.repayment_type === "Loan Clearance";
-            const isPenaltyPayment = values.repayment_type === "Penalty Payment";
-            // For standard types, cap at outstanding balance; penalty/clearance amounts are validated server-side
-            if (!isLoanClearance && !isPenaltyPayment && values.amount > maxAmount) {
+            // For standard types, cap at outstanding balance; clearance amounts are validated server-side
+            if (!isLoanClearance && values.amount > maxAmount) {
               toast.error(`Amount cannot exceed the remaining balance of ${maxAmount.toLocaleString()}`);
               return;
             }
@@ -75,7 +75,7 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
               await createLoanRepayment(values, token);
               toast?.success("Repayment logged successfully!");
               onClose();
-              if (refetchLoan) refetchLoan();
+              if (typeof refetchLoan === "function") refetchLoan();
               window.location.reload();
             } catch (error) {
               console.log(error);
@@ -115,11 +115,11 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                       const fillAmount = exactClearanceAmount ?? parseFloat(loanData?.total_clearance_amount ?? 0);
                       if (fillAmount > 0) setFieldValue("amount", fillAmount);
                     } else if (value === "Regular Repayment") {
-                      if (loanData?.projection_snapshot?.schedule) {
+                      if (loanData?.projection_snapshot?.schedule?.length > 0) {
                         const nextUnpaid = loanData.projection_snapshot.schedule.find(item => !item.is_paid);
-                        if (nextUnpaid) {
-                          const amt = parseFloat(nextUnpaid.total_due) - parseFloat(nextUnpaid.amount_paid || 0);
-                          if (amt > 0) setFieldValue("amount", amt);
+                        const targetItem = nextUnpaid || loanData.projection_snapshot.schedule[0];
+                        if (targetItem) {
+                          setFieldValue("amount", parseFloat(targetItem.total_due));
                         }
                       }
                     }
@@ -158,19 +158,23 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                 {/* Contextual hints per repayment type */}
                 {values.repayment_type === "Loan Clearance" && (
                   <p className="text-[11px] text-amber-600 font-medium">
-                    ⚡ Includes loan balance + all outstanding penalties. Amount is pre-filled from the account estimate — the server will validate the exact figure.
+                    ⚡ Includes loan balance. Amount is pre-filled from the account estimate — the server will validate the exact figure.
                   </p>
                 )}
-                {values.repayment_type === "Early Settlement" && loanData?.total_penalties_owed > 0 && (
-                  <p className="text-[11px] text-red-600 font-medium">
-                    ⛔ This loan has outstanding penalties. Use &quot;Loan Clearance&quot; to settle both together.
-                  </p>
-                )}
-                {values.repayment_type === "Penalty Payment" && loanData?.total_penalties_owed > 0 && (
-                  <p className="text-[11px] text-blue-600">
-                    Total penalties outstanding: <span className="font-bold">{parseFloat(loanData.total_penalties_owed).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-                  </p>
-                )}
+              </div>
+
+              <div className="space-y-1">
+                <Label htmlFor="transaction_date" className="text-black">
+                  Transaction Date
+                </Label>
+                <Field
+                  as={Input}
+                  type="date"
+                  id="transaction_date"
+                  name="transaction_date"
+                  className="border-black"
+                  required
+                />
               </div>
 
               <div className="space-y-2">
