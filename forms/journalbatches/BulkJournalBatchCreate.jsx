@@ -23,6 +23,7 @@ function BulkJournalBatchCreate({ onBatchSuccess }) {
 
   const emptyBatch = {
     description: "",
+    posting_date: new Date().toISOString().split("T")[0],
     reference: "",
     entries: [{ ...emptyEntry }, { ...emptyEntry }],
   };
@@ -165,7 +166,8 @@ function BulkJournalBatchCreate({ onBatchSuccess }) {
               </div>
 
               <div className="p-6 space-y-6">
-                  <div className="space-y-1.5">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="space-y-1.5 flex-1">
                     <Label className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Batch Description</Label>
                     <Input 
                       placeholder="e.g. Monthly Payroll - April 2024"
@@ -174,6 +176,16 @@ function BulkJournalBatchCreate({ onBatchSuccess }) {
                       className="h-10 text-sm font-medium border-slate-200"
                     />
                   </div>
+                  <div className="space-y-1.5 w-full md:w-1/3">
+                    <Label className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Posting Date</Label>
+                    <Input 
+                      type="date"
+                      value={batch.posting_date}
+                      onChange={(e) => handleBatchChange(bIndex, "posting_date", e.target.value)}
+                      className="h-10 text-sm font-medium border-slate-200"
+                    />
+                  </div>
+                </div>
                   
                 <div className="space-y-3">
                   <Label className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Ledger Entries</Label>
