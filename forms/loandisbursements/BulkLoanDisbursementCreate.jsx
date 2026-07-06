@@ -27,6 +27,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
     const emptyDisbursement = {
         loan_account: "", // reference/account number
         amount: "",
+        transaction_date: new Date().toISOString().split('T')[0],
         payment_method: "", // payment account name
     };
 
@@ -136,7 +137,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
 
                                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                                     {/* Loan Account Selector */}
-                                    <div className="md:col-span-5 space-y-2">
+                                    <div className="md:col-span-4 space-y-2">
                                         <Label className="text-base text-black">Target Loan Account</Label>
                                         <select
                                             value={disb.loan_account}
@@ -157,7 +158,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
                                     </div>
 
                                     {/* Amount */}
-                                    <div className="md:col-span-3 space-y-2">
+                                    <div className="md:col-span-2 space-y-2">
                                         <Label className="text-base text-black font-medium">Amount (KES)</Label>
                                         <Input
                                             type="number"
@@ -168,8 +169,19 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
                                         />
                                     </div>
 
+                                    {/* Transaction Date */}
+                                    <div className="md:col-span-3 space-y-2">
+                                        <Label className="text-base text-black font-medium">Transaction Date</Label>
+                                        <Input
+                                            type="date"
+                                            value={disb.transaction_date}
+                                            onChange={(e) => handleInputChange(index, "transaction_date", e.target.value)}
+                                            className="h-12 border-black rounded text-base py-2 focus:ring-2 font-semibold"
+                                        />
+                                    </div>
+
                                     {/* Payment Account Selector */}
-                                    <div className="md:col-span-4 space-y-2">
+                                    <div className="md:col-span-3 space-y-2">
                                         <Label className="text-base text-black font-medium">Payment Source</Label>
                                         <select
                                             value={disb.payment_method}

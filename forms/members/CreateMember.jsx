@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { addMember } from "@/services/members";
 import { Field, Form, Formik } from "formik";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -21,6 +21,7 @@ function CreateMember({ closeModal, openModal }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Dialog open={openModal} onOpenChange={closeModal}>
@@ -49,7 +50,11 @@ function CreateMember({ closeModal, openModal }) {
               toast?.success("Member created successfully!");
               closeModal();
               // refetchMembers();
-              router.push(`/sacco-admin/members/${response?.data?.member_no}`);
+              if (pathname.includes('/superuser')) {
+                router.push(`/superuser/members/${response?.data?.member_no}`);
+              } else {
+                router.push(`/sacco-admin/members/${response?.data?.member_no}`);
+              }
             } catch (error) {
               toast?.error("Failed to create member!");
             } finally {

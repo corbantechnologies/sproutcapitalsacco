@@ -23,15 +23,31 @@ import { Field, Form, Formik } from "formik";
 import { createSavingsDeposit } from "@/services/savingsdeposits";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import toast from "react-hot-toast";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
   const [loading, setLoading] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const token = useAxiosAuth();
   const { data: paymentAccounts, isLoading: isLoadingPayment } = useFetchPaymentAccounts();
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="">
             Create New Savings Deposit
@@ -46,6 +62,7 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
             payment_method: "",
             deposit_type: "",
             transaction_status: "Completed",
+            transaction_date: "",
             is_active: true,
           }}
           onSubmit={async (values) => {
@@ -64,29 +81,67 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
         >
           {({ values, setFieldValue }) => (
             <Form className="space-y-4">
-              <div className="space-y-2">
+              <div className="space-y-2 flex flex-col">
                 <Label htmlFor="savings_account" className="text-black">
                   Member Savings Account
                 </Label>
-                <Select
-                  value={values.savings_account}
-                  onValueChange={(value) => setFieldValue("savings_account", value)}
-                  required
-                >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue placeholder="Select account" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {accounts?.map((account) => (
-                      <SelectItem
-                        key={account.id || account.reference}
-                        value={account.account_number}
-                      >
-                        {account.account_number} - {account.account_type}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Popover open={accountOpen} onOpenChange={setAccountOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={accountOpen}
+                      className={cn(
+                        "w-full justify-between border-black font-normal",
+                        !values.savings_account && "text-muted-foreground"
+                      )}
+                    >
+                      {values.savings_account
+                        ? (() => {
+                            const selected = accounts?.find(
+                              (a) => a.account_number === values.savings_account
+                            );
+                            return selected ? (
+                              <span className="truncate">
+                                {selected.member_name} - {selected.account_number} ({selected.account_type})
+                              </span>
+                            ) : (
+                              "Select account"
+                            );
+                          })()
+                        : "Select account..."}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder="Search name or account..." />
+                      <CommandList>
+                        <CommandEmpty>No account found.</CommandEmpty>
+                        <CommandGroup>
+                          {accounts?.map((account) => (
+                            <CommandItem
+                              key={account.id || account.reference}
+                              value={`${account.member_name} ${account.account_number}`}
+                              className="flex justify-between"
+                              onSelect={() => {
+                                setFieldValue("savings_account", account.account_number);
+                                setAccountOpen(false);
+                              }}
+                            >
+                              <span>
+                                {account.member_name} - {account.account_number} ({account.account_type})
+                              </span>
+                              {values.savings_account === account.account_number && (
+                                <Check className="h-4 w-4 shrink-0" />
+                              )}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="space-y-2">
@@ -103,6 +158,21 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
                   required
                   min="0.01"
                   step="0.01"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="transaction_date" className="text-black">
+                  Transaction Date
+                </Label>
+                <Field
+                  as={Input}
+                  type="date"
+                  id="transaction_date"
+                  name="transaction_date"
+                  className="border-black "
+                  placeholder="Enter transaction date"
+                  required
                 />
               </div>
 

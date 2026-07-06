@@ -10,6 +10,82 @@ import { useFetchSavings } from "@/hooks/savings/actions";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import React, { useState, useMemo } from "react";
 import toast from "react-hot-toast";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+function AccountSelect({ value, onChange, accounts, disabled }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          disabled={disabled}
+          className={cn(
+            "w-full justify-between font-normal h-10 text-sm border-slate-200 hover:bg-white focus:ring-1 focus:ring-emerald-600",
+            !value && "text-muted-foreground"
+          )}
+        >
+          {value
+            ? (() => {
+                const selected = accounts?.find(
+                  (a) => a.account_number === value
+                );
+                return selected
+                  ? `${selected.member_name} - ${selected.account_number} (${selected.account_type})`
+                  : "-- Select Member Account --";
+              })()
+            : "-- Select Member Account --"}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[400px] p-0" align="start">
+        <Command>
+          <CommandInput placeholder="Search name or account..." />
+          <CommandList>
+            <CommandEmpty>No account found.</CommandEmpty>
+            <CommandGroup>
+              {accounts?.map((account) => (
+                <CommandItem
+                  key={account.id || account.reference}
+                  value={`${account.member_name} ${account.account_number}`}
+                  className="flex justify-between"
+                  onSelect={() => {
+                    onChange(account.account_number);
+                    setOpen(false);
+                  }}
+                >
+                  <span>
+                    {account.member_name} - {account.account_number} ({account.account_type})
+                  </span>
+                  {value === account.account_number && (
+                    <Check className="h-4 w-4 shrink-0" />
+                  )}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 // Manual Bulk Entry for Savings Deposits
 function BulkSavingDepositCreate({ onBatchSuccess }) {
@@ -24,6 +100,7 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
     const emptyDeposit = {
         savings_account: "", // reference
         amount: "",
+        transaction_date: new Date().toISOString().split('T')[0],
         payment_method: "", // payment account name
     };
 
@@ -52,7 +129,7 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
 
             const invalidRow = deposits.find(d => !d.savings_account || !d.amount || !d.payment_method);
             if (invalidRow) {
-                toast.error("Please fill all fields in each row.");
+                toast.error("Please fill all required fields in each row.");
                 setLoading(false);
                 return;
             }
@@ -73,10 +150,10 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl text-[#174271]">Batch Savings Deposit</h2>
+                    <h2 className="text-xl font-bold text-[#174271]">Batch Savings Deposit</h2>
                     <p className="text-sm text-gray-500 font-medium">Record multiple member savings deposits manually (max 15).</p>
-                    <Button variant="outline" onClick={() => setDeposits([{ ...emptyDeposit }])} className="text-xs h-8 mt-3">Clear All</Button>
                 </div>
+                <Button variant="outline" onClick={() => setDeposits([{ ...emptyDeposit }])} className="text-xs h-8">Clear All</Button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -93,23 +170,16 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-                                <div className="md:col-span-5 space-y-1">
+                                <div className="md:col-span-4 space-y-1">
                                     <Label className="text-[10px] uppercase font-bold text-slate-400">Target Savings Account</Label>
-                                    <select
+                                    <AccountSelect
                                         value={dep.savings_account}
-                                        onChange={(e) => handleInputChange(index, "savings_account", e.target.value)}
-                                        className="w-full border border-slate-200 rounded px-3 h-10 text-sm focus:ring-1 focus:ring-emerald-600 outline-none"
+                                        onChange={(val) => handleInputChange(index, "savings_account", val)}
+                                        accounts={savingsAccounts?.results}
                                         disabled={isLoadingSavings}
-                                    >
-                                        <option value="">-- Select Member Account --</option>
-                                        {savingsAccounts?.results?.map(acc => (
-                                            <option key={acc.reference} value={acc.account_number}>
-                                                {acc.member_name} ({acc.account_number}) - {acc.account_type}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    />
                                 </div>
-                                <div className="md:col-span-3 space-y-1">
+                                <div className="md:col-span-2 space-y-1">
                                     <Label className="text-[10px] uppercase font-bold text-slate-400">Amount</Label>
                                     <Input
                                         type="number"
@@ -119,7 +189,16 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
                                         className="h-10 text-sm font-bold border-slate-200 focus:border-emerald-600"
                                     />
                                 </div>
-                                <div className="md:col-span-4 space-y-1">
+                                <div className="md:col-span-3 space-y-1">
+                                    <Label className="text-[10px] uppercase font-bold text-slate-400">Transaction Date</Label>
+                                    <Input
+                                        type="date"
+                                        value={dep.transaction_date}
+                                        onChange={(e) => handleInputChange(index, "transaction_date", e.target.value)}
+                                        className="h-10 text-sm font-bold border-slate-200 focus:border-emerald-600"
+                                    />
+                                </div>
+                                <div className="md:col-span-3 space-y-1">
                                     <Label className="text-[10px] uppercase font-bold text-slate-400">Payment Account</Label>
                                     <select
                                         value={dep.payment_method}
@@ -145,7 +224,7 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
                 </div>
 
                 <div className="flex justify-end pt-2">
-                    <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-4 rounded" disabled={loading}>
+                    <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-12 px-12 rounded shadow-lg shadow-emerald-50" disabled={loading}>
                         {loading ? "Processing..." : "Commit Deposits"}
                     </Button>
                 </div>
