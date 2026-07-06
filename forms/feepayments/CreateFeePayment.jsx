@@ -45,6 +45,7 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
             amount: 0,
             payment_method: "",
             transaction_status: "Completed",
+            transaction_date: new Date().toISOString().split('T')[0],
             notes: "",
           }}
           onSubmit={async (values) => {
@@ -144,6 +145,21 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="transaction_date" className="text-black">
+                  Transaction Date
+                </Label>
+                <Field
+                  as={Input}
+                  type="date"
+                  id="transaction_date"
+                  name="transaction_date"
+                  className="border-black "
+                  placeholder="Enter transaction date"
+                  required
+                />
               </div>
 
               <div className="space-y-2">
