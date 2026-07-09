@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useFetchMember, useFetchMembers } from "@/hooks/members/actions";
 import { useFetchSavingsTypes } from "@/hooks/savingtypes/actions";
 import { useFetchLoanProducts } from "@/hooks/loanproducts/actions";
@@ -138,72 +139,80 @@ export default function SaccoAdminDashboard() {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="border-l-4 border-l-[#174271]">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Total Members
-            </CardTitle>
-            <Users className="h-4 w-4 text-[#174271]" />
-          </CardHeader>
-          <CardContent>
-            {isLoadingMembers ? (
-              <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
-            ) : (
-              <div className="text-xl font-semibold text-slate-900">
-                {members?.length || 0}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Saving Types
-            </CardTitle>
-            <Wallet className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            {isLoadingSavingTypes ? (
-              <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
-            ) : (
-              <div className="text-xl font-semibold">{savingTypes?.length || 0}</div>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Loan Products
-            </CardTitle>
-            <CreditCard className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            {isLoadingLoanProducts ? (
-              <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
-            ) : (
-              <div className="text-xl font-semibold">
-                {loanProducts?.length || 0}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Fee Types
-            </CardTitle>
-            <TrendingUp className="h-4 w-4 text-purple-600" />
-          </CardHeader>
-          <CardContent>
-            {isLoadingFeeTypes ? (
-              <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
-            ) : (
-              <div className="text-xl font-semibold">
-                {feeTypes?.length || 0}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <Link href="/sacco-admin/members" className="block group">
+          <Card className="border-l-4 border-l-[#174271] transition-all hover:shadow-md h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                Total Members
+              </CardTitle>
+              <Users className="h-4 w-4 text-[#174271]" />
+            </CardHeader>
+            <CardContent>
+              {isLoadingMembers ? (
+                <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
+              ) : (
+                <div className="text-xl font-semibold text-slate-900 group-hover:text-[#174271] transition-colors">
+                  {members?.length || 0}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/sacco-admin/setup/saving-types" className="block group">
+          <Card className="transition-all hover:shadow-md h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Saving Types
+              </CardTitle>
+              <Wallet className="h-4 w-4 text-green-600" />
+            </CardHeader>
+            <CardContent>
+              {isLoadingSavingTypes ? (
+                <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
+              ) : (
+                <div className="text-xl font-semibold group-hover:text-green-600 transition-colors">{savingTypes?.length || 0}</div>
+              )}
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/sacco-admin/setup/loan-products" className="block group">
+          <Card className="transition-all hover:shadow-md h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Loan Products
+              </CardTitle>
+              <CreditCard className="h-4 w-4 text-blue-600" />
+            </CardHeader>
+            <CardContent>
+              {isLoadingLoanProducts ? (
+                <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
+              ) : (
+                <div className="text-xl font-semibold group-hover:text-blue-600 transition-colors">
+                  {loanProducts?.length || 0}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/sacco-admin/setup/feetypes" className="block group">
+          <Card className="transition-all hover:shadow-md h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Fee Types
+              </CardTitle>
+              <TrendingUp className="h-4 w-4 text-purple-600" />
+            </CardHeader>
+            <CardContent>
+              {isLoadingFeeTypes ? (
+                <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
+              ) : (
+                <div className="text-xl font-semibold group-hover:text-purple-600 transition-colors">
+                  {feeTypes?.length || 0}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </Link>
       </div>
 
       {/* Tabs Content */}
