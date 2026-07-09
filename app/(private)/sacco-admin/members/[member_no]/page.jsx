@@ -408,12 +408,17 @@ function MemberDetail() {
               {member?.savings?.length > 0 ? (
                 <>
                   {paginate(member.savings, savingsPage).map((account) => (
-                    <InfoField
+                    <Link
                       key={account.reference}
-                      icon={Wallet2}
-                      label={`${account.account_type} - ${account.account_number}`}
-                      value={`${formatBalance(account.balance)} KES`}
-                    />
+                      href={`/sacco-admin/saving-accounts/${account.reference}`}
+                      className="block transition-transform hover:scale-[1.01]"
+                    >
+                      <InfoField
+                        icon={Wallet2}
+                        label={`${account.account_type} - ${account.account_number}`}
+                        value={`${formatBalance(account.balance)} KES`}
+                      />
+                    </Link>
                   ))}
                   <PaginationControls
                     currentPage={savingsPage}
