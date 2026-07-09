@@ -3,11 +3,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchSavings } from "@/hooks/savings/actions";
-import { useFetchMember } from "@/hooks/members/actions";
-import LoadingSpinner from "@/components/general/LoadingSpinner";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
     Table,
     TableBody,
@@ -20,26 +19,62 @@ import {
     ArrowLeft,
     PiggyBank,
     Plus,
-    FileUp,
-    ListFilter,
     ChevronLeft,
     ChevronRight,
     Eye,
-    TrendingUp
+    TrendingUp,
+    Search
 } from "lucide-react";
 
 import CreateDepositAdmin from "@/forms/savingsdeposits/CreateDepositAdmin";
-import BulkSavingDepositCreate from "@/forms/savingsdeposits/BulkSavingDepositCreate";
-import BulkSavingDepositUploadCreate from "@/forms/savingsdeposits/BulkSavingDepositUploadCreate";
 
-export default function SavingDepositsPage() {
+const TableSkeleton = ({ rows = 5, cols = 6 }) => {
+    return (
+        <div className="border border-slate-100 rounded overflow-hidden bg-white">
+            <Table>
+                <TableHeader className="bg-slate-50">
+                    <TableRow>
+                        {Array.from({ length: cols }).map((_, i) => (
+                            <TableHead key={i}>
+                                <div className="h-4 bg-slate-200 rounded w-16 animate-pulse" />
+                            </TableHead>
+                        ))}
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {Array.from({ length: rows }).map((_, rowIndex) => (
+                        <TableRow key={rowIndex}>
+                            {Array.from({ length: cols }).map((_, colIndex) => (
+                                <TableCell key={colIndex}>
+                                    <div
+                                        className="h-4 bg-slate-200 rounded animate-pulse"
+                                        style={{ width: `${Math.floor(((rowIndex + colIndex) % 5) * 10) + 40}%` }}
+                                    />
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
+    );
+};
+
+export default function SavingAccountsPage() {
     const router = useRouter();
     const [page, setPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
+
     const { 
         data: savingsData, 
         isLoading, 
         refetch 
-    } = useFetchSavings({ page });
+    } = useFetchSavings({ 
+        page,
+        search: searchTerm || undefined,
+        is_active: statusFilter === "all" ? undefined : (statusFilter === "active" ? "true" : "false")
+    });
     
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [selectedAccount, setSelectedAccount] = useState(null);
@@ -49,7 +84,15 @@ export default function SavingDepositsPage() {
     const pageSize = 10; // Assuming 10 per page
     const totalPages = Math.ceil(totalCount / pageSize);
 
-    if (isLoading) return <LoadingSpinner />;
+    const handleSearchChange = (val) => {
+        setSearchTerm(val);
+        setPage(1);
+    };
+
+    const handleStatusChange = (val) => {
+        setStatusFilter(val);
+        setPage(1);
+    };
 
     return (
         <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6">
@@ -60,16 +103,16 @@ export default function SavingDepositsPage() {
                         variant="ghost"
                         size="icon"
                         onClick={() => router.back()}
-                        className="rounded hover:bg-white"
+                        className="rounded hover:bg-white border"
                     >
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
                         <h1 className="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
-                            <PiggyBank className="w-6 h-6 text-[#174271]" /> Savings & Deposits
+                            <PiggyBank className="w-6 h-6 text-[#174271]" /> Savings Accounts
                         </h1>
                         <p className="text-slate-500 text-sm font-medium">
-                            Manage member savings accounts and process deposit transactions.
+                            Manage member savings accounts, view balances, and review transaction history.
                         </p>
                     </div>
                 </div>
@@ -83,51 +126,56 @@ export default function SavingDepositsPage() {
                 </div>
             </div>
 
-            {/* Main Content Tabs */}
-            <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded grid grid-cols-3 gap-1 overflow-hidden">
-                    <TabsTrigger
-                        value="list"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
-                    >
-                        <ListFilter className="w-4 h-4 flex-shrink-0" />
-                        <span className="hidden sm:inline">All Accounts</span>
-                        <span className="sm:hidden">Accounts</span>
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
-                    >
-                        <Plus className="w-4 h-4 flex-shrink-0" />
-                        <span className="hidden sm:inline">Multi-Form</span>
-                        <span className="sm:hidden">Batch</span>
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
-                    >
-                        <FileUp className="w-4 h-4 flex-shrink-0" />
-                        <span className="hidden md:inline">CSV Upload</span>
-                        <span className="md:hidden">CSV</span>
-                    </TabsTrigger>
-                </TabsList>
-
-                {/* List Tab */}
-                <TabsContent value="list" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none overflow-hidden">
-                        <CardHeader className="bg-white border-b px-6 py-4">
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <CardTitle className="text-lg font-semibold">Member Savings Accounts</CardTitle>
-                                    <CardDescription className="text-xs font-medium">A comprehensive list of all active saving accounts in the SACCO.</CardDescription>
-                                </div>
-                                <div className="flex items-center gap-2 text-[11px] font-semibold text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1 rounded">
-                                    Total: {totalCount} Accounts
-                                </div>
+            {/* Filters and List */}
+            <Card className="shadow-sm border-none overflow-hidden">
+                <CardHeader className="bg-white border-b px-6 py-4">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <CardTitle className="text-lg font-semibold">Member Savings Accounts</CardTitle>
+                            <CardDescription className="text-xs font-medium">A comprehensive list of all savings accounts in the SACCO.</CardDescription>
+                        </div>
+                        <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1 rounded w-fit">
+                            Total: {totalCount} Accounts
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="p-6 space-y-6">
+                    {/* Search and Filters */}
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex-1">
+                            <Label htmlFor="search" className="sr-only">Search Accounts</Label>
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+                                <Input
+                                    id="search"
+                                    placeholder="Search by member name or account number..."
+                                    value={searchTerm}
+                                    onChange={(e) => handleSearchChange(e.target.value)}
+                                    className="pl-10 border-black rounded text-base"
+                                />
                             </div>
-                        </CardHeader>
-                        <CardContent className="p-0">
-                            <div className="overflow-x-auto">
+                        </div>
+                        <div className="w-full sm:w-48">
+                            <Label htmlFor="status-filter" className="sr-only">Filter by Status</Label>
+                            <select
+                                id="status-filter"
+                                value={statusFilter}
+                                onChange={(e) => handleStatusChange(e.target.value)}
+                                className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 transition-colors"
+                            >
+                                <option value="all">All Statuses</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Table View */}
+                    {isLoading ? (
+                        <TableSkeleton rows={8} cols={6} />
+                    ) : (
+                        <>
+                            <div className="overflow-x-auto border border-slate-100 rounded">
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-slate-50/50">
@@ -214,10 +262,10 @@ export default function SavingDepositsPage() {
                                     </TableBody>
                                 </Table>
                             </div>
-                            
+
                             {/* Pagination */}
                             {totalPages > 1 && (
-                                <div className="flex items-center justify-between px-6 py-4 bg-slate-50/50 border-t">
+                                <div className="flex items-center justify-between px-6 py-4 bg-slate-50/50 border-t rounded-b">
                                     <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">
                                         Showing Page {page} of {totalPages}
                                     </p>
@@ -243,28 +291,10 @@ export default function SavingDepositsPage() {
                                     </div>
                                 </div>
                             )}
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                {/* Bulk Form Tab */}
-                <TabsContent value="bulk-create" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none bg-white p-6 rounded">
-                        <CardContent className="p-0">
-                            <BulkSavingDepositCreate onBatchSuccess={refetch} />
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                {/* Bulk Upload Tab */}
-                <TabsContent value="bulk-upload" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none bg-white rounded p-8">
-                        <CardContent className="p-0">
-                            <BulkSavingDepositUploadCreate onBatchSuccess={refetch} />
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-            </Tabs>
+                        </>
+                    )}
+                </CardContent>
+            </Card>
 
             {/* Single Deposit Modal */}
             <CreateDepositAdmin
@@ -274,11 +304,7 @@ export default function SavingDepositsPage() {
                     setSelectedAccount(null);
                 }}
                 refetchMember={refetch}
-                // If an account is selected, pass it as the single option or part of options
-                // The form expects an array of accounts
                 accounts={savings} 
-                // We might want to pre-select if selectedAccount is set, 
-                // but the formik initial values would need to handle that inside CreateDepositAdmin.
             />
         </div>
     );

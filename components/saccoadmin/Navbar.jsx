@@ -16,8 +16,9 @@ const MENU_LINKS = [
   // Products
   {
     label: "Savings & Deposits",
-    href: "/sacco-admin/saving-deposits",
+    href: "/sacco-admin/saving-accounts",
     children: [
+      { label: "All Accounts", href: "/sacco-admin/saving-accounts" },
       { label: "All Deposits", href: "/sacco-admin/saving-deposits" },
       { label: "Savings Types", href: "/sacco-admin/setup/saving-types" },
     ],
