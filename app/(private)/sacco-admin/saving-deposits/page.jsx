@@ -35,6 +35,20 @@ import BulkSavingDepositEditUpload from "@/forms/savingsdeposits/BulkSavingDepos
 import SavingsDepositsTable from "@/components/savings/SavingsDepositsTable";
 import { useFetchSavingsDeposits } from "@/hooks/savingsdeposits/actions";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+    return (
+        <div className="space-y-4 w-full animate-pulse p-4">
+            {[...Array(rows)].map((_, i) => (
+                <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+                    {[...Array(cols)].map((_, j) => (
+                        <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+                    ))}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default function SavingDepositsPage() {
     const router = useRouter();
     const {

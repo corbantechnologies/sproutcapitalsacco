@@ -47,6 +47,20 @@ import {
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+    return (
+        <div className="space-y-4 w-full animate-pulse p-4">
+            {[...Array(rows)].map((_, i) => (
+                <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+                    {[...Array(cols)].map((_, j) => (
+                        <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+                    ))}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default function AccountingPage() {
     const [activeTab, setActiveTab] = useState("gl-accounts");
 
@@ -74,10 +88,6 @@ export default function AccountingPage() {
     }), [page, searchQuery, selectedGL, selectedBatchFilter]);
 
     const { data: entriesData, isLoading: isLoadingEntries } = useFetchJournalEntries(params);
-
-    if (isLoadingGL || isLoadingBatches || isLoadingEntries) {
-        return <LoadingSpinner />;
-    }
 
     const entries = entriesData?.results || [];
     const totalEntries = entriesData?.count || 0;
@@ -136,7 +146,9 @@ export default function AccountingPage() {
                             <CardDescription>All general ledger accounts configured in the system</CardDescription>
                         </CardHeader>
                         <CardContent className="p-0 overflow-x-auto">
-                            {glAccounts?.length > 0 ? (
+                            {isLoadingGL ? (
+                                <TableSkeleton rows={5} cols={5} />
+                            ) : glAccounts?.length > 0 ? (
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-slate-50/50">
@@ -213,7 +225,9 @@ export default function AccountingPage() {
                             </div>
                         </CardHeader>
                         <CardContent className="p-0 overflow-x-auto min-h-[400px]">
-                            {batchViewMode === "list" && (
+                            {isLoadingBatches ? (
+                                <TableSkeleton rows={5} cols={6} />
+                            ) : batchViewMode === "list" ? (
                                 <>
                                     {journalBatches?.length > 0 ? (
                                         <Table>
@@ -262,7 +276,7 @@ export default function AccountingPage() {
                                         <div className="p-12 text-center text-slate-500 italic">No journal batches available.</div>
                                     )}
                                 </>
-                            )}
+                            ) : null}
 
                             {batchViewMode === "form" && (
                                 <div className="p-6">
@@ -336,7 +350,9 @@ export default function AccountingPage() {
                             </div>
                         </CardHeader>
                         <CardContent className="p-0 overflow-x-auto">
-                            {entries.length > 0 ? (
+                            {isLoadingEntries ? (
+                                <TableSkeleton rows={5} cols={6} />
+                            ) : entries.length > 0 ? (
                                 <>
                                     <Table>
                                         <TableHeader>

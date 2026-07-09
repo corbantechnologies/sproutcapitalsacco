@@ -55,6 +55,20 @@ import { downloadLoanApplicationsTemplate } from "@/services/loanapplications";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import toast from "react-hot-toast";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+  return (
+    <div className="space-y-4 w-full animate-pulse p-4">
+      {[...Array(rows)].map((_, i) => (
+        <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+          {[...Array(cols)].map((_, j) => (
+            <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function AdminLoanApplications() {
   const { data: loanApplications, isLoading } = useFetchLoanApplications();
   const userMemberNo = useUserMemberNo();
@@ -74,8 +88,6 @@ export default function AdminLoanApplications() {
   const [isAdminCreateModalOpen, setIsAdminCreateModalOpen] = useState(false);
   const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState(false);
   const token = useAxiosAuth();
-
-  if (isLoading) return <MemberLoadingSpinner />;
 
   // 1. Filter by Tab (Ownership)
   let filteredApps = loanApplications || [];
@@ -286,8 +298,12 @@ export default function AdminLoanApplications() {
                   </CardDescription>
                 </div>
               </CardHeader>
-              <CardContent className="p-0">
-                {!paginatedApps || paginatedApps.length === 0 ? (
+               <CardContent className="p-0">
+                {isLoading ? (
+                  <div className="p-6">
+                    <TableSkeleton rows={8} cols={7} />
+                  </div>
+                ) : !paginatedApps || paginatedApps.length === 0 ? (
                   <div className="text-center py-12 px-4">
                     <div className="inline-flex items-center justify-center w-12 h-12 rounded bg-gray-100 mb-4">
                       <FileText className="h-6 w-6 text-gray-400" />
@@ -317,9 +333,6 @@ export default function AdminLoanApplications() {
                     <Table>
                       <TableHeader>
                         <TableRow className="bg-gray-50/50 hover:bg-gray-50/50 block sm:table-row">
-                          <TableHead className="hidden sm:table-cell">
-                            Reference
-                          </TableHead>
                           <TableHead className="hidden sm:table-cell">
                             Applicant
                           </TableHead>
@@ -413,15 +426,12 @@ export default function AdminLoanApplications() {
                             </TableCell>
 
                             {/* Desktop View */}
-                            <TableCell className="hidden sm:table-cell font-mono text-sm font-medium text-gray-900">
-                              {app.reference}
-                            </TableCell>
                             <TableCell className="hidden sm:table-cell">
                               <div className="flex flex-col">
-                                <span className="font-medium text-sm">
+                                <span className="font-semibold text-slate-800 text-sm">
                                   {app.member_name}
                                 </span>
-                                <span className="text-xs text-muted-foreground">
+                                <span className="text-xs text-slate-500 font-mono">
                                   {app.member}
                                 </span>
                               </div>

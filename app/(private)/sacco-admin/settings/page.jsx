@@ -33,6 +33,20 @@ import ChangePassword from "@/forms/member/ChangePassword";
 import NextOfKinTable from "@/components/nextofkin/NextOfKinTable";
 import NextOfKinFormDialog from "@/forms/nextofkin/NextOfKinFormDialog";
 
+const SettingsSkeleton = () => (
+  <div className="mx-auto p-4 space-y-8 animate-pulse">
+    <div className="h-4 w-48 bg-slate-200 rounded" />
+    <div className="h-40 bg-slate-200 rounded-lg" />
+    <div className="grid lg:grid-cols-3 gap-8">
+      <div className="lg:col-span-2 space-y-8">
+        <div className="h-64 bg-slate-200 rounded-lg" />
+        <div className="h-48 bg-slate-200 rounded-lg" />
+      </div>
+      <div className="h-64 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
 function AccountSettings() {
   const {
     isLoading: isLoadingMember,
@@ -79,7 +93,13 @@ function AccountSettings() {
   const isPercentageFull = totalAllocatedPercentage >= 100;
   const remainingPercentage = Math.max(0, 100 - totalAllocatedPercentage);
 
-  if (isLoadingMember) return <LoadingSpinner />;
+  if (isLoadingMember) {
+    return (
+      <div className="min-h-screen bg-background">
+        <SettingsSkeleton />
+      </div>
+    );
+  }
 
   // Check if employment data exists
   const hasEmploymentData =

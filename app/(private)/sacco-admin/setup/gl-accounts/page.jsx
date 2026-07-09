@@ -30,6 +30,20 @@ import UpdateGLAccountModal from "@/forms/glaccounts/UpdateGLAccount";
 import BulkGLAccountCreate from "@/forms/glaccounts/BulkGLAccountCreate";
 import BulkGLAccountUploadCreate from "@/forms/glaccounts/BulkGLAccountUploadCreate";
 
+const TableSkeleton = ({ rows = 5, cols = 6 }) => {
+    return (
+        <div className="space-y-4 w-full animate-pulse p-4">
+            {[...Array(rows)].map((_, i) => (
+                <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+                    {[...Array(cols)].map((_, j) => (
+                        <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+                    ))}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default function GLAccountsSetupPage() {
     const router = useRouter();
     const { data: myself } = useFetchMember();
@@ -42,8 +56,6 @@ export default function GLAccountsSetupPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [selectedAccount, setSelectedAccount] = useState(null);
-
-    if (isLoading) return <LoadingSpinner />;
 
     return (
         <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6">
@@ -127,7 +139,13 @@ export default function GLAccountsSetupPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {glaccounts?.length > 0 ? (
+                                        {isLoading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={6} className="p-6">
+                                                    <TableSkeleton rows={5} cols={6} />
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : glaccounts?.length > 0 ? (
                                             glaccounts.map((acc) => (
                                                 <TableRow key={acc.reference} className="hover:bg-slate-50 transition-colors group">
                                                     <TableCell className="text-sm font-medium pl-6 py-4">{acc.name}</TableCell>
@@ -138,7 +156,7 @@ export default function GLAccountsSetupPage() {
                                                                 acc.category === "EQUITY" ? "bg-purple-50 text-purple-700" :
                                                                     acc.category === "REVENUE" ? "bg-green-50 text-green-700" :
                                                                         "bg-rose-50 text-rose-700"
-                                                            }`}>
+                                                                }`}>
                                                             {acc.category}
                                                         </span>
                                                     </TableCell>

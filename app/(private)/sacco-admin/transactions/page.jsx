@@ -17,6 +17,20 @@ import BulkAccountsUpload from "@/forms/transactions/BulkAccountsUpload";
 import { Users, Wallet, CreditCard, ChevronDown, FileDown, FileUp } from "lucide-react";
 import toast from "react-hot-toast";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+  return (
+    <div className="space-y-4 w-full animate-pulse p-4">
+      {[...Array(rows)].map((_, i) => (
+        <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+          {[...Array(cols)].map((_, j) => (
+            <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 function TransactionsPage() {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
@@ -27,8 +41,6 @@ function TransactionsPage() {
     data: accountsList,
     refetch: refetchAccounts,
   } = useFetchAccountsList();
-
-  if (isLoadingAccounts) return <LoadingSpinner />;
 
   const accounts = accountsList?.results || accountsList || [];
 
@@ -133,7 +145,11 @@ function TransactionsPage() {
         </div>
 
         {/* Accounts List Table */}
-        <AccountsListTable accountsList={accountsList} />
+        {isLoadingAccounts ? (
+          <TableSkeleton rows={8} cols={5} />
+        ) : (
+          <AccountsListTable accountsList={accountsList} />
+        )}
 
         {/* Bulk Upload Modal */}
         <BulkAccountsUpload

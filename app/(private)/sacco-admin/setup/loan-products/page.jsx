@@ -31,6 +31,20 @@ import UpdateLoanProductModal from "@/forms/loanproducts/UpdateLoanProduct";
 import BulkLoanProductCreate from "@/forms/loanproducts/BulkLoanProductCreate";
 import BulkLoanProductUploadCreate from "@/forms/loanproducts/BulkLoanProductUploadCreate";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+    return (
+        <div className="space-y-4 w-full animate-pulse p-4">
+            {[...Array(rows)].map((_, i) => (
+                <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+                    {[...Array(cols)].map((_, j) => (
+                        <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+                    ))}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default function LoanProductsSetupPage() {
     const router = useRouter();
     const { data: myself } = useFetchMember();
@@ -43,8 +57,6 @@ export default function LoanProductsSetupPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
-
-    if (isLoading) return <LoadingSpinner />;
 
     return (
         <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6">
@@ -127,7 +139,13 @@ export default function LoanProductsSetupPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {loanProducts?.length > 0 ? (
+                                        {isLoading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={5} className="p-6">
+                                                    <TableSkeleton rows={5} cols={5} />
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : loanProducts?.length > 0 ? (
                                             loanProducts.map((p) => (
                                                 <TableRow key={p.reference} className="hover:bg-slate-50 transition-colors group border-b border-slate-50">
                                                     <TableCell>{p.name}</TableCell>

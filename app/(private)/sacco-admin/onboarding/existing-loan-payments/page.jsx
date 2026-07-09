@@ -46,6 +46,20 @@ import { formatCurrency } from "@/lib/utils";
 import CreateExistingLoanPayment from "@/forms/existingloanspayments/CreateExistingLoanPayment";
 import BulkUploadCreateExistingLoanPayment from "@/forms/existingloanspayments/BulkUploadCreateExistingLoanPayment";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+    return (
+        <div className="space-y-4 w-full animate-pulse p-4">
+            {[...Array(rows)].map((_, i) => (
+                <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+                    {[...Array(cols)].map((_, j) => (
+                        <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+                    ))}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default function ExistingLoanPaymentsPage() {
     const router = useRouter();
     const { data: payments, isLoading, refetch } = useFetchExistingLoanPayments();
@@ -58,8 +72,6 @@ export default function ExistingLoanPaymentsPage() {
         p.loan_acc?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         p.payment_method?.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    if (isLoading) return <LoadingSpinner />;
 
     return (
         <div className="min-h-screen bg-slate-50/50 p-4 md:p-8 space-y-8 animate-in fade-in duration-500">
@@ -146,7 +158,13 @@ export default function ExistingLoanPaymentsPage() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {filteredPayments?.length > 0 ? (
+                                {isLoading ? (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="p-6">
+                                            <TableSkeleton rows={5} cols={5} />
+                                        </TableCell>
+                                    </TableRow>
+                                ) : filteredPayments?.length > 0 ? (
                                     filteredPayments.map((payment) => (
                                         <TableRow key={payment.reference} className="hover:bg-blue-50/30 transition-all border-b border-slate-50 group">
                                             <TableCell className="font-semibold text-slate-700 pl-8 py-5">

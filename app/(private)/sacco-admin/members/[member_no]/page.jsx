@@ -56,6 +56,20 @@ import { Download, Loader2 } from "lucide-react";
 import EmptyState from "@/components/general/EmptyState";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
+const MemberDetailSkeleton = () => (
+  <div className="mx-auto space-y-8 animate-pulse p-4 md:p-6">
+    <div className="h-4 w-48 bg-slate-200 rounded" />
+    <div className="h-40 bg-slate-200 rounded-lg" />
+    <div className="grid lg:grid-cols-3 gap-8">
+      <div className="lg:col-span-2 space-y-8">
+        <div className="h-64 bg-slate-200 rounded-lg" />
+        <div className="h-48 bg-slate-200 rounded-lg" />
+      </div>
+      <div className="h-64 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
 function MemberDetail() {
   const { member_no } = useParams();
   const token = useAxiosAuth();
@@ -238,7 +252,13 @@ function MemberDetail() {
   if (member?.is_treasurer) activeRoles.push("Treasurer");
   if (member?.is_bookkeeper) activeRoles.push("Bookkeeper");
 
-  if (isLoadingMember) return <LoadingSpinner />;
+  if (isLoadingMember) {
+    return (
+      <div className="min-h-screen bg-background">
+        <MemberDetailSkeleton />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-6">

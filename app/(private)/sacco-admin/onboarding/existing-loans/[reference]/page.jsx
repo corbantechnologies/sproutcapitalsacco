@@ -49,13 +49,43 @@ import { useFetchExistingLoan } from "@/hooks/existingloans/actions";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
 import CreateExistingLoanPayment from "@/forms/existingloanspayments/CreateExistingLoanPayment";
 
+const ExistingLoanDetailSkeleton = () => (
+  <div className="mx-auto p-4 sm:p-6 space-y-6 animate-pulse">
+    <div className="h-4 w-48 bg-slate-200 rounded" />
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-64 bg-slate-200 rounded" />
+        <div className="h-4 w-40 bg-slate-200 rounded" />
+      </div>
+      <div className="h-10 w-32 bg-slate-200 rounded" />
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="lg:col-span-3 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+        </div>
+        <div className="h-96 bg-slate-200 rounded-lg" />
+      </div>
+      <div className="h-96 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
 export default function ExistingLoanDetailPage({ params }) {
     const { reference } = use(params);
     const router = useRouter();
     const { data: loan, isLoading, refetch } = useFetchExistingLoan(reference);
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-    if (isLoading) return <LoadingSpinner />;
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-slate-50/50">
+                <ExistingLoanDetailSkeleton />
+            </div>
+        );
+    }
 
     if (!loan) {
         return (

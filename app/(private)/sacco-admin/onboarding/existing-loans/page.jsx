@@ -47,6 +47,20 @@ import CreateExistingLoanPayment from "@/forms/existingloanspayments/CreateExist
 import BulkCreateExistingLoanPayment from "@/forms/existingloanspayments/BulkCreateExistingLoanPayment";
 import BulkUploadCreateExistingLoanPayment from "@/forms/existingloanspayments/BulkUploadCreateExistingLoanPayment";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+    return (
+        <div className="space-y-4 w-full animate-pulse p-4">
+            {[...Array(rows)].map((_, i) => (
+                <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+                    {[...Array(cols)].map((_, j) => (
+                        <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+                    ))}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default function ExistingLoansOnboardingPage() {
     const router = useRouter();
     
@@ -234,49 +248,56 @@ export default function ExistingLoansOnboardingPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {filteredLoans?.map((loan) => (
-                                            <TableRow key={loan.reference} className="hover:bg-blue-50/30 transition-all border-b border-slate-50 group">
-                                                <TableCell className="font-semibold text-slate-900 pl-8 py-5 flex items-center gap-3">
-                                                    {loan.member}
+                                        {isLoadingLoans ? (
+                                            <TableRow>
+                                                <TableCell colSpan={7} className="p-6">
+                                                    <TableSkeleton rows={5} cols={7} />
                                                 </TableCell>
-                                                <TableCell className="font-mono text-xs text-slate-500">{loan.account_number}</TableCell>
-                                                <TableCell className="text-right font-medium text-slate-600 font-mono">KES {Number(loan.principal).toLocaleString()}</TableCell>
-                                                <TableCell className="text-right font-medium text-emerald-600 font-mono">KES {Number(loan.total_amount_paid).toLocaleString()}</TableCell>
-                                                <TableCell className="text-right font-semibold text-[#174271] font-mono">KES {Number(loan.outstanding_balance).toLocaleString()}</TableCell>
-                                                <TableCell className="text-center">
-                                                    <span className={`px-3 py-1 rounded text-[10px] font-semibold uppercase tracking-widest ${
-                                                        loan.status === 'active' ? 'bg-emerald-50 text-emerald-600' : 
-                                                        loan.status === 'closed' ? 'bg-blue-50 text-blue-600' : 'bg-red-50 text-red-600'
-                                                    }`}>
-                                                        {loan.status}
-                                                    </span>
-                                                </TableCell>
-                                                <TableCell className="text-right pr-8">
-                                                    <div className="flex justify-end gap-2">
-                                                        <Button 
-                                                            size="icon" 
-                                                            variant="ghost" 
-                                                            onClick={() => handlePay(loan)}
-                                                            className="h-8 w-8 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded"
-                                                            title="Record Payment"
-                                                        >
-                                                            <Banknote className="w-4 h-4" />
-                                                        </Button>
-                                                        <Link href={`/sacco-admin/onboarding/existing-loans/${loan.reference}`}>
+                                            </TableRow>
+                                        ) : filteredLoans?.length > 0 ? (
+                                            filteredLoans.map((loan) => (
+                                                <TableRow key={loan.reference} className="hover:bg-blue-50/30 transition-all border-b border-slate-50 group">
+                                                    <TableCell className="font-semibold text-slate-900 pl-8 py-5 flex items-center gap-3">
+                                                        {loan.member}
+                                                    </TableCell>
+                                                    <TableCell className="font-mono text-xs text-slate-500">{loan.account_number}</TableCell>
+                                                    <TableCell className="text-right font-medium text-slate-600 font-mono">KES {Number(loan.principal).toLocaleString()}</TableCell>
+                                                    <TableCell className="text-right font-medium text-emerald-600 font-mono">KES {Number(loan.total_amount_paid).toLocaleString()}</TableCell>
+                                                    <TableCell className="text-right font-semibold text-[#174271] font-mono">KES {Number(loan.outstanding_balance).toLocaleString()}</TableCell>
+                                                    <TableCell className="text-center">
+                                                        <span className={`px-3 py-1 rounded text-[10px] font-semibold uppercase tracking-widest ${
+                                                            loan.status === 'active' ? 'bg-emerald-50 text-emerald-600' : 
+                                                            loan.status === 'closed' ? 'bg-blue-50 text-blue-600' : 'bg-red-50 text-red-600'
+                                                        }`}>
+                                                            {loan.status}
+                                                        </span>
+                                                    </TableCell>
+                                                    <TableCell className="text-right pr-8">
+                                                        <div className="flex justify-end gap-2">
                                                             <Button 
                                                                 size="icon" 
                                                                 variant="ghost" 
-                                                                className="h-8 w-8 text-[#174271] hover:text-[#12355a] hover:bg-blue-50 rounded"
-                                                                title="View Details"
+                                                                onClick={() => handlePay(loan)}
+                                                                className="h-8 w-8 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded"
+                                                                title="Record Payment"
                                                             >
-                                                                <Eye className="w-4 h-4" />
+                                                                <Banknote className="w-4 h-4" />
                                                             </Button>
-                                                        </Link>
-                                                    </div>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                        {filteredLoans.length === 0 && (
+                                                            <Link href={`/sacco-admin/onboarding/existing-loans/${loan.reference}`}>
+                                                                <Button 
+                                                                    size="icon" 
+                                                                    variant="ghost" 
+                                                                    className="h-8 w-8 text-[#174271] hover:text-[#12355a] hover:bg-blue-50 rounded"
+                                                                    title="View Details"
+                                                                >
+                                                                    <Eye className="w-4 h-4" />
+                                                                </Button>
+                                                            </Link>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))
+                                        ) : (
                                             <TableRow>
                                                 <TableCell colSpan={7} className="h-64 text-center">
                                                     <div className="flex flex-col items-center justify-center text-slate-400 gap-2">
