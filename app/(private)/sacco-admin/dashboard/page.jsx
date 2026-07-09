@@ -278,7 +278,7 @@ export default function SaccoAdminDashboard() {
             </CardHeader>
             <CardContent className="overflow-x-auto">
               {isLoadingLoanProducts ? (
-                <TableSkeleton rows={4} cols={4} />
+                <TableSkeleton rows={4} cols={7} />
               ) : loanProducts?.length > 0 ? (
                 <Table>
                   <TableHeader>
@@ -286,6 +286,10 @@ export default function SaccoAdminDashboard() {
                       <TableHead>Name</TableHead>
                       <TableHead>Interest Method</TableHead>
                       <TableHead>Interest Rate</TableHead>
+                      <TableHead>GL Principal (Asset)</TableHead>
+                      <TableHead>GL Interest (Revenue)</TableHead>
+                      <TableHead>GL Penalty (Revenue)</TableHead>
+                      <TableHead>GL Processing Fee (Revenue)</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -296,6 +300,10 @@ export default function SaccoAdminDashboard() {
                         </TableCell>
                         <TableCell>{product.interest_method}</TableCell>
                         <TableCell>{product.interest_rate}%</TableCell>
+                        <TableCell>{product.gl_principal_asset || "-"}</TableCell>
+                        <TableCell>{product.gl_interest_revenue || "-"}</TableCell>
+                        <TableCell>{product.gl_penalty_revenue || "-"}</TableCell>
+                        <TableCell>{product.gl_processing_fee_revenue || "-"}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
