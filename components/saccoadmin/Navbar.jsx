@@ -12,9 +12,6 @@ const MENU_LINKS = [
   {
     label: "Members",
     href: "/sacco-admin/members",
-    children: [
-      { label: "All Members", href: "/sacco-admin/members" },
-    ],
   },
   // Products
   {
