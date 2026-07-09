@@ -42,9 +42,43 @@ import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
 import { downloadBulkMembersTemplate } from "@/services/members";
+import { downloadAccountsListCSV } from "@/services/transactions";
+import toast from "react-hot-toast";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { useFetchFeeTypes } from "@/hooks/feetypes/actions";
 import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
+
+const TableSkeleton = ({ rows = 5, cols = 4 }) => {
+  return (
+    <div className="border border-slate-100 rounded overflow-hidden">
+      <Table>
+        <TableHeader className="bg-slate-50">
+          <TableRow>
+            {Array.from({ length: cols }).map((_, i) => (
+              <TableHead key={i}>
+                <div className="h-4 bg-slate-200 rounded w-16 animate-pulse" />
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {Array.from({ length: rows }).map((_, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {Array.from({ length: cols }).map((_, colIndex) => (
+                <TableCell key={colIndex}>
+                  <div 
+                    className="h-4 bg-slate-200 rounded animate-pulse" 
+                    style={{ width: `${Math.floor(((rowIndex + colIndex) % 5) * 10) + 40}%` }}
+                  />
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
 
 export default function SaccoAdminDashboard() {
   const token = useAxiosAuth()
@@ -78,15 +112,7 @@ export default function SaccoAdminDashboard() {
   const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
   const [createFeeTypeOpen, setCreateFeeTypeOpen] = useState(false);
 
-  if (
-    isLoadingMyself ||
-    isLoadingMembers ||
-    isLoadingSavingTypes ||
-    isLoadingLoanProducts ||
-    isLoadingFeeTypes
-  ) {
-    return <LoadingSpinner />;
-  }
+
 
   return (
     <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8">
@@ -101,9 +127,13 @@ export default function SaccoAdminDashboard() {
           </p>
         </div>
         <div className="bg-white px-4 py-2 rounded border shadow-sm">
-          <p className="text-sm font-medium text-gray-900">
-            {myself?.salutation} {myself?.last_name} (Admin)
-          </p>
+          {isLoadingMyself ? (
+            <div className="h-4 bg-slate-200 rounded w-32 animate-pulse" />
+          ) : (
+            <p className="text-sm font-medium text-gray-900">
+              {myself?.salutation} {myself?.last_name} (Admin)
+            </p>
+          )}
         </div>
       </div>
 
@@ -117,9 +147,13 @@ export default function SaccoAdminDashboard() {
             <Users className="h-4 w-4 text-[#174271]" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-semibold text-slate-900">
-              {members?.length || 0}
-            </div>
+            {isLoadingMembers ? (
+              <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
+            ) : (
+              <div className="text-xl font-semibold text-slate-900">
+                {members?.length || 0}
+              </div>
+            )}
           </CardContent>
         </Card>
         <Card>
@@ -130,7 +164,11 @@ export default function SaccoAdminDashboard() {
             <Wallet className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-semibold">{savingTypes?.length || 0}</div>
+            {isLoadingSavingTypes ? (
+              <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
+            ) : (
+              <div className="text-xl font-semibold">{savingTypes?.length || 0}</div>
+            )}
           </CardContent>
         </Card>
         <Card>
@@ -141,9 +179,13 @@ export default function SaccoAdminDashboard() {
             <CreditCard className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-semibold">
-              {loanProducts?.length || 0}
-            </div>
+            {isLoadingLoanProducts ? (
+              <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
+            ) : (
+              <div className="text-xl font-semibold">
+                {loanProducts?.length || 0}
+              </div>
+            )}
           </CardContent>
         </Card>
         <Card>
@@ -154,21 +196,173 @@ export default function SaccoAdminDashboard() {
             <TrendingUp className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-semibold">
-              {feeTypes?.length || 0}
-            </div>
+            {isLoadingFeeTypes ? (
+              <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />
+            ) : (
+              <div className="text-xl font-semibold">
+                {feeTypes?.length || 0}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
 
       {/* Tabs Content */}
-      <Tabs defaultValue="members" className="w-full">
+      <Tabs defaultValue="savings" className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:w-[600px] h-auto bg-white border">
-          <TabsTrigger value="members">Members</TabsTrigger>
           <TabsTrigger value="savings">Saving Types</TabsTrigger>
           <TabsTrigger value="loans">Loan Products</TabsTrigger>
           <TabsTrigger value="fee">Fee Types</TabsTrigger>
+          <TabsTrigger value="members">Members</TabsTrigger>
         </TabsList>
+
+        {/* Saving Types Tab */}
+        <TabsContent value="savings" className="pt-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle>Saving Types</CardTitle>
+              <Button
+                size="sm"
+                onClick={() => setCreateSavingTypeOpen(true)}
+                className="bg-green-600 hover:bg-green-700 text-white"
+              >
+                <Plus className="mr-2 h-4 w-4" /> Create Type
+              </Button>
+            </CardHeader>
+            <CardContent className="overflow-x-auto">
+              {isLoadingSavingTypes ? (
+                <TableSkeleton rows={4} cols={4} />
+              ) : savingTypes?.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Interest Rate</TableHead>
+                      <TableHead>Description</TableHead>
+                      <TableHead>Can Guarantee</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {savingTypes.map((type) => (
+                      <TableRow key={type.id || type.reference}>
+                        <TableCell className="font-medium">
+                          {type.name}
+                        </TableCell>
+                        <TableCell>{type.interest_rate}%</TableCell>
+                        <TableCell>{type.description || "-"}</TableCell>
+                        <TableCell>
+                          {type.can_guarantee ? "Yes" : "No"}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  No saving types found.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Loan Products Tab */}
+        <TabsContent value="loans" className="pt-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle>Loan Products</CardTitle>
+              <Button
+                size="sm"
+                onClick={() => setCreateLoanProductOpen(true)}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                <Plus className="mr-2 h-4 w-4" /> Create Product
+              </Button>
+            </CardHeader>
+            <CardContent className="overflow-x-auto">
+              {isLoadingLoanProducts ? (
+                <TableSkeleton rows={4} cols={4} />
+              ) : loanProducts?.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Interest Method</TableHead>
+                      <TableHead>Interest Rate</TableHead>
+                      <TableHead>Description</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {loanProducts.map((product) => (
+                      <TableRow key={product.id || product.reference}>
+                        <TableCell className="font-medium">
+                          {product.name}
+                        </TableCell>
+                        <TableCell>{product.interest_method}</TableCell>
+                        <TableCell>{product.interest_rate}%</TableCell>
+                        <TableCell>{product.description || "-"}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  No loan products found.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Fee Types Tab */}
+        <TabsContent value="fee" className="pt-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle>Fee Types</CardTitle>
+              <Button
+                size="sm"
+                onClick={() => setCreateFeeTypeOpen(true)}
+                className="bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                <Plus className="mr-2 h-4 w-4" /> Create Fee Type
+              </Button>
+            </CardHeader>
+            <CardContent className="overflow-x-auto">
+              {isLoadingFeeTypes ? (
+                <TableSkeleton rows={4} cols={5} />
+              ) : feeTypes?.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Amount</TableHead>
+                      <TableHead>Applies All</TableHead>
+                      <TableHead>Exceeds Limit</TableHead>
+                      <TableHead>Gl Account</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {feeTypes.map((type) => (
+                      <TableRow key={type.id || type.reference}>
+                        <TableCell className="font-medium">
+                          {type.name}
+                        </TableCell>
+                        <TableCell>{type.amount}</TableCell>
+                        <TableCell>{type.is_everyone ? "Yes" : "No"}</TableCell>
+                        <TableCell>{type.can_exceed_limit ? "Yes" : "No"}</TableCell>
+                        <TableCell>{type.gl_account || "-"}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  No fee types found.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         {/* Members Tab */}
         <TabsContent value="members" className="pt-6">
@@ -258,7 +452,7 @@ export default function SaccoAdminDashboard() {
                     onClick={async () => {
                       try {
                         await downloadAccountsListCSV(token);
-                        setPopoverOpen(false);
+                        setMemberPopoverOpen(false);
                       } catch (error) {
                         // console.error("Download failed", error);
                         toast.error("Download failed");
@@ -271,149 +465,11 @@ export default function SaccoAdminDashboard() {
               </PopoverContent>
             </Popover>
           </div>
-          <SaccoMembersTable members={members} />
-        </TabsContent>
-
-        {/* Saving Types Tab */}
-        <TabsContent value="savings" className="pt-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Saving Types</CardTitle>
-              <Button
-                size="sm"
-                onClick={() => setCreateSavingTypeOpen(true)}
-                className="bg-green-600 hover:bg-green-700 text-white"
-              >
-                <Plus className="mr-2 h-4 w-4" /> Create Type
-              </Button>
-            </CardHeader>
-            <CardContent className="overflow-x-auto">
-              {savingTypes?.length > 0 ? (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Interest Rate</TableHead>
-                      <TableHead>Description</TableHead>
-                      <TableHead>Can Guarantee</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {savingTypes.map((type) => (
-                      <TableRow key={type.id || type.reference}>
-                        <TableCell className="font-medium">
-                          {type.name}
-                        </TableCell>
-                        <TableCell>{type.interest_rate}%</TableCell>
-                        <TableCell>{type.description || "-"}</TableCell>
-                        <TableCell>
-                          {type.can_guarantee ? "Yes" : "No"}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No saving types found.
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Loan Products Tab */}
-        <TabsContent value="loans" className="pt-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Loan Products</CardTitle>
-              <Button
-                size="sm"
-                onClick={() => setCreateLoanProductOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                <Plus className="mr-2 h-4 w-4" /> Create Product
-              </Button>
-            </CardHeader>
-            <CardContent className="overflow-x-auto">
-              {loanProducts?.length > 0 ? (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Interest Method</TableHead>
-                      <TableHead>Interest Rate</TableHead>
-                      <TableHead>Description</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {loanProducts.map((product) => (
-                      <TableRow key={product.id || product.reference}>
-                        <TableCell className="font-medium">
-                          {product.name}
-                        </TableCell>
-                        <TableCell>{product.interest_method}</TableCell>
-                        <TableCell>{product.interest_rate}%</TableCell>
-                        <TableCell>{product.description || "-"}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No loan products found.
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Fee Types Tab */}
-        <TabsContent value="fee" className="pt-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Fee Types</CardTitle>
-              <Button
-                size="sm"
-                onClick={() => setCreateFeeTypeOpen(true)}
-                className="bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                <Plus className="mr-2 h-4 w-4" /> Create Fee Type
-              </Button>
-            </CardHeader>
-            <CardContent className="overflow-x-auto">
-              {feeTypes?.length > 0 ? (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Applies All</TableHead>
-                      <TableHead>Exceeds Limit</TableHead>
-                      <TableHead>Gl Account</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {feeTypes.map((type) => (
-                      <TableRow key={type.id || type.reference}>
-                        <TableCell className="font-medium">
-                          {type.name}
-                        </TableCell>
-                        <TableCell>{type.amount}</TableCell>
-                        <TableCell>{type.is_everyone ? "Yes" : "No"}</TableCell>
-                        <TableCell>{type.can_exceed_limit ? "Yes" : "No"}</TableCell>
-                        <TableCell>{type.gl_account || "-"}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No fee types found.
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          {isLoadingMembers ? (
+            <TableSkeleton rows={8} cols={5} />
+          ) : (
+            <SaccoMembersTable members={members} />
+          )}
         </TabsContent>
       </Tabs>
 
