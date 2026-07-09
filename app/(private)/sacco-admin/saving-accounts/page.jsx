@@ -63,8 +63,19 @@ const TableSkeleton = ({ rows = 5, cols = 6 }) => {
 export default function SavingAccountsPage() {
     const router = useRouter();
     const [page, setPage] = useState(1);
+    const [searchInput, setSearchInput] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
+
+    // Debounce search input changes by 500ms
+    React.useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            setSearchTerm(searchInput);
+            setPage(1);
+        }, 500);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [searchInput]);
 
     const { 
         data: savingsData, 
@@ -83,6 +94,20 @@ export default function SavingAccountsPage() {
     const totalCount = savingsData?.count || 0;
     const pageSize = 10; // Assuming 10 per page
     const totalPages = Math.ceil(totalCount / pageSize);
+
+    // Group savings by member name
+    const groupedSavings = savings.reduce((acc, current) => {
+        const memberName = current.member_name;
+        if (!acc[memberName]) {
+            acc[memberName] = {
+                member_name: memberName,
+                accounts: []
+            };
+        }
+        acc[memberName].accounts.push(current);
+        return acc;
+    }, {});
+    const groupedList = Object.values(groupedSavings);
 
     const handleSearchChange = (val) => {
         setSearchTerm(val);
@@ -149,8 +174,8 @@ export default function SavingAccountsPage() {
                                 <Input
                                     id="search"
                                     placeholder="Search by member name or account number..."
-                                    value={searchTerm}
-                                    onChange={(e) => handleSearchChange(e.target.value)}
+                                    value={searchInput}
+                                    onChange={(e) => setSearchInput(e.target.value)}
                                     className="pl-10 border-black rounded text-base"
                                 />
                             </div>
@@ -172,86 +197,82 @@ export default function SavingAccountsPage() {
 
                     {/* Table View */}
                     {isLoading ? (
-                        <TableSkeleton rows={8} cols={6} />
+                        <TableSkeleton rows={8} cols={2} />
                     ) : (
                         <>
                             <div className="overflow-x-auto border border-slate-100 rounded">
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 pl-6 px-4 py-3">Member Details</TableHead>
-                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Account Number</TableHead>
-                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Account Type</TableHead>
-                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3 text-right">Current Balance</TableHead>
-                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Status</TableHead>
-                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 text-right pr-6 px-4 py-3">Actions</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 pl-6 py-3 w-1/4">Member Details</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 py-3">Savings Accounts Details</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {savings?.length > 0 ? (
-                                            savings.map((acc) => (
-                                                <TableRow key={acc.reference} className="hover:bg-slate-50/80 transition-colors group border-b border-slate-50">
-                                                    <TableCell className="pl-6 py-4">
+                                        {groupedList.length > 0 ? (
+                                            groupedList.map((memberGroup) => (
+                                                <TableRow key={memberGroup.member_name} className="hover:bg-slate-50/30 transition-colors border-b border-slate-100">
+                                                    <TableCell className="pl-6 py-4 align-top">
                                                         <div className="flex flex-col">
-                                                            <span className="text-sm font-semibold text-slate-900 uppercase">{acc.member_name}</span>
-                                                            <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-tighter">Member Name</span>
+                                                            <span className="text-sm font-semibold text-slate-900 uppercase tracking-tight">{memberGroup.member_name}</span>
+                                                            <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-tighter mt-1">Sacco Member</span>
                                                         </div>
                                                     </TableCell>
-                                                    <TableCell className="py-4">
-                                                        <span className="text-sm font-mono text-[#174271] font-semibold bg-blue-50 px-2 py-1 rounded">
-                                                            {acc.account_number}
-                                                        </span>
-                                                    </TableCell>
-                                                    <TableCell className="py-4">
-                                                        <span className="text-xs font-semibold px-2 py-1 rounded bg-slate-100 text-slate-600">
-                                                            {acc.account_type}
-                                                        </span>
-                                                    </TableCell>
-                                                    <TableCell className="text-right py-4 font-semibold text-slate-900">
-                                                        <div className="flex flex-col items-end">
-                                                            <span className="text-sm font-mono tracking-tighter">
-                                                                KES {parseFloat(acc.balance).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                                            </span>
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell className="py-4">
-                                                        <div className="flex items-center gap-1.5">
-                                                            <div className={`w-1.5 h-1.5 rounded ${acc.is_active ? "bg-emerald-500" : "bg-slate-300"}`} />
-                                                            <span className={`text-[11px] font-semibold uppercase tracking-wider ${acc.is_active ? "text-emerald-600" : "text-slate-500"}`}>
-                                                                {acc.is_active ? "Active" : "Inactive"}
-                                                            </span>
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell className="text-right pr-6 py-4">
-                                                        <div className="flex justify-end gap-2">
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="icon"
-                                                                className="h-8 w-8 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 border border-transparent hover:border-emerald-100 rounded transition-all"
-                                                                onClick={() => {
-                                                                    setSelectedAccount(acc);
-                                                                    setIsCreateModalOpen(true);
-                                                                }}
-                                                                title="Direct Deposit"
-                                                            >
-                                                                <TrendingUp className="h-4 w-4" />
-                                                            </Button>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="icon"
-                                                                className="h-8 w-8 text-slate-400 hover:text-[#174271] hover:bg-slate-50 border border-transparent hover:border-slate-100 rounded transition-all"
-                                                                onClick={() => router.push(`/sacco-admin/saving-accounts/${acc.reference}`)}
-                                                                title="View Transactions"
-                                                            >
-                                                                <Eye className="h-4 w-4" />
-                                                            </Button>
+                                                    <TableCell className="py-4 pr-6 align-top">
+                                                        <div className="space-y-3">
+                                                            {memberGroup.accounts.map((acc) => (
+                                                                <div key={acc.reference} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-slate-50/50 hover:bg-slate-50/80 border border-slate-100 rounded-md transition-all">
+                                                                    <div className="flex items-center gap-3">
+                                                                        <span className="text-xs font-semibold px-2 py-1 rounded bg-blue-50 text-[#174271] font-mono">
+                                                                            {acc.account_number}
+                                                                        </span>
+                                                                        <span className="text-xs font-semibold text-slate-600">
+                                                                            {acc.account_type}
+                                                                        </span>
+                                                                        <div className="flex items-center gap-1">
+                                                                            <div className={`w-1.5 h-1.5 rounded-full ${acc.is_active ? "bg-emerald-500" : "bg-slate-300"}`} />
+                                                                            <span className={`text-[10px] font-bold uppercase tracking-wider ${acc.is_active ? "text-emerald-600" : "text-slate-500"}`}>
+                                                                                {acc.is_active ? "Active" : "Inactive"}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex items-center justify-between sm:justify-end gap-4 ml-auto sm:ml-0">
+                                                                        <span className="text-sm font-semibold text-slate-900 font-mono">
+                                                                            KES {parseFloat(acc.balance).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                                                        </span>
+                                                                        <div className="flex gap-1.5">
+                                                                            <Button
+                                                                                variant="outline"
+                                                                                size="icon"
+                                                                                className="h-7 w-7 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 rounded transition-all"
+                                                                                onClick={() => {
+                                                                                    setSelectedAccount(acc);
+                                                                                    setIsCreateModalOpen(true);
+                                                                                }}
+                                                                                title="Direct Deposit"
+                                                                            >
+                                                                                <TrendingUp className="h-3.5 w-3.5" />
+                                                                            </Button>
+                                                                            <Button
+                                                                                variant="outline"
+                                                                                size="icon"
+                                                                                className="h-7 w-7 text-slate-400 hover:text-[#174271] hover:bg-slate-100 hover:border-slate-300 rounded transition-all"
+                                                                                onClick={() => router.push(`/sacco-admin/saving-accounts/${acc.reference}`)}
+                                                                                title="View Transactions"
+                                                                            >
+                                                                                <Eye className="h-3.5 w-3.5" />
+                                                                            </Button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
                                                         </div>
                                                     </TableCell>
                                                 </TableRow>
                                             ))
                                         ) : (
                                             <TableRow>
-                                                <TableCell colSpan={6} className="text-center h-64 text-slate-400 text-sm font-medium">
+                                                <TableCell colSpan={2} className="text-center h-64 text-slate-400 text-sm font-medium">
                                                     <div className="flex flex-col items-center gap-2">
                                                         <PiggyBank className="w-12 h-12 text-slate-100" />
                                                         No savings accounts found.
