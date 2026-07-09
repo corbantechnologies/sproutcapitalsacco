@@ -40,7 +40,6 @@ import BulkMemberCreate from "@/forms/members/BulkMemberCreate";
 import BulkMemberUploadCreate from "@/forms/members/BulkMemberUploadCreate";
 import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
-import LoadingSpinner from "@/components/general/LoadingSpinner";
 import { downloadBulkMembersTemplate } from "@/services/members";
 import { downloadAccountsListCSV } from "@/services/transactions";
 import toast from "react-hot-toast";
@@ -66,8 +65,8 @@ const TableSkeleton = ({ rows = 5, cols = 4 }) => {
             <TableRow key={rowIndex}>
               {Array.from({ length: cols }).map((_, colIndex) => (
                 <TableCell key={colIndex}>
-                  <div 
-                    className="h-4 bg-slate-200 rounded animate-pulse" 
+                  <div
+                    className="h-4 bg-slate-200 rounded animate-pulse"
                     style={{ width: `${Math.floor(((rowIndex + colIndex) % 5) * 10) + 40}%` }}
                   />
                 </TableCell>
@@ -237,9 +236,8 @@ export default function SaccoAdminDashboard() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Name</TableHead>
-                      <TableHead>Interest Rate</TableHead>
-                      <TableHead>Description</TableHead>
                       <TableHead>Can Guarantee</TableHead>
+                      <TableHead>Gl Account</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -248,11 +246,10 @@ export default function SaccoAdminDashboard() {
                         <TableCell className="font-medium">
                           {type.name}
                         </TableCell>
-                        <TableCell>{type.interest_rate}%</TableCell>
-                        <TableCell>{type.description || "-"}</TableCell>
                         <TableCell>
                           {type.can_guarantee ? "Yes" : "No"}
                         </TableCell>
+                        <TableCell>{type.gl_account || "-"}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -289,7 +286,6 @@ export default function SaccoAdminDashboard() {
                       <TableHead>Name</TableHead>
                       <TableHead>Interest Method</TableHead>
                       <TableHead>Interest Rate</TableHead>
-                      <TableHead>Description</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -300,7 +296,6 @@ export default function SaccoAdminDashboard() {
                         </TableCell>
                         <TableCell>{product.interest_method}</TableCell>
                         <TableCell>{product.interest_rate}%</TableCell>
-                        <TableCell>{product.description || "-"}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
