@@ -9,7 +9,7 @@ export const createSavingAccount = async (values, token) => {
 };
 
 export const getSavings = async (token) => {
-  const response = await apiActions?.get("/api/v1/savings/",token);
+  const response = await apiActions?.get("/api/v1/savings/", token);
   return response?.data;
 };
 

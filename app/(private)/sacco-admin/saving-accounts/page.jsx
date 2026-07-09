@@ -64,20 +64,7 @@ export default function SavingAccountsPage() {
     const router = useRouter();
     const [page, setPage] = useState(1);
     const [searchInput, setSearchInput] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
-
-    // Debounce search input changes by 500ms
-    React.useEffect(() => {
-        if (searchInput === searchTerm) return;
-
-        const delayDebounceFn = setTimeout(() => {
-            setSearchTerm(searchInput);
-            setPage(1);
-        }, 500);
-
-        return () => clearTimeout(delayDebounceFn);
-    }, [searchInput, searchTerm]);
 
     const { 
         data: savingsData, 
@@ -88,27 +75,53 @@ export default function SavingAccountsPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [selectedAccount, setSelectedAccount] = useState(null);
 
-    const savings = savingsData?.results || [];
-    const totalCount = savingsData?.count || 0;
-    const pageSize = 10; // Assuming 10 per page
-    const totalPages = Math.ceil(totalCount / pageSize);
+    // Filter savings client-side
+    const filteredSavings = React.useMemo(() => {
+        const rawSavings = savingsData?.results || savingsData || [];
+        const term = searchInput.trim().toLowerCase();
+        
+        return rawSavings.filter((acc) => {
+            const matchesSearch = 
+                !term || 
+                acc.member_name?.toLowerCase().includes(term) ||
+                acc.account_number?.toLowerCase().includes(term);
 
-    // Group savings by member name
-    const groupedSavings = savings.reduce((acc, current) => {
-        const memberName = current.member_name;
-        if (!acc[memberName]) {
-            acc[memberName] = {
-                member_name: memberName,
-                accounts: []
-            };
-        }
-        acc[memberName].accounts.push(current);
-        return acc;
-    }, {});
-    const groupedList = Object.values(groupedSavings);
+            const matchesStatus = 
+                statusFilter === "all" ||
+                (statusFilter === "active" && acc.is_active) ||
+                (statusFilter === "inactive" && !acc.is_active);
+
+            return matchesSearch && matchesStatus;
+        });
+    }, [savingsData, searchInput, statusFilter]);
+
+    // Group the FILTERED savings by member name
+    const groupedSavings = React.useMemo(() => {
+        return filteredSavings.reduce((acc, current) => {
+            const memberName = current.member_name;
+            if (!acc[memberName]) {
+                acc[memberName] = {
+                    member_name: memberName,
+                    accounts: []
+                };
+            }
+            acc[memberName].accounts.push(current);
+            return acc;
+        }, {});
+    }, [filteredSavings]);
+    
+    const groupedList = React.useMemo(() => Object.values(groupedSavings), [groupedSavings]);
+
+    const totalCount = groupedList.length; // total unique members matching filters
+    const pageSize = 10;
+    const totalPages = Math.ceil(totalCount / pageSize);
+    
+    const paginatedGroupedList = React.useMemo(() => {
+        return groupedList.slice((page - 1) * pageSize, page * pageSize);
+    }, [groupedList, page, pageSize]);
 
     const handleSearchChange = (val) => {
-        setSearchTerm(val);
+        setSearchInput(val);
         setPage(1);
     };
 
@@ -207,8 +220,8 @@ export default function SavingAccountsPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {groupedList.length > 0 ? (
-                                            groupedList.map((memberGroup) => (
+                                        {paginatedGroupedList.length > 0 ? (
+                                            paginatedGroupedList.map((memberGroup) => (
                                                 <TableRow key={memberGroup.member_name} className="hover:bg-slate-50/30 transition-colors border-b border-slate-100">
                                                     <TableCell className="pl-6 py-4 align-top">
                                                         <div className="flex flex-col">
