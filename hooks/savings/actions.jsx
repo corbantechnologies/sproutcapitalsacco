@@ -5,10 +5,12 @@ import { getSaving, getSavings } from "@/services/savings";
 
 export function useFetchSavings(params) {
   const token = useAxiosAuth();
+  const isTokenReady = !!token?.headers?.Authorization && !token.headers.Authorization.endsWith("undefined") && !token.headers.Authorization.endsWith("null");
 
   return useQuery({
     queryKey: ["savings", params],
     queryFn: () => getSavings(params, token),
+    enabled: isTokenReady,
   });
 }
 

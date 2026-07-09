@@ -297,15 +297,17 @@ export default function SavingAccountsPage() {
             </Card>
 
             {/* Single Deposit Modal */}
-            <CreateDepositAdmin
-                isOpen={isCreateModalOpen}
-                onClose={() => {
-                    setIsCreateModalOpen(false);
-                    setSelectedAccount(null);
-                }}
-                refetchMember={refetch}
-                accounts={savings} 
-            />
+            {isCreateModalOpen && (
+                <CreateDepositAdmin
+                    isOpen={isCreateModalOpen}
+                    onClose={() => {
+                        setIsCreateModalOpen(false);
+                        setSelectedAccount(null);
+                    }}
+                    refetchMember={refetch}
+                    accounts={savings} 
+                />
+            )}
         </div>
     );
 }

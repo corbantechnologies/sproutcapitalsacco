@@ -6,10 +6,12 @@ import { getPaymentAccount, getPaymentAccounts } from "@/services/paymentaccount
 
 export function useFetchPaymentAccounts() {
     const token = useAxiosAuth();
+    const isTokenReady = !!token?.headers?.Authorization && !token.headers.Authorization.endsWith("undefined") && !token.headers.Authorization.endsWith("null");
 
     return useQuery({
         queryKey: ["paymentaccounts"],
         queryFn: () => getPaymentAccounts(token),
+        enabled: isTokenReady,
     });
 }
 
