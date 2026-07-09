@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { useFetchSavingDetail } from "@/hooks/savings/actions";
 import { useUpdateSavingsDeposit } from "@/hooks/savingsdeposits/actions";
 import { useQueryClient } from "@tanstack/react-query";
@@ -102,15 +103,7 @@ export default function SavingAccountReferencePage() {
                         </p>
                     </div>
                 </div>
-                <div className="flex gap-2">
-                    <Button
-                        variant="outline"
-                        className="text-xs font-semibold h-10 border-slate-200"
-                        onClick={() => window.print()}
-                    >
-                        <FileText className="w-4 h-4 mr-2 text-slate-400" /> Print Statement
-                    </Button>
-                </div>
+
             </div>
 
             {/* Account Summary Cards */}
@@ -139,9 +132,12 @@ export default function SavingAccountReferencePage() {
                             </div>
                             <div>
                                 <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Member Owner</p>
-                                <p className="text-sm font-semibold text-slate-900 uppercase tracking-tight truncate max-w-[150px]">
+                                <Link 
+                                    href={`/sacco-admin/members/${account.member}`}
+                                    className="text-sm font-semibold text-slate-900 uppercase tracking-tight truncate max-w-[150px] hover:text-[#174271] hover:underline block"
+                                >
                                     {account.member_name}
-                                </p>
+                                </Link>
                             </div>
                         </div>
                     </CardContent>
@@ -265,53 +261,7 @@ export default function SavingAccountReferencePage() {
                 </CardContent>
             </Card>
 
-            {/* Additional Info / Statement Footer */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="border-none shadow-sm bg-white">
-                    <CardHeader className="px-6 py-4 border-b">
-                        <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                            <Receipt className="w-4 h-4 text-slate-400" /> Administrative Notes
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                        <div className="space-y-4">
-                            <div className="flex justify-between items-center text-xs">
-                                <span className="font-semibold text-slate-400 uppercase">Last Updated</span>
-                                <span className="font-medium text-slate-600">{new Date(account.updated_at).toLocaleString()}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-xs">
-                                <span className="font-semibold text-slate-400 uppercase">System Reference</span>
-                                <span className="font-mono font-semibold text-[#174271]">{account.reference}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-xs">
-                                <span className="font-semibold text-slate-400 uppercase">Identity Hash</span>
-                                <span className="text-slate-500">{account.identity}</span>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
 
-                <Card className="border-none shadow-sm bg-[#174271] text-white">
-                    <CardHeader className="px-6 py-4 border-white/10 border-b">
-                        <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                            <CreditCard className="w-4 h-4 text-white/60" /> Account Settings
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                        <p className="text-xs text-white/70 font-medium mb-4">
-                            Manage account limits, interest calculation methods, and status overrides.
-                        </p>
-                        <div className="flex gap-2">
-                            <Button variant="outline" className="text-[10px] font-semibold h-8 uppercase bg-white/5 border-white/20 text-white hover:bg-white/10">
-                                Edit Settings
-                            </Button>
-                            <Button variant="outline" className="text-[10px] font-semibold h-8 uppercase bg-white/5 border-white/20 text-white hover:bg-white/10">
-                                Deactivate Account
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
 
             {/* Edit Date Modal */}
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>

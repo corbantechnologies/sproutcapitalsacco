@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useFetchSavings } from "@/hooks/savings/actions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -225,7 +226,12 @@ export default function SavingAccountsPage() {
                                                 <TableRow key={memberGroup.member_name} className="hover:bg-slate-50/30 transition-colors border-b border-slate-100">
                                                     <TableCell className="pl-6 py-4 align-top">
                                                         <div className="flex flex-col">
-                                                            <span className="text-sm font-semibold text-slate-900 uppercase tracking-tight">{memberGroup.member_name}</span>
+                                                            <Link
+                                                                href={`/sacco-admin/members/${memberGroup.accounts[0]?.member}`}
+                                                                className="text-sm font-semibold text-slate-900 uppercase tracking-tight hover:text-[#174271] hover:underline block"
+                                                            >
+                                                                {memberGroup.member_name}
+                                                            </Link>
                                                             <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-tighter mt-1">Sacco Member</span>
                                                         </div>
                                                     </TableCell>
