@@ -114,7 +114,8 @@ function SavingsDepositsTable({ deposits }) {
 
   // Filter deposits
   const filteredDeposits = useMemo(() => {
-    return deposits?.filter((deposit) => {
+    const depositsArray = Array.isArray(deposits) ? deposits : deposits?.results || [];
+    return depositsArray.filter((deposit) => {
       const depositDate = new Date(deposit.created_at);
 
       // Specific Date Filter
