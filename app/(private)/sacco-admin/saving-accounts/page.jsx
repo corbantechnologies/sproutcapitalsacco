@@ -65,7 +65,7 @@ export default function SavingDepositsPage() {
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                        <h1 className="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
                             <PiggyBank className="w-6 h-6 text-[#174271]" /> Savings & Deposits
                         </h1>
                         <p className="text-slate-500 text-sm font-medium">
@@ -76,7 +76,7 @@ export default function SavingDepositsPage() {
                 <div className="flex gap-2">
                     <Button
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-bold px-6 h-10 shadow-lg shadow-blue-100"
+                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-semibold px-6 h-10 shadow-lg shadow-blue-100"
                     >
                         <Plus className="w-4 h-4 mr-1" /> Single Deposit
                     </Button>
@@ -85,10 +85,10 @@ export default function SavingDepositsPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded-xl grid grid-cols-3 gap-1 overflow-hidden">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded grid grid-cols-3 gap-1 overflow-hidden">
                     <TabsTrigger
                         value="list"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <ListFilter className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">All Accounts</span>
@@ -96,7 +96,7 @@ export default function SavingDepositsPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <Plus className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Multi-Form</span>
@@ -104,7 +104,7 @@ export default function SavingDepositsPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <FileUp className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden md:inline">CSV Upload</span>
@@ -118,10 +118,10 @@ export default function SavingDepositsPage() {
                         <CardHeader className="bg-white border-b px-6 py-4">
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <CardTitle className="text-lg font-bold">Member Savings Accounts</CardTitle>
+                                    <CardTitle className="text-lg font-semibold">Member Savings Accounts</CardTitle>
                                     <CardDescription className="text-xs font-medium">A comprehensive list of all active saving accounts in the SACCO.</CardDescription>
                                 </div>
-                                <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1 rounded-full">
+                                <div className="flex items-center gap-2 text-[11px] font-semibold text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1 rounded">
                                     Total: {totalCount} Accounts
                                 </div>
                             </div>
@@ -131,12 +131,12 @@ export default function SavingDepositsPage() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 pl-6 px-4 py-3">Member Details</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 px-4 py-3">Account Number</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 px-4 py-3">Account Type</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 px-4 py-3 text-right">Current Balance</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 px-4 py-3">Status</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 text-right pr-6 px-4 py-3">Actions</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 pl-6 px-4 py-3">Member Details</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Account Number</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Account Type</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3 text-right">Current Balance</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Status</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 text-right pr-6 px-4 py-3">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -145,12 +145,12 @@ export default function SavingDepositsPage() {
                                                 <TableRow key={acc.reference} className="hover:bg-slate-50/80 transition-colors group border-b border-slate-50">
                                                     <TableCell className="pl-6 py-4">
                                                         <div className="flex flex-col">
-                                                            <span className="text-sm font-bold text-slate-900 uppercase">{acc.member_name}</span>
-                                                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Member Name</span>
+                                                            <span className="text-sm font-semibold text-slate-900 uppercase">{acc.member_name}</span>
+                                                            <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-tighter">Member Name</span>
                                                         </div>
                                                     </TableCell>
                                                     <TableCell className="py-4">
-                                                        <span className="text-sm font-mono text-[#174271] font-bold bg-blue-50 px-2 py-1 rounded">
+                                                        <span className="text-sm font-mono text-[#174271] font-semibold bg-blue-50 px-2 py-1 rounded">
                                                             {acc.account_number}
                                                         </span>
                                                     </TableCell>
@@ -159,7 +159,7 @@ export default function SavingDepositsPage() {
                                                             {acc.account_type}
                                                         </span>
                                                     </TableCell>
-                                                    <TableCell className="text-right py-4 font-bold text-slate-900">
+                                                    <TableCell className="text-right py-4 font-semibold text-slate-900">
                                                         <div className="flex flex-col items-end">
                                                             <span className="text-sm font-mono tracking-tighter">
                                                                 KES {parseFloat(acc.balance).toLocaleString(undefined, { minimumFractionDigits: 2 })}
@@ -168,8 +168,8 @@ export default function SavingDepositsPage() {
                                                     </TableCell>
                                                     <TableCell className="py-4">
                                                         <div className="flex items-center gap-1.5">
-                                                            <div className={`w-1.5 h-1.5 rounded-full ${acc.is_active ? "bg-emerald-500" : "bg-slate-300"}`} />
-                                                            <span className={`text-[11px] font-bold uppercase tracking-wider ${acc.is_active ? "text-emerald-600" : "text-slate-500"}`}>
+                                                            <div className={`w-1.5 h-1.5 rounded ${acc.is_active ? "bg-emerald-500" : "bg-slate-300"}`} />
+                                                            <span className={`text-[11px] font-semibold uppercase tracking-wider ${acc.is_active ? "text-emerald-600" : "text-slate-500"}`}>
                                                                 {acc.is_active ? "Active" : "Inactive"}
                                                             </span>
                                                         </div>
@@ -179,7 +179,7 @@ export default function SavingDepositsPage() {
                                                             <Button
                                                                 variant="ghost"
                                                                 size="icon"
-                                                                className="h-8 w-8 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 border border-transparent hover:border-emerald-100 rounded-md transition-all"
+                                                                className="h-8 w-8 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 border border-transparent hover:border-emerald-100 rounded transition-all"
                                                                 onClick={() => {
                                                                     setSelectedAccount(acc);
                                                                     setIsCreateModalOpen(true);
@@ -191,7 +191,7 @@ export default function SavingDepositsPage() {
                                                             <Button
                                                                 variant="ghost"
                                                                 size="icon"
-                                                                className="h-8 w-8 text-slate-400 hover:text-[#174271] hover:bg-slate-50 border border-transparent hover:border-slate-100 rounded-md transition-all"
+                                                                className="h-8 w-8 text-slate-400 hover:text-[#174271] hover:bg-slate-50 border border-transparent hover:border-slate-100 rounded transition-all"
                                                                 onClick={() => router.push(`/sacco-admin/saving-accounts/${acc.reference}`)}
                                                                 title="View Transactions"
                                                             >
@@ -218,7 +218,7 @@ export default function SavingDepositsPage() {
                             {/* Pagination */}
                             {totalPages > 1 && (
                                 <div className="flex items-center justify-between px-6 py-4 bg-slate-50/50 border-t">
-                                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                                    <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">
                                         Showing Page {page} of {totalPages}
                                     </p>
                                     <div className="flex gap-2">
@@ -227,7 +227,7 @@ export default function SavingDepositsPage() {
                                             size="sm"
                                             disabled={page === 1}
                                             onClick={() => setPage(p => Math.max(1, p - 1))}
-                                            className="h-8 text-[11px] font-bold uppercase tracking-wider"
+                                            className="h-8 text-[11px] font-semibold uppercase tracking-wider"
                                         >
                                             <ChevronLeft className="w-4 h-4 mr-1" /> Previous
                                         </Button>
@@ -236,7 +236,7 @@ export default function SavingDepositsPage() {
                                             size="sm"
                                             disabled={page === totalPages}
                                             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                                            className="h-8 text-[11px] font-bold uppercase tracking-wider"
+                                            className="h-8 text-[11px] font-semibold uppercase tracking-wider"
                                         >
                                             Next <ChevronRight className="w-4 h-4 ml-1" />
                                         </Button>
@@ -249,7 +249,7 @@ export default function SavingDepositsPage() {
 
                 {/* Bulk Form Tab */}
                 <TabsContent value="bulk-create" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none bg-white p-6 rounded-xl">
+                    <Card className="shadow-sm border-none bg-white p-6 rounded">
                         <CardContent className="p-0">
                             <BulkSavingDepositCreate onBatchSuccess={refetch} />
                         </CardContent>
@@ -258,7 +258,7 @@ export default function SavingDepositsPage() {
 
                 {/* Bulk Upload Tab */}
                 <TabsContent value="bulk-upload" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none bg-white rounded-xl p-8">
+                    <Card className="shadow-sm border-none bg-white rounded p-8">
                         <CardContent className="p-0">
                             <BulkSavingDepositUploadCreate onBatchSuccess={refetch} />
                         </CardContent>

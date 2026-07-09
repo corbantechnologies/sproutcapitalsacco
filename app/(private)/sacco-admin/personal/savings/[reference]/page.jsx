@@ -178,7 +178,7 @@ function SavingsDetail() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-xl font-semibold text-gray-900">
                 {saving.account_type}
               </h1>
               <Badge
@@ -236,7 +236,7 @@ function SavingsDetail() {
                     <span className="text-muted-foreground">
                       Available Balance
                     </span>
-                    <span className="font-bold text-2xl text-[#045e32]">
+                    <span className="font-semibold text-xl text-[#045e32]">
                       {formatCurrency(saving.balance)}
                     </span>
                   </div>

@@ -118,7 +118,7 @@ export default function DepositProcessing() {
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <CardTitle className="text-2xl font-bold text-[#045e32]">
+            <CardTitle className="text-xl font-semibold text-[#045e32]">
               Complete Deposit
             </CardTitle>
           </div>
@@ -131,7 +131,7 @@ export default function DepositProcessing() {
           <div className="bg-gray-50 p-4 rounded space-y-3 border">
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground">Amount</span>
-              <span className="font-bold text-lg">
+              <span className="font-semibold text-lg">
                 {formatCurrency(deposit.amount)}
               </span>
             </div>
@@ -261,7 +261,7 @@ export default function DepositProcessing() {
             </div>
           )}
         </CardContent>
-        <CardFooter className="flex justify-center border-t p-4 bg-gray-50 rounded-b-xl">
+        <CardFooter className="flex justify-center border-t p-4 bg-gray-50 rounded-b">
           <p className="text-xs text-muted-foreground text-center">
             A prompt will be sent to your phone. Enter your M-Pesa PIN to
             authorize the transaction.

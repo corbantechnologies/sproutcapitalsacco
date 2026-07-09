@@ -278,7 +278,7 @@ function MemberDetail() {
 
               <div className="flex-1 space-y-4">
                 <div>
-                  <h1 className="text-2xl md:text-4xl font-bold text-foreground mb-2">
+                  <h1 className="text-xl md:text-xl font-semibold text-foreground mb-2">
                     {member?.first_name}{" "}
                     {member?.middle_name && member.middle_name + " "}
                     {member?.last_name}
@@ -534,7 +534,7 @@ function MemberDetail() {
           <div className="lg:col-span-2 space-y-8">
             <Card className="shadow-md">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-2xl">
+                <CardTitle className="flex items-center gap-2 text-xl">
                   <User className="h-6 w-6 text-primary" />
                   Personal Information
                 </CardTitle>
@@ -572,7 +572,7 @@ function MemberDetail() {
             {hasEmploymentData && (
               <Card className="shadow-md">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-2xl">
+                  <CardTitle className="flex items-center gap-2 text-xl">
                     <Building className="h-6 w-6 text-primary" />
                     Employment Details
                   </CardTitle>
@@ -601,7 +601,7 @@ function MemberDetail() {
               <Card className="shadow-md border-l-4 border-l-indigo-500">
                 <CardHeader>
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
-                    <CardTitle className="flex items-center gap-2 text-2xl">
+                    <CardTitle className="flex items-center gap-2 text-xl">
                       <Shield className="h-6 w-6 text-primary" />
                       Guarantor Profile
                     </CardTitle>
@@ -642,7 +642,7 @@ function MemberDetail() {
 
                   {member.guarantor_profile.guarantees?.length > 0 && (
                     <div className="mt-6">
-                      <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 ml-1">
+                      <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-3 ml-1">
                         Active Guarantees
                       </h4>
                       <div className="overflow-x-auto">

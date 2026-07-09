@@ -54,11 +54,11 @@ export default function MemberHelpCenter() {
         <div className="min-h-screen bg-slate-50/50 p-4 md:p-8 space-y-8 mx-auto">
             {/* Hero Section */}
             <div className="text-center space-y-4 py-8">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#236c2e]/10 text-[#236c2e] text-xs font-bold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#236c2e]/10 text-[#236c2e] text-xs font-semibold uppercase tracking-wider">
                     <HelpCircle className="w-4 h-4" />
                     Support Center
                 </div>
-                <h1 className="text-4xl font-bold tracking-tight text-slate-900">
+                <h1 className="text-xl font-semibold tracking-tight text-slate-900">
                     How can we help you grow?
                 </h1>
                 <p className="text-slate-600 text-lg max-w-2xl mx-auto">
@@ -71,7 +71,7 @@ export default function MemberHelpCenter() {
                 {quickLinks.map((link, idx) => (
                     <Card key={idx} className="hover:border-[#236c2e] transition-all hover:shadow-md cursor-pointer group">
                         <CardHeader className="space-y-4">
-                            <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-[#236c2e] group-hover:bg-[#236c2e] group-hover:text-white transition-colors">
+                            <div className="w-10 h-10 rounded bg-slate-100 flex items-center justify-center text-[#236c2e] group-hover:bg-[#236c2e] group-hover:text-white transition-colors">
                                 <link.icon className="w-6 h-6" />
                             </div>
                             <div>
@@ -86,7 +86,7 @@ export default function MemberHelpCenter() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* FAQs Section */}
                 <div className="lg:col-span-2 space-y-6">
-                    <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                    <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
                         <ShieldCheck className="w-6 h-6 text-[#236c2e]" />
                         Frequently Asked Questions
                     </h2>
@@ -110,7 +110,7 @@ export default function MemberHelpCenter() {
 
                 {/* Contact Sidebar */}
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                    <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
                         <MessageCircle className="w-6 h-6 text-[#236c2e]" />
                         Contact Us
                     </h2>
@@ -122,22 +122,22 @@ export default function MemberHelpCenter() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-white/10 rounded-lg text-center sm:text-left">
+                            <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-white/10 rounded text-center sm:text-left">
                                 <Mail className="w-5 h-5 flex-shrink-0" />
                                 <div className="text-sm">
-                                    <p className="font-bold">Email Support</p>
+                                    <p className="font-semibold">Email Support</p>
                                     <p className="opacity-80 text-xs">support@sproutsacco.com</p>
                                 </div>
                             </div>
-                            <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-white/10 rounded-lg text-center sm:text-left">
+                            <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-white/10 rounded text-center sm:text-left">
                                 <UserCircle className="w-5 h-5 flex-shrink-0" />
                                 <div className="text-sm">
-                                    <p className="font-bold">Admin Office</p>
+                                    <p className="font-semibold">Admin Office</p>
                                     <p className="opacity-80 text-xs">Visit us during business hours</p>
                                 </div>
                             </div>
 
-                            <Button className="w-full bg-white text-[#236c2e] hover:bg-slate-100 font-bold mt-4">
+                            <Button className="w-full bg-white text-[#236c2e] hover:bg-slate-100 font-semibold mt-4">
                                 Open a Support Ticket
                             </Button>
                         </CardContent>

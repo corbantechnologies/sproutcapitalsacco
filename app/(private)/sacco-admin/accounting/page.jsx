@@ -87,7 +87,7 @@ export default function AccountingPage() {
         <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                    <h1 className="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
                         <BookOpen className="w-6 h-6 text-[#ea1315]" />
                         Accounting Dashboard
                     </h1>
@@ -131,8 +131,8 @@ export default function AccountingPage() {
                 {/* GL ACCOUNTS TAB */}
                 <TabsContent value="gl-accounts">
                     <Card className="shadow-sm border-none">
-                        <CardHeader className="bg-white border-b rounded-t-lg p-4 md:p-6">
-                            <CardTitle className="text-lg font-bold">Chart of Accounts</CardTitle>
+                        <CardHeader className="bg-white border-b rounded-t p-4 md:p-6">
+                            <CardTitle className="text-lg font-semibold">Chart of Accounts</CardTitle>
                             <CardDescription>All general ledger accounts configured in the system</CardDescription>
                         </CardHeader>
                         <CardContent className="p-0 overflow-x-auto">
@@ -140,11 +140,11 @@ export default function AccountingPage() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-slate-50/50">
-                                            <TableHead className="font-bold text-xs">ACCOUNT NAME</TableHead>
-                                            <TableHead className="font-bold text-xs">CODE</TableHead>
-                                            <TableHead className="font-bold text-xs">CATEGORY</TableHead>
-                                            <TableHead className="font-bold text-xs">BALANCE</TableHead>
-                                            <TableHead className="font-bold text-xs">ACTION</TableHead>
+                                            <TableHead className="font-semibold text-xs">ACCOUNT NAME</TableHead>
+                                            <TableHead className="font-semibold text-xs">CODE</TableHead>
+                                            <TableHead className="font-semibold text-xs">CATEGORY</TableHead>
+                                            <TableHead className="font-semibold text-xs">BALANCE</TableHead>
+                                            <TableHead className="font-semibold text-xs">ACTION</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -153,16 +153,16 @@ export default function AccountingPage() {
                                                 <TableCell className="text-sm font-medium text-slate-700">{acc.name}</TableCell>
                                                 <TableCell className="text-sm text-slate-500 font-mono">{acc.code}</TableCell>
                                                 <TableCell>
-                                                    <Badge variant="outline" className="capitalize text-[10px] font-bold">
+                                                    <Badge variant="outline" className="capitalize text-[10px] font-semibold">
                                                         {acc.category?.toLowerCase()}
                                                     </Badge>
                                                 </TableCell>
-                                                <TableCell className="text-sm font-bold text-slate-900 font-mono">
+                                                <TableCell className="text-sm font-semibold text-slate-900 font-mono">
                                                     KES {Number(acc.balance).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                                 </TableCell>
                                                 <TableCell>
                                                     <Link href={`/sacco-admin/accounting/${acc.reference}`} target="_blank">
-                                                        <Button variant="ghost" size="sm" className="text-[#ea1315] hover:bg-[#ea1315]/10 flex items-center gap-1 font-bold group">
+                                                        <Button variant="ghost" size="sm" className="text-[#ea1315] hover:bg-[#ea1315]/10 flex items-center gap-1 font-semibold group">
                                                             <Eye className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                                                             View
                                                         </Button>
@@ -184,28 +184,28 @@ export default function AccountingPage() {
                 {/* JOURNAL BATCHES TAB */}
                 <TabsContent value="journal-batches">
                     <Card className="shadow-sm border-none">
-                        <CardHeader className="bg-white border-b rounded-t-lg p-4 md:p-6">
+                        <CardHeader className="bg-white border-b rounded-t p-4 md:p-6">
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                                 <div>
-                                    <CardTitle className="text-lg font-bold">Journal Batches</CardTitle>
+                                    <CardTitle className="text-lg font-semibold">Journal Batches</CardTitle>
                                     <CardDescription>Overview of transaction batches</CardDescription>
                                 </div>
-                                <div className="flex bg-slate-100 p-1 rounded-lg self-end md:self-auto">
+                                <div className="flex bg-slate-100 p-1 rounded self-end md:self-auto">
                                     <button
                                         onClick={() => setBatchViewMode("list")}
-                                        className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${batchViewMode === "list" ? "bg-white text-[#ea1315] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+                                        className={`px-4 py-1.5 text-xs font-semibold rounded transition-all ${batchViewMode === "list" ? "bg-white text-[#ea1315] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
                                     >
                                         List View
                                     </button>
                                     <button
                                         onClick={() => setBatchViewMode("form")}
-                                        className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${batchViewMode === "form" ? "bg-white text-[#ea1315] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+                                        className={`px-4 py-1.5 text-xs font-semibold rounded transition-all ${batchViewMode === "form" ? "bg-white text-[#ea1315] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
                                     >
                                         Bulk Form
                                     </button>
                                     <button
                                         onClick={() => setBatchViewMode("upload")}
-                                        className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${batchViewMode === "upload" ? "bg-white text-[#ea1315] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+                                        className={`px-4 py-1.5 text-xs font-semibold rounded transition-all ${batchViewMode === "upload" ? "bg-white text-[#ea1315] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
                                     >
                                         Bulk Upload
                                     </button>
@@ -219,24 +219,24 @@ export default function AccountingPage() {
                                         <Table>
                                             <TableHeader>
                                                 <TableRow className="bg-slate-50/50">
-                                                    <TableHead className="font-bold text-xs">BATCH CODE</TableHead>
-                                                    <TableHead className="font-bold text-xs">DESCRIPTION</TableHead>
-                                                    <TableHead className="font-bold text-xs">DATE</TableHead>
-                                                    <TableHead className="font-bold text-xs">STATUS</TableHead>
-                                                    <TableHead className="font-bold text-xs text-right">ENTRIES</TableHead>
-                                                    <TableHead className="font-bold text-xs text-right">ACTION</TableHead>
+                                                    <TableHead className="font-semibold text-xs">BATCH CODE</TableHead>
+                                                    <TableHead className="font-semibold text-xs">DESCRIPTION</TableHead>
+                                                    <TableHead className="font-semibold text-xs">DATE</TableHead>
+                                                    <TableHead className="font-semibold text-xs">STATUS</TableHead>
+                                                    <TableHead className="font-semibold text-xs text-right">ENTRIES</TableHead>
+                                                    <TableHead className="font-semibold text-xs text-right">ACTION</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
                                                 {journalBatches.map((batch) => (
                                                     <TableRow key={batch.id || batch.reference} className="hover:bg-slate-50/50 transition-colors">
-                                                        <TableCell className="text-sm font-bold text-slate-700">{batch.code}</TableCell>
+                                                        <TableCell className="text-sm font-semibold text-slate-700">{batch.code}</TableCell>
                                                         <TableCell className="text-sm text-slate-500 max-w-xs truncate">{batch.description}</TableCell>
                                                         <TableCell className="text-sm text-slate-500">
                                                             {batch.posting_date}
                                                         </TableCell>
                                                         <TableCell>
-                                                            <Badge variant={batch.posted ? "success" : "secondary"} className="text-[10px] font-bold">
+                                                            <Badge variant={batch.posted ? "success" : "secondary"} className="text-[10px] font-semibold">
                                                                 {batch.posted ? "Posted" : "Draft"}
                                                             </Badge>
                                                         </TableCell>
@@ -292,10 +292,10 @@ export default function AccountingPage() {
                 {/* JOURNAL ENTRIES TAB */}
                 <TabsContent value="journal-entries">
                     <Card className="shadow-sm border-none">
-                        <CardHeader className="bg-white border-b rounded-t-lg p-4 md:p-6">
+                        <CardHeader className="bg-white border-b rounded-t p-4 md:p-6">
                             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                                 <div>
-                                    <CardTitle className="text-lg font-bold">Journal Entries</CardTitle>
+                                    <CardTitle className="text-lg font-semibold">Journal Entries</CardTitle>
                                     <CardDescription>Detailed list of all ledger entries</CardDescription>
                                 </div>
                                 <div className="flex flex-wrap items-center gap-2">
@@ -341,12 +341,12 @@ export default function AccountingPage() {
                                     <Table>
                                         <TableHeader>
                                             <TableRow className="bg-slate-50/50">
-                                                <TableHead className="font-bold text-xs">CODE</TableHead>
-                                                <TableHead className="font-bold text-xs">ACCOUNT</TableHead>
-                                                <TableHead className="font-bold text-xs text-right">DEBIT</TableHead>
-                                                <TableHead className="font-bold text-xs text-right">CREDIT</TableHead>
-                                                <TableHead className="font-bold text-xs">BATCH</TableHead>
-                                                <TableHead className="font-bold text-xs">DATE</TableHead>
+                                                <TableHead className="font-semibold text-xs">CODE</TableHead>
+                                                <TableHead className="font-semibold text-xs">ACCOUNT</TableHead>
+                                                <TableHead className="font-semibold text-xs text-right">DEBIT</TableHead>
+                                                <TableHead className="font-semibold text-xs text-right">CREDIT</TableHead>
+                                                <TableHead className="font-semibold text-xs">BATCH</TableHead>
+                                                <TableHead className="font-semibold text-xs">DATE</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -354,10 +354,10 @@ export default function AccountingPage() {
                                                 <TableRow key={entry.id || entry.reference} className="hover:bg-slate-50/50 transition-colors">
                                                     <TableCell className="text-sm font-medium text-slate-600">{entry.code}</TableCell>
                                                     <TableCell className="text-sm font-semibold text-slate-800">{entry.account}</TableCell>
-                                                    <TableCell className="text-sm text-right font-mono text-slate-900 font-bold">
+                                                    <TableCell className="text-sm text-right font-mono text-slate-900 font-semibold">
                                                         {Number(entry.debit) > 0 ? Number(entry.debit).toLocaleString(undefined, { minimumFractionDigits: 2 }) : "-"}
                                                     </TableCell>
-                                                    <TableCell className="text-sm text-right font-mono text-slate-900 font-bold">
+                                                    <TableCell className="text-sm text-right font-mono text-slate-900 font-semibold">
                                                         {Number(entry.credit) > 0 ? Number(entry.credit).toLocaleString(undefined, { minimumFractionDigits: 2 }) : "-"}
                                                     </TableCell>
                                                     <TableCell className="text-sm text-slate-500 font-mono text-xs">{entry.batch}</TableCell>
@@ -385,7 +385,7 @@ export default function AccountingPage() {
                                                 <ChevronLeft className="w-4 h-4 mr-1" />
                                                 Prev
                                             </Button>
-                                            <div className="flex items-center px-4 text-xs font-bold text-slate-700 bg-white border rounded h-8">
+                                            <div className="flex items-center px-4 text-xs font-semibold text-slate-700 bg-white border rounded h-8">
                                                 Page {page} of {totalPages || 1}
                                             </div>
                                             <Button

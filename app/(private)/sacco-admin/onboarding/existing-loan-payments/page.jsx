@@ -88,7 +88,7 @@ export default function ExistingLoanPaymentsPage() {
                             <History className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-semibold text-[#174271] tracking-tight">Onboarding Payments</h1>
+                            <h1 className="text-xl font-semibold text-[#174271] tracking-tight">Onboarding Payments</h1>
                             <p className="text-slate-500 font-medium text-sm flex items-center gap-2">
                                 <span className="uppercase tracking-widest text-[10px] font-semibold bg-blue-50 text-[#174271] px-2 py-0.5 rounded">Legacy Systems</span>
                                 • Historical payment trails for migrated loans

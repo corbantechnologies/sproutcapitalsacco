@@ -81,7 +81,7 @@ export default function SavingDepositsPage() {
                 <div className="flex gap-2">
                     <Button
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-bold px-6 h-10 shadow-lg shadow-blue-100"
+                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-semibold px-6 h-10 shadow-lg shadow-blue-100"
                     >
                         <Plus className="w-4 h-4 mr-1" /> Single Deposit
                     </Button>
@@ -90,11 +90,11 @@ export default function SavingDepositsPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="list">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto grid grid-cols-5 gap-1 rounded-xl overflow-hidden min-w-0">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto grid grid-cols-5 gap-1 rounded overflow-hidden min-w-0">
 
                     <TabsTrigger
                         value="list"
-                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <ListFilter className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden xs:inline">All Accounts</span>
@@ -103,7 +103,7 @@ export default function SavingDepositsPage() {
 
                     <TabsTrigger
                         value="deposits"
-                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <span className="hidden sm:inline">All Deposits</span>
                         <span className="sm:hidden">Deposits</span>
@@ -111,7 +111,7 @@ export default function SavingDepositsPage() {
 
                     <TabsTrigger
                         value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <span className="hidden sm:inline">Bulk Deposit</span>
                         <span className="sm:hidden">Bulk Deposit</span>
@@ -119,7 +119,7 @@ export default function SavingDepositsPage() {
 
                     <TabsTrigger
                         value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <span className="hidden md:inline">CSV Upload</span>
                         <span className="md:hidden">CSV Upload</span>
@@ -127,7 +127,7 @@ export default function SavingDepositsPage() {
 
                     <TabsTrigger
                         value="bulk-edit-upload"
-                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <span className="hidden md:inline">Edit Dates CSV</span>
                         <span className="md:hidden">Edit Dates CSV</span>
@@ -184,7 +184,7 @@ export default function SavingDepositsPage() {
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
-                                                            className="h-8 w-8 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 border border-transparent hover:border-emerald-100 rounded-md transition-all"
+                                                            className="h-8 w-8 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 border border-transparent hover:border-emerald-100 rounded transition-all"
                                                             onClick={() => {
                                                                 setSelectedAccount(acc);
                                                                 setIsCreateModalOpen(true);
@@ -196,7 +196,7 @@ export default function SavingDepositsPage() {
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
-                                                            className="h-8 w-8 text-slate-400 hover:text-[#174271] hover:bg-slate-50 border border-transparent hover:border-slate-100 rounded-md transition-all"
+                                                            className="h-8 w-8 text-slate-400 hover:text-[#174271] hover:bg-slate-50 border border-transparent hover:border-slate-100 rounded transition-all"
                                                             onClick={() => router.push(`/sacco-admin/saving-accounts/${acc.reference}`)}
                                                             title="View Transactions"
                                                         >
@@ -222,7 +222,7 @@ export default function SavingDepositsPage() {
                             {/* Pagination */}
                             {totalPages > 1 && (
                                 <div className="flex items-center justify-between px-6 py-4 bg-slate-50/50 border-t">
-                                    <p className="text-[11px] font-bold text-slate-500">
+                                    <p className="text-[11px] font-semibold text-slate-500">
                                         Showing Page {page} of {totalPages}
                                     </p>
                                     <div className="flex gap-2">

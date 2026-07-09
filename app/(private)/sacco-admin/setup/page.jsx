@@ -127,7 +127,7 @@ export default function SetupPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+                    <h1 className="text-xl font-semibold tracking-tight text-slate-900">
                         SACCO Configuration Hub
                     </h1>
                     <p className="text-black text-sm">
@@ -243,7 +243,7 @@ export default function SetupPage() {
 
                         <TabsTrigger
                             value="loans"
-                            className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                            className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                         >
                             Loan Products
                         </TabsTrigger>

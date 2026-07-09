@@ -59,7 +59,7 @@ export default function GLAccountsSetupPage() {
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                        <h1 className="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
                             <Building2 className="w-6 h-6 text-[#174271]" /> GL Accounts Setup
                         </h1>
                         <p className="text-slate-500 text-sm">
@@ -70,7 +70,7 @@ export default function GLAccountsSetupPage() {
                 <div className="flex gap-2">
                     <Button
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-bold"
+                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-semibold"
                     >
                         <Plus className="w-4 h-4 mr-1" /> Add Single Account
                     </Button>
@@ -79,10 +79,10 @@ export default function GLAccountsSetupPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded-xl grid grid-cols-3 gap-1 overflow-hidden">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded grid grid-cols-3 gap-1 overflow-hidden">
                     <TabsTrigger
                         value="list"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <ListFilter className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">List View</span>
@@ -90,7 +90,7 @@ export default function GLAccountsSetupPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <Plus className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Bulk Form</span>
@@ -98,7 +98,7 @@ export default function GLAccountsSetupPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <FileUp className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden md:inline">Bulk Upload</span>
@@ -109,8 +109,8 @@ export default function GLAccountsSetupPage() {
                 {/* List Tab */}
                 <TabsContent value="list" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                     <Card className="shadow-sm border-none">
-                        <CardHeader className="bg-white border-b rounded-t-xl px-6 py-4">
-                            <CardTitle className="text-lg font-bold">Configured GL Accounts</CardTitle>
+                        <CardHeader className="bg-white border-b rounded-t px-6 py-4">
+                            <CardTitle className="text-lg font-semibold">Configured GL Accounts</CardTitle>
                             <CardDescription className="text-xs">A comprehensive list of all your current ledger accounts.</CardDescription>
                         </CardHeader>
                         <CardContent className="p-0">
@@ -118,12 +118,12 @@ export default function GLAccountsSetupPage() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 pl-6 px-4 py-3">Account Name</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 px-4 py-3">Code</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 px-4 py-3">Category</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 px-4 py-3">Status</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 px-4 py-3">Type</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 text-right pr-6 px-4 py-3">Actions</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 pl-6 px-4 py-3">Account Name</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Code</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Category</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Status</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Type</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-wider text-slate-500 text-right pr-6 px-4 py-3">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -133,7 +133,7 @@ export default function GLAccountsSetupPage() {
                                                     <TableCell className="text-sm font-medium pl-6 py-4">{acc.name}</TableCell>
                                                     <TableCell className="text-sm font-mono text-slate-600">{acc.code}</TableCell>
                                                     <TableCell className="text-sm">
-                                                        <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${acc.category === "ASSET" ? "bg-blue-50 text-blue-700" :
+                                                        <span className={`px-2 py-1 rounded text-[10px] font-semibold uppercase tracking-wider ${acc.category === "ASSET" ? "bg-blue-50 text-blue-700" :
                                                             acc.category === "LIABILITY" ? "bg-amber-50 text-amber-700" :
                                                                 acc.category === "EQUITY" ? "bg-purple-50 text-purple-700" :
                                                                     acc.category === "REVENUE" ? "bg-green-50 text-green-700" :
@@ -145,7 +145,7 @@ export default function GLAccountsSetupPage() {
                                                     <TableCell>
                                                         <div className="flex items-center gap-1.5">
                                                             <div className={`w-1.5 h-1.5 rounded ${acc.is_active ? "bg-green-500" : "bg-slate-300"}`} />
-                                                            <span className={`text-[11px] font-bold ${acc.is_active ? "text-green-700" : "text-slate-500"}`}>
+                                                            <span className={`text-[11px] font-semibold ${acc.is_active ? "text-green-700" : "text-slate-500"}`}>
                                                                 {acc.is_active ? "ACTIVE" : "INACTIVE"}
                                                             </span>
                                                         </div>

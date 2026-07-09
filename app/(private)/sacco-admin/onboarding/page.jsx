@@ -96,7 +96,7 @@ export default function MigrationHub() {
                     <ShieldCheck className="w-4 h-4" />
                     Admin Onboarding Center
                 </div>
-                <h1 className="text-4xl font-bold tracking-tight text-slate-900">
+                <h1 className="text-xl font-semibold tracking-tight text-slate-900">
                     System Migration Hub
                 </h1>
                 <p className="text-slate-600 text-lg max-w-2xl">
@@ -111,7 +111,7 @@ export default function MigrationHub() {
                         <Card key={phase.id} className="border-none shadow-sm overflow-hidden bg-white">
                             <CardHeader className="bg-slate-50/50 border-b pb-4">
                                 <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-white rounded-lg shadow-sm">
+                                    <div className="p-2 bg-white rounded shadow-sm">
                                         <phase.icon className="w-6 h-6 text-[#174271]" />
                                     </div>
                                     <div>
@@ -129,7 +129,7 @@ export default function MigrationHub() {
                                             onClick={() => router.push(step.href)}
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className="flex-shrink-0 flex flex-col items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-500 text-xs font-bold">
+                                                <div className="flex-shrink-0 flex flex-col items-center justify-center w-8 h-8 rounded bg-slate-100 text-slate-500 text-xs font-semibold">
                                                     {idx + 1}
                                                 </div>
                                                 <div>
@@ -181,7 +181,7 @@ export default function MigrationHub() {
                         </CardHeader>
                         <CardContent className="space-y-2">
                             <div 
-                                className="flex items-center justify-between p-3 rounded-lg border hover:bg-slate-50 cursor-pointer transition-colors"
+                                className="flex items-center justify-between p-3 rounded border hover:bg-slate-50 cursor-pointer transition-colors"
                                 onClick={async () => {
                                     try {
                                         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/new-members/bulk-create/template/download/`);
@@ -205,7 +205,7 @@ export default function MigrationHub() {
                                 <Download className="w-4 h-4 text-slate-400" />
                             </div>
                             <div 
-                                className="flex items-center justify-between p-3 rounded-lg border hover:bg-slate-50 cursor-pointer transition-colors"
+                                className="flex items-center justify-between p-3 rounded border hover:bg-slate-50 cursor-pointer transition-colors"
                                 onClick={async () => {
                                     try {
                                         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/savingsdeposits/bulk/template/`);
@@ -229,7 +229,7 @@ export default function MigrationHub() {
                                 <Download className="w-4 h-4 text-slate-400" />
                             </div>
                             <div 
-                                className="flex items-center justify-between p-3 rounded-lg border hover:bg-slate-50 cursor-pointer transition-colors"
+                                className="flex items-center justify-between p-3 rounded border hover:bg-slate-50 cursor-pointer transition-colors"
                                 onClick={async () => {
                                     try {
                                         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/feepayments/bulk/template/`);
@@ -253,7 +253,7 @@ export default function MigrationHub() {
                                 <Download className="w-4 h-4 text-slate-400" />
                             </div>
                             <div 
-                                className="flex items-center justify-between p-3 rounded-lg border hover:bg-slate-50 cursor-pointer transition-colors"
+                                className="flex items-center justify-between p-3 rounded border hover:bg-slate-50 cursor-pointer transition-colors"
                                 onClick={async () => {
                                     try {
                                         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/loanapplications/admin/bulk/template/`);
@@ -277,7 +277,7 @@ export default function MigrationHub() {
                                 <Download className="w-4 h-4 text-slate-400" />
                             </div>
                             <div 
-                                className="flex items-center justify-between p-3 rounded-lg border hover:bg-slate-50 cursor-pointer transition-colors"
+                                className="flex items-center justify-between p-3 rounded border hover:bg-slate-50 cursor-pointer transition-colors"
                                 onClick={async () => {
                                     try {
                                         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/existingloans/bulk/template/`);

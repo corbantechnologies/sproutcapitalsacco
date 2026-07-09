@@ -64,7 +64,7 @@ function TransactionsPage() {
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold ">
+            <h1 className="text-xl sm:text-xl lg:text-xl font-semibold ">
               Accounts List
             </h1>
             <p className="text-gray-500 mt-1">Manage member account balances</p>

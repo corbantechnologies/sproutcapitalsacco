@@ -144,7 +144,7 @@ export default function GuarantorProfilePage() {
   return (
     <div className="space-y-6 mx-auto px-4 py-4">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h1 className="text-xl font-semibold tracking-tight text-gray-900">
           Guarantor Profile
         </h1>
         <p className="text-muted-foreground">
@@ -162,7 +162,7 @@ export default function GuarantorProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className={`text-2xl font-bold ${stat.color}`}>
+              <div className={`text-xl font-semibold ${stat.color}`}>
                 {stat.value}
               </div>
             </CardContent>
@@ -309,7 +309,7 @@ export default function GuarantorProfilePage() {
                         <span className="text-muted-foreground">
                           Remaining to Cover:
                         </span>
-                        <span className="font-bold text-amber-600">
+                        <span className="font-semibold text-amber-600">
                           {formatCurrency(selectedRequest.remaining_to_cover)}
                         </span>
                       </div>

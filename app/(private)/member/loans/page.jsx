@@ -36,7 +36,7 @@ function LoansPage() {
                 </Breadcrumb>
 
                 <div className="flex items-center justify-between">
-                    <h1 className="text-3xl font-bold text-gray-900">My Loans</h1>
+                    <h1 className="text-xl font-semibold text-gray-900">My Loans</h1>
                 </div>
 
                 {loanList.length === 0 ? (

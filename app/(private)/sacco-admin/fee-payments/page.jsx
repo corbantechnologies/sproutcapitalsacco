@@ -79,34 +79,34 @@ export default function FeePaymentsManagementPage() {
 
             {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <Card className="border shadow-sm bg-[#174271] text-white rounded-lg">
+                <Card className="border shadow-sm bg-[#174271] text-white rounded">
                     <CardHeader className="p-6">
                         <CardDescription className="text-white/60 uppercase tracking-widest text-[9px]">Total Receivables</CardDescription>
-                        <CardTitle className="text-3xl font-bold">
+                        <CardTitle className="text-xl font-semibold">
                             {feeAccounts?.reduce((sum, acc) => sum + Number(acc.outstanding_balance || 0), 0).toLocaleString()}
                         </CardTitle>
                     </CardHeader>
                 </Card>
-                <Card className="border shadow-sm bg-white rounded-lg">
+                <Card className="border shadow-sm bg-white rounded">
                     <CardHeader className="p-6">
                         <CardDescription className="text-slate-400 uppercase tracking-widest text-[9px]">Accounts Outstanding</CardDescription>
-                        <CardTitle className="text-2xl font-bold text-slate-800">
+                        <CardTitle className="text-xl font-semibold text-slate-800">
                             {feeAccounts?.filter(a => Number(a.outstanding_balance) > 0).length || 0}
                         </CardTitle>
                     </CardHeader>
                 </Card>
-                <Card className="border shadow-sm bg-white rounded-lg">
+                <Card className="border shadow-sm bg-white rounded">
                     <CardHeader className="p-6">
                         <CardDescription className="text-slate-400 uppercase tracking-widest text-[9px]">Fully Paid</CardDescription>
-                        <CardTitle className="text-2xl font-bold text-emerald-600">
+                        <CardTitle className="text-xl font-semibold text-emerald-600">
                             {feeAccounts?.filter(a => Number(a.outstanding_balance) === 0).length || 0}
                         </CardTitle>
                     </CardHeader>
                 </Card>
-                <Card className="border shadow-sm bg-white rounded-lg">
+                <Card className="border shadow-sm bg-white rounded">
                     <CardHeader className="p-6">
                         <CardDescription className="text-slate-400 uppercase tracking-widest text-[9px]">Avg Fee Bal</CardDescription>
-                        <CardTitle className="text-2xl font-bold text-slate-800">
+                        <CardTitle className="text-xl font-semibold text-slate-800">
                             {feeAccounts?.length ? Math.round(feeAccounts.reduce((sum, acc) => sum + Number(acc.outstanding_balance || 0), 0) / feeAccounts.length).toLocaleString() : 0}
                         </CardTitle>
                     </CardHeader>
@@ -115,10 +115,10 @@ export default function FeePaymentsManagementPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded-xl grid grid-cols-3 gap-1 overflow-hidden">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded grid grid-cols-3 gap-1 overflow-hidden">
                     <TabsTrigger
                         value="list"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <ListFilter className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">List View</span>
@@ -126,7 +126,7 @@ export default function FeePaymentsManagementPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <Plus className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Manual Batch</span>
@@ -134,7 +134,7 @@ export default function FeePaymentsManagementPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <FileUp className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden md:inline">CSV Import</span>
@@ -196,7 +196,7 @@ export default function FeePaymentsManagementPage() {
                                                         {Number(acc.outstanding_balance).toLocaleString()}
                                                     </TableCell>
                                                     <TableCell className="text-center">
-                                                        <span className={`px-2 py-1 rounded text-[10px] font-bold tracking-wider ${Number(acc.outstanding_balance) === 0
+                                                        <span className={`px-2 py-1 rounded text-[10px] font-semibold tracking-wider ${Number(acc.outstanding_balance) === 0
                                                             ? "bg-green-50 text-green-700"
                                                             : "bg-rose-50 text-rose-700"
                                                             }`}>
@@ -214,7 +214,7 @@ export default function FeePaymentsManagementPage() {
                                             ))
                                         ) : (
                                             <TableRow>
-                                                <TableCell colSpan={5} className="text-center py-24 text-slate-300 font-bold uppercase tracking-[0.2em] text-sm">
+                                                <TableCell colSpan={5} className="text-center py-24 text-slate-300 font-semibold uppercase tracking-[0.2em] text-sm">
                                                     No fee accounts found
                                                 </TableCell>
                                             </TableRow>

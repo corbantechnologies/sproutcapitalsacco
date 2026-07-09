@@ -62,7 +62,7 @@ export default function SaccoAdminReports() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Financial Reports</h1>
+          <h1 className="text-xl font-semibold tracking-tight">Financial Reports</h1>
           <p className="text-muted-foreground">Real-time SACCO financial position and performance</p>
         </div>
 

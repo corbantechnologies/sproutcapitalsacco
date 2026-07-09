@@ -59,7 +59,7 @@ export default function PaymentAccountsSetupPage() {
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                        <h1 className="text-xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
                             <Wallet className="w-6 h-6 text-[#174271]" /> Payment Accounts Setup
                         </h1>
                         <p className="text-slate-500 text-sm">
@@ -70,7 +70,7 @@ export default function PaymentAccountsSetupPage() {
                 <div className="flex gap-2">
                     <Button
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-bold shadow-sm"
+                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-semibold shadow-sm"
                     >
                         <Plus className="w-4 h-4 mr-1" /> Add Payment Account
                     </Button>
@@ -79,10 +79,10 @@ export default function PaymentAccountsSetupPage() {
 
             {/* Main Tabs */}
             <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded-xl grid grid-cols-3 gap-1 overflow-hidden">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded grid grid-cols-3 gap-1 overflow-hidden">
                     <TabsTrigger
                         value="list"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <ListFilter className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Listing</span>
@@ -90,7 +90,7 @@ export default function PaymentAccountsSetupPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <Plus className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Bulk Form</span>
@@ -98,7 +98,7 @@ export default function PaymentAccountsSetupPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <FileUp className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden md:inline">CSV Import</span>
@@ -110,7 +110,7 @@ export default function PaymentAccountsSetupPage() {
                 <TabsContent value="list" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                     <Card className="shadow-sm border-none overflow-hidden rounded">
                         <CardHeader className="bg-white border-b px-6 py-5">
-                            <CardTitle className="text-lg font-bold text-slate-800">Payment Accounts Inventory</CardTitle>
+                            <CardTitle className="text-lg font-semibold text-slate-800">Payment Accounts Inventory</CardTitle>
                             <CardDescription className="text-xs">All configured bank and mobile wallets linked to the ledger.</CardDescription>
                         </CardHeader>
                         <CardContent className="p-0">
@@ -118,17 +118,17 @@ export default function PaymentAccountsSetupPage() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-slate-50/50">
-                                            <TableHead className="text-xs font-bold uppercase tracking-widest text-slate-500 pl-6 px-4 py-4">Account Name</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-widest text-slate-500 px-4 py-4">Linked GL Account</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-widest text-slate-500 px-4 py-4">Current Status</TableHead>
-                                            <TableHead className="text-xs font-bold uppercase tracking-widest text-slate-500 text-right pr-6 px-4 py-4">Actions</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-widest text-slate-500 pl-6 px-4 py-4">Account Name</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-widest text-slate-500 px-4 py-4">Linked GL Account</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-widest text-slate-500 px-4 py-4">Current Status</TableHead>
+                                            <TableHead className="text-xs font-semibold uppercase tracking-widest text-slate-500 text-right pr-6 px-4 py-4">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {paymentaccounts?.length > 0 ? (
                                             paymentaccounts.map((acc) => (
                                                 <TableRow key={acc.reference} className="hover:bg-slate-50 transition-colors group border-b border-slate-50">
-                                                    <TableCell className="text-sm font-bold pl-6 py-5 text-slate-900">{acc.name}</TableCell>
+                                                    <TableCell className="text-sm font-semibold pl-6 py-5 text-slate-900">{acc.name}</TableCell>
                                                     <TableCell className="text-sm">
                                                         <div className="flex flex-col">
                                                             <span className="font-medium text-slate-700">{acc.gl_account}</span>
@@ -136,7 +136,7 @@ export default function PaymentAccountsSetupPage() {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell>
-                                                        <span className={`px-2.5 py-1 rounded text-[10px] font-bold tracking-tighter shadow-sm ${acc.is_active ? "bg-green-100 text-green-700 border border-green-200" : "bg-slate-100 text-slate-500 border border-slate-200"
+                                                        <span className={`px-2.5 py-1 rounded text-[10px] font-semibold tracking-tighter shadow-sm ${acc.is_active ? "bg-green-100 text-green-700 border border-green-200" : "bg-slate-100 text-slate-500 border border-slate-200"
                                                             }`}>
                                                             {acc.is_active ? "ACTIVE" : "INACTIVE"}
                                                         </span>

@@ -104,14 +104,14 @@ function AccountSettings() {
           <CardContent className="p-6 sm:p-8">
             <div className="flex flex-col items-start gap-6">
               <Avatar className="h-24 w-24 border-4 border-primary/20">
-                <AvatarFallback className="bg-primary text-white text-2xl font-bold">
+                <AvatarFallback className="bg-primary text-white text-xl font-semibold">
                   {getInitials(member?.first_name, member?.last_name)}
                 </AvatarFallback>
               </Avatar>
 
               <div className="flex-1 space-y-4 w-full">
                 <div>
-                  <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
+                  <h1 className="text-xl sm:text-xl font-semibold text-foreground mb-2">
                     {member?.first_name} {member?.middle_name} {member?.last_name}
                   </h1>
                   <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
@@ -152,7 +152,7 @@ function AccountSettings() {
           <div className="lg:col-span-2 space-y-8">
             <Card className="shadow-md">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-2xl">
+                <CardTitle className="flex items-center gap-2 text-xl">
                   <User className="h-6 w-6 text-primary" />
                   Personal Information
                 </CardTitle>
@@ -171,7 +171,7 @@ function AccountSettings() {
             {hasEmploymentData && (
               <Card className="shadow-md">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-2xl">
+                  <CardTitle className="flex items-center gap-2 text-xl">
                     <Building className="h-6 w-6 text-primary" />
                     Employment Details
                   </CardTitle>
@@ -187,7 +187,7 @@ function AccountSettings() {
             {/* Savings Accounts */}
             <Card className="shadow-md">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-2xl">
+                <CardTitle className="flex items-center gap-2 text-xl">
                   <Wallet className="h-6 w-6 text-primary" />
                   Savings Accounts
                 </CardTitle>
@@ -213,7 +213,7 @@ function AccountSettings() {
             {/* Loan Accounts */}
             <Card className="shadow-md">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-2xl">
+                <CardTitle className="flex items-center gap-2 text-xl">
                   <CreditCard className="h-6 w-6 text-primary" />
                   Loan Accounts
                 </CardTitle>
@@ -239,7 +239,7 @@ function AccountSettings() {
             {/* Next of Kin */}
             <Card className="shadow-md">
               <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <CardTitle className="flex items-center gap-2 text-2xl">
+                <CardTitle className="flex items-center gap-2 text-xl">
                   <User className="h-6 w-6 text-primary" />
                   Next of Kin
                   <span className="text-sm font-normal text-muted-foreground ml-2">
@@ -249,7 +249,7 @@ function AccountSettings() {
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                   {isPercentageFull ? (
-                    <div className="text-sm text-orange-600 font-medium bg-orange-50 px-3 py-2 rounded-md border border-orange-200">
+                    <div className="text-sm text-orange-600 font-medium bg-orange-50 px-3 py-2 rounded border border-orange-200">
                       100% Allocated — Cannot add more
                     </div>
                   ) : (
@@ -278,9 +278,9 @@ function AccountSettings() {
                       {totalAllocatedPercentage}% / 100%
                     </span>
                   </div>
-                  <div className="w-full bg-secondary rounded-full h-3 overflow-hidden">
+                  <div className="w-full bg-secondary rounded h-3 overflow-hidden">
                     <div
-                      className={`h-3 rounded-full transition-all duration-500 ${
+                      className={`h-3 rounded transition-all duration-500 ${
                         totalAllocatedPercentage >= 100
                           ? "bg-red-500"
                           : totalAllocatedPercentage >= 80

@@ -41,7 +41,7 @@ function Withdrawals() {
         </Breadcrumb>
 
         <section className="mb-3">
-          <h1 className="text-2xl  font-bold">
+          <h1 className="text-xl  font-semibold">
             Withdrawal Requests
           </h1>
           <p className="text-gray-500 mt-1">

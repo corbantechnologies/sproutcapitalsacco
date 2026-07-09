@@ -46,7 +46,7 @@ const SummaryCard = ({ title, amount, count, icon: Icon, colorClass }) => (
       <Icon className={`h-4 w-4 ${colorClass}`} />
     </CardHeader>
     <CardContent>
-      <div className="text-2xl font-bold">{formatCurrency(amount)}</div>
+      <div className="text-xl font-semibold">{formatCurrency(amount)}</div>
       {count !== undefined && (
         <p className="text-xs text-muted-foreground">{count} transactions</p>
       )}
@@ -101,7 +101,7 @@ export default function SaccoAdminReports() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-xl font-semibold tracking-tight">
             Financial Reports
           </h1>
           <p className="text-muted-foreground">
@@ -161,7 +161,7 @@ export default function SaccoAdminReports() {
             <Users className="h-4 w-4 text-orange-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl font-semibold">
               {summary?.totals?.total_new_members}
             </div>
             <p className="text-xs text-muted-foreground">
