@@ -38,7 +38,7 @@ function LoanDetail() {
     const [currentPage, setCurrentPage] = useState(1);
     const [isMpesaModalOpen, setIsMpesaModalOpen] = useState(false);
 
-    const itemsPerPage = 10;
+    const itemsPerPage = 50;
 
     const { isLoading: isLoadingLoan, data: loan } = useFetchLoanDetail(reference);
     const { isLoading: isLoadingMember } = useFetchMember();

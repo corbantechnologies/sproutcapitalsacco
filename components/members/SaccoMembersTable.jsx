@@ -18,6 +18,11 @@ import { Label } from "../ui/label";
 import { CheckCircle, Clock, Search } from "lucide-react";
 import Link from "next/link";
 
+const getPageNumbers = (currentPage, totalPages) => {
+  return [currentPage];
+};;;
+
+
 function SaccoMembersTable({ members }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -25,7 +30,7 @@ function SaccoMembersTable({ members }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
+  const itemsPerPage = 50;
 
   // Filter members by search term and status
   const filteredMembers =
@@ -191,8 +196,7 @@ function SaccoMembersTable({ members }) {
                 >
                   Previous
                 </Button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (page) => (
+                {getPageNumbers(currentPage, totalPages).map((page, index) => page === "..." ? <span key={`ellipsis-${index}`} className="px-2 py-1 text-slate-400 text-sm select-none">...</span> : (((page) => (
                     <Button
                       key={page}
                       variant={currentPage === page ? "default" : "outline"}
@@ -206,8 +210,7 @@ function SaccoMembersTable({ members }) {
                     >
                       {page}
                     </Button>
-                  )
-                )}
+                  ))(page)))}
                 <Button
                   variant="outline"
                   size="sm"

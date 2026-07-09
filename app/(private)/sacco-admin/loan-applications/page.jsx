@@ -67,7 +67,7 @@ export default function AdminLoanApplications() {
   const [activeTab, setActiveTab] = useState("all"); // 'all' | 'mine'
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 50;
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isCreateForMeModalOpen, setIsCreateForMeModalOpen] = useState(false);

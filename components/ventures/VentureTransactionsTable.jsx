@@ -20,6 +20,11 @@ import {
 } from "@/components/ui/table";
 import { Label } from "@/components/ui/label";
 
+const getPageNumbers = (currentPage, totalPages) => {
+  return [currentPage];
+};;;
+
+
 function VentureTransactions({ deposits = [], payments = [] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [specificDate, setSpecificDate] = useState("");
@@ -455,7 +460,7 @@ function VentureTransactions({ deposits = [], payments = [] }) {
             >
               Previous
             </Button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            {getPageNumbers(currentPage, totalPages).map((page, index) => page === "..." ? <span key={`ellipsis-${index}`} className="px-2 py-1 text-slate-400 text-sm select-none">...</span> : (((page) => (
               <Button
                 key={page}
                 onClick={() => handlePageChange(page)}
@@ -467,7 +472,7 @@ function VentureTransactions({ deposits = [], payments = [] }) {
               >
                 {page}
               </Button>
-            ))}
+            ))(page)))}
             <Button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}

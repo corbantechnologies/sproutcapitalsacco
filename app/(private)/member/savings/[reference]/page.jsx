@@ -42,7 +42,7 @@ function SavingsDetail() {
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [depositModalOpen, setDepositModalOpen] = useState(false);
-  const itemsPerPage = 10;
+  const itemsPerPage = 50;
 
   const {
     isLoading: isLoadingSaving,

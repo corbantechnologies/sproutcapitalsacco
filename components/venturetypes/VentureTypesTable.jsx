@@ -15,6 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Search } from "lucide-react";
 
+const getPageNumbers = (currentPage, totalPages) => {
+  return [currentPage];
+};;;
+
+
 function VentureTypesTable({ ventureTypes }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -127,8 +132,7 @@ function VentureTypesTable({ ventureTypes }) {
               >
                 Previous
               </Button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
+              {getPageNumbers(currentPage, totalPages).map((page, index) => page === "..." ? <span key={`ellipsis-${index}`} className="px-2 py-1 text-slate-400 text-sm select-none">...</span> : (((page) => (
                   <Button
                     key={page}
                     onClick={() => handlePageChange(page)}
@@ -141,8 +145,7 @@ function VentureTypesTable({ ventureTypes }) {
                   >
                     {page}
                   </Button>
-                )
-              )}
+                ))(page)))}
               <Button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}

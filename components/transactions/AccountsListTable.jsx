@@ -42,7 +42,7 @@ const AccountsListTable = ({ accountsList }) => {
   const [openLoans, setOpenLoans] = useState(false);
   const [expandedRows, setExpandedRows] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 50;
 
   const data = accountsList?.results || accountsList || [];
 
