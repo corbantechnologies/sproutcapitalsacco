@@ -1,8 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useFetchSavingDetail } from "@/hooks/savings/actions";
+import { useUpdateSavingsDeposit } from "@/hooks/savingsdeposits/actions";
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,8 +19,11 @@ import {
     ArrowDownLeft,
     FileText,
     Receipt,
-    Wallet
+    Wallet,
+    Edit
 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import {
     Table,
     TableBody,
@@ -33,6 +39,36 @@ export default function SavingAccountReferencePage() {
     const reference = params?.["accounts-reference"];
     
     const { data: account, isLoading } = useFetchSavingDetail(reference);
+    const queryClient = useQueryClient();
+    const updateDepositMutation = useUpdateSavingsDeposit();
+
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [selectedDeposit, setSelectedDeposit] = useState(null);
+    const [newDate, setNewDate] = useState("");
+
+    const handleEditClick = (deposit) => {
+        setSelectedDeposit(deposit);
+        const dateStr = deposit.transaction_date || deposit.created_at;
+        setNewDate(dateStr ? dateStr.split("T")[0] : "");
+        setIsEditDialogOpen(true);
+    };
+    
+    const handleUpdateDate = () => {
+        if (!selectedDeposit || !newDate) return;
+        updateDepositMutation.mutate({
+            reference: selectedDeposit.reference,
+            values: { transaction_date: newDate }
+        }, {
+            onSuccess: () => {
+                toast.success("Date updated successfully!");
+                setIsEditDialogOpen(false);
+                queryClient.invalidateQueries({ queryKey: ["savingDetail", reference] });
+            },
+            onError: (err) => {
+                toast.error(err?.response?.data?.detail || "Failed to update date");
+            }
+        });
+    };
 
     if (isLoading) return <LoadingSpinner />;
     if (!account) return <div className="p-8 text-center text-slate-500">Account not found.</div>;
@@ -164,6 +200,7 @@ export default function SavingAccountReferencePage() {
                                     <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 py-3">Type</TableHead>
                                     <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 py-3">Payment Method</TableHead>
                                     <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 text-right pr-6 py-3">Amount</TableHead>
+                                    <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500 text-right pr-6 py-3">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -201,6 +238,17 @@ export default function SavingAccountReferencePage() {
                                                 <span className="text-sm font-bold text-emerald-600 font-mono tracking-tighter">
                                                     + {parseFloat(dep.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                                 </span>
+                                            </TableCell>
+                                            <TableCell className="text-right pr-6 py-4">
+                                                <Button 
+                                                    variant="ghost" 
+                                                    size="sm" 
+                                                    onClick={() => handleEditClick(dep)}
+                                                    className="text-[#174271] hover:text-[#174271]/80 hover:bg-[#174271]/10"
+                                                >
+                                                    <Edit className="h-4 w-4 mr-2" />
+                                                    Edit Date
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))
@@ -264,6 +312,36 @@ export default function SavingAccountReferencePage() {
                     </CardContent>
                 </Card>
             </div>
+
+            {/* Edit Date Modal */}
+            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Edit Deposit Date</DialogTitle>
+                    </DialogHeader>
+                    <div className="py-4">
+                        <Label htmlFor="newDate" className="mb-2 block">Transaction Date</Label>
+                        <input
+                            type="date"
+                            id="newDate"
+                            value={newDate}
+                            onChange={(e) => setNewDate(e.target.value)}
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-[#174271] focus:border-[#174271] transition-colors"
+                        />
+                        <p className="text-xs text-muted-foreground mt-2">
+                            Note: Updating this date will automatically update the General Ledger posting date.
+                        </p>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsEditDialogOpen(false)} disabled={updateDepositMutation.isPending}>
+                            Cancel
+                        </Button>
+                        <Button onClick={handleUpdateDate} disabled={updateDepositMutation.isPending || !newDate} className="bg-[#174271] hover:bg-[#12345a] text-white">
+                            {updateDepositMutation.isPending ? "Updating..." : "Save Changes"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

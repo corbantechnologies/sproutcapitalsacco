@@ -110,7 +110,7 @@ function SavingsDepositsTable({ deposits }) {
   const [month, setMonth] = useState("");
   const [depositType, setDepositType] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const itemsPerPage = 5;
+  const itemsPerPage = 50;
 
   // Filter deposits
   const filteredDeposits = useMemo(() => {
