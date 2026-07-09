@@ -32,6 +32,8 @@ import CreateDepositAdmin from "@/forms/savingsdeposits/CreateDepositAdmin";
 import BulkSavingDepositCreate from "@/forms/savingsdeposits/BulkSavingDepositCreate";
 import BulkSavingDepositUploadCreate from "@/forms/savingsdeposits/BulkSavingDepositUploadCreate";
 import BulkSavingDepositEditUpload from "@/forms/savingsdeposits/BulkSavingDepositEditUpload";
+import SavingsDepositsTable from "@/components/savings/SavingsDepositsTable";
+import { useFetchSavingsDeposits } from "@/hooks/savingsdeposits/actions";
 
 export default function SavingDepositsPage() {
     const router = useRouter();
@@ -41,6 +43,8 @@ export default function SavingDepositsPage() {
         isLoading,
         refetch
     } = useFetchSavings({ page });
+
+    const { data: depositsData, isLoading: isLoadingDeposits } = useFetchSavingsDeposits();
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [selectedAccount, setSelectedAccount] = useState(null);
@@ -86,7 +90,7 @@ export default function SavingDepositsPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="list">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto grid grid-cols-4 gap-1 rounded-xl overflow-hidden min-w-0">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto grid grid-cols-5 gap-1 rounded-xl overflow-hidden min-w-0">
 
                     <TabsTrigger
                         value="list"
@@ -94,7 +98,15 @@ export default function SavingDepositsPage() {
                     >
                         <ListFilter className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden xs:inline">All Accounts</span>
-                        <span className="xs:hidden">All</span>
+                        <span className="xs:hidden">Accounts</span>
+                    </TabsTrigger>
+
+                    <TabsTrigger
+                        value="deposits"
+                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                    >
+                        <span className="hidden sm:inline">All Deposits</span>
+                        <span className="sm:hidden">Deposits</span>
                     </TabsTrigger>
 
                     <TabsTrigger
@@ -262,6 +274,19 @@ export default function SavingDepositsPage() {
                     <Card className="shadow-sm border-none bg-white rounded p-8">
                         <CardContent>
                             <BulkSavingDepositEditUpload onBatchSuccess={refetch} />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                {/* All Deposits Tab */}
+                <TabsContent value="deposits" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <Card className="shadow-sm border-none bg-white rounded p-8">
+                        <CardContent>
+                            {isLoadingDeposits ? (
+                                <div className="text-center py-8">Loading deposits...</div>
+                            ) : (
+                                <SavingsDepositsTable deposits={depositsData} />
+                            )}
                         </CardContent>
                     </Card>
                 </TabsContent>
