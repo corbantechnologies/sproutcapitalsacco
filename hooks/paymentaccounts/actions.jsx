@@ -3,10 +3,12 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosAuth from "../authentication/useAxiosAuth";
 import { getPaymentAccount, getPaymentAccounts } from "@/services/paymentaccounts";
+import { useSession } from "next-auth/react";
 
 export function useFetchPaymentAccounts() {
     const token = useAxiosAuth();
-    const isTokenReady = !!token?.headers?.Authorization && !token.headers.Authorization.endsWith("undefined") && !token.headers.Authorization.endsWith("null");
+    const { data: session } = useSession();
+    const isTokenReady = !!session?.user?.token;
 
     return useQuery({
         queryKey: ["paymentaccounts"],

@@ -69,13 +69,15 @@ export default function SavingAccountsPage() {
 
     // Debounce search input changes by 500ms
     React.useEffect(() => {
+        if (searchInput === searchTerm) return;
+
         const delayDebounceFn = setTimeout(() => {
             setSearchTerm(searchInput);
             setPage(1);
         }, 500);
 
         return () => clearTimeout(delayDebounceFn);
-    }, [searchInput]);
+    }, [searchInput, searchTerm]);
 
     const { 
         data: savingsData, 

@@ -2,10 +2,12 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosAuth from "../authentication/useAxiosAuth";
 import { getSaving, getSavings } from "@/services/savings";
+import { useSession } from "next-auth/react";
 
 export function useFetchSavings(params) {
   const token = useAxiosAuth();
-  const isTokenReady = !!token?.headers?.Authorization && !token.headers.Authorization.endsWith("undefined") && !token.headers.Authorization.endsWith("null");
+  const { data: session } = useSession();
+  const isTokenReady = !!session?.user?.token;
 
   return useQuery({
     queryKey: ["savings", params],
