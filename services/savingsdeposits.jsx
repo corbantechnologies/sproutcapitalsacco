@@ -57,6 +57,16 @@ export const downloadSavingsDepositsTemplate = async (token) => {
     responseType: "blob",
   };
   const response = await apiActions?.get("/api/v1/savingsdeposits/bulk/template/", config);
+  
+  // Create blob link to download
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "savings_deposits_bulk_template.csv");
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  
   return response?.data;
 };
 
@@ -70,6 +80,16 @@ export const downloadBulkUpdateTemplate = async (token, depositType = "") => {
     ? `/api/v1/savingsdeposits/bulk/update/template/?deposit_type=${encodeURIComponent(depositType)}` 
     : `/api/v1/savingsdeposits/bulk/update/template/`;
   const response = await apiActions?.get(url, config);
+
+  // Create blob link to download
+  const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement("a");
+  link.href = downloadUrl;
+  link.setAttribute("download", `bulk_edit_dates_${depositType ? depositType.replace(/\s+/g, "_").toLowerCase() : "all"}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
   return response?.data;
 };
 
