@@ -233,7 +233,7 @@ export default function AccountingPage() {
                                                         <TableCell className="text-sm font-bold text-slate-700">{batch.code}</TableCell>
                                                         <TableCell className="text-sm text-slate-500 max-w-xs truncate">{batch.description}</TableCell>
                                                         <TableCell className="text-sm text-slate-500">
-                                                            {batch.created_at ? format(new Date(batch.created_at), "MMM d, yyyy") : "-"}
+                                                            {batch.posting_date}
                                                         </TableCell>
                                                         <TableCell>
                                                             <Badge variant={batch.posted ? "success" : "secondary"} className="text-[10px] font-bold">
