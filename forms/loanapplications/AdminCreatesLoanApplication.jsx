@@ -9,10 +9,26 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Send } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2, Send } from "lucide-react";
 import { useFetchMembers } from "@/hooks/members/actions";
+import React, { useState } from "react";
+import { cn } from "@/lib/utils";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 
 export const AdminCreatesLoanApplicationForm = ({ onSuccess }) => {
+    const [memberOpen, setMemberOpen] = useState(false);
     const { data: loanProducts, isLoading: productsLoading } = useFetchLoanProducts();
     const { data: members, isLoading: membersLoading } = useFetchMembers();
     const token = useAxiosAuth();
@@ -236,25 +252,67 @@ export const AdminCreatesLoanApplicationForm = ({ onSuccess }) => {
                         )}
 
                         {/* Member Selection */}
-                        <div className="space-y-2 md:col-span-2">
+                        <div className="space-y-2 md:col-span-2 flex flex-col">
                             <Label htmlFor="member" className="text-sm font-semibold">
                                 Member
                             </Label>
-                            <Field
-                                as="select"
-                                name="member"
-                                id="member"
-                                className="flex h-11 w-full items-center justify-between rounded border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-[#045e32] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            >
-                                <option value="" disabled>
-                                    Select a member
-                                </option>
-                                {availableMembers.map((member) => (
-                                    <option key={member?.reference} value={member?.member_no}>
-                                        {member?.first_name} {member?.last_name} - {member?.member_no}
-                                    </option>
-                                ))}
-                            </Field>
+                            <Popover open={memberOpen} onOpenChange={setMemberOpen}>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={memberOpen}
+                                        className={cn(
+                                            "w-full justify-between border-input h-11 font-normal",
+                                            !values.member && "text-muted-foreground"
+                                        )}
+                                    >
+                                        {values.member
+                                            ? (() => {
+                                                  const selected = availableMembers.find(
+                                                      (m) => m.member_no === values.member
+                                                  );
+                                                  return selected ? (
+                                                      <span className="truncate">
+                                                          {selected.first_name} {selected.last_name} - {selected.member_no}
+                                                      </span>
+                                                  ) : (
+                                                      "Select a member"
+                                                  );
+                                              })()
+                                            : "Select a member..."}
+                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
+                                    <Command>
+                                        <CommandInput placeholder="Search member by name or number..." />
+                                        <CommandList>
+                                            <CommandEmpty>No member found.</CommandEmpty>
+                                            <CommandGroup>
+                                                {availableMembers.map((member) => (
+                                                    <CommandItem
+                                                        key={member?.reference || member?.member_no}
+                                                        value={`${member?.first_name} ${member?.last_name} ${member?.member_no}`}
+                                                        className="flex justify-between"
+                                                        onSelect={() => {
+                                                            setFieldValue("member", member?.member_no);
+                                                            setMemberOpen(false);
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {member?.first_name} {member?.last_name} - {member?.member_no}
+                                                        </span>
+                                                        {values.member === member?.member_no && (
+                                                            <Check className="h-4 w-4 shrink-0" />
+                                                        )}
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                     </div>
 
