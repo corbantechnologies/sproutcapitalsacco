@@ -8,16 +8,6 @@ import React, { useState } from "react";
 
 const MENU_LINKS = [
   { label: "Dashboard", href: "/sacco-admin/dashboard" },
-  // Setup
-  { label: "Onboarding", href: "/sacco-admin/onboarding" },
-  {
-    label: "Setup & Configuration",
-    href: "/sacco-admin/setup",
-    children: [
-      { label: "Platform Setup", href: "/sacco-admin/setup" },
-
-    ],
-  },
   // Members
   {
     label: "Members",
@@ -52,26 +42,27 @@ const MENU_LINKS = [
       { label: "Loan Products", href: "/sacco-admin/setup/loan-products" },
     ],
   },
-  // Transactions
-  {
-    label: "Accounts List & Transactions",
-    href: "/sacco-admin/transactions",
-  },
   // Accounting & Reports
   {
     label: "Accounting & Financials",
     href: "/sacco-admin/accounting",
     children: [
       { label: "Accounting Dashboard", href: "/sacco-admin/accounting" },
+      { label: "Reports", href: "/sacco-admin/reports" },
       { label: "GL Accounts", href: "/sacco-admin/setup/gl-accounts" },
-      { label: "Fee Payments", href: "/sacco-admin/fee-payments" },
       { label: "Payment Accounts", href: "/sacco-admin/setup/payment-accounts" },
-      { label: "Fee Types", href: "/sacco-admin/setup/feetypes" },
+      { label: "Accounts & Transactions", href: "/sacco-admin/transactions" },
     ],
   },
+  // Setup
   {
-    label: "Reports",
-    href: "/sacco-admin/reports",
+    label: "Setup & Configuration",
+    href: "/sacco-admin/setup",
+    children: [
+      { label: "Onboarding", href: "/sacco-admin/onboarding" },
+      { label: "Platform Setup", href: "/sacco-admin/setup" },
+
+    ],
   },
   // Personal
   {
@@ -144,8 +135,8 @@ export default function SaccoAdminNavbar() {
   const sidebarContent = (setIsMenuOpen) => (
     <div className="h-full flex flex-col bg-white">
       <div className="p-6 border-b flex items-center justify-between">
-        <Link 
-          href="/sacco-admin/dashboard" 
+        <Link
+          href="/sacco-admin/dashboard"
           className="flex items-center gap-2"
           onClick={() => setIsMenuOpen && setIsMenuOpen(false)}
         >
@@ -206,9 +197,8 @@ export default function SaccoAdminNavbar() {
 
       {/* Mobile Sidebar (Slides in from Left) */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-white border-r shadow-2xl flex flex-col transition-transform duration-300 md:hidden ${
-          isMobileOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-white border-r shadow-2xl flex flex-col transition-transform duration-300 md:hidden ${isMobileOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         {sidebarContent(setIsMobileOpen)}
       </div>
