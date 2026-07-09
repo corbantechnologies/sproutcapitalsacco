@@ -91,7 +91,24 @@ export default function DepositProcessing() {
     }, 5000);
   };
 
-  if (isLoadingDeposit && !isPolling) return <MemberLoadingSpinner />;
+const PaymentSkeleton = () => (
+  <div className="w-full max-w-md shadow-lg bg-white rounded-lg p-6 space-y-4 animate-pulse">
+    <div className="flex items-center space-x-2">
+      <div className="h-8 w-8 bg-slate-200 rounded" />
+      <div className="h-6 w-48 bg-slate-200 rounded" />
+    </div>
+    <div className="h-4 w-full bg-slate-200 rounded" />
+    <div className="h-10 w-full bg-slate-200 rounded mt-6" />
+  </div>
+);
+
+  if (isLoadingDeposit && !isPolling) {
+    return (
+      <div className="min-h-screen bg-gray-50/50 p-4 sm:p-8 flex items-center justify-center">
+        <PaymentSkeleton />
+      </div>
+    );
+  }
 
   if (!deposit) return <div className="p-8 text-center">Deposit not found</div>;
 

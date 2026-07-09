@@ -35,6 +35,20 @@ import { formatCurrency } from "@/lib/utils";
 import { CreateLoanApplication } from "@/forms/loanapplications/CreateLoanApplication";
 import { LoanProductShowcase } from "@/components/loans/LoanProductShowcase";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+  return (
+    <div className="space-y-4 w-full animate-pulse p-4">
+      {[...Array(rows)].map((_, i) => (
+        <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+          {[...Array(cols)].map((_, j) => (
+            <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function LoanApplications() {
   const {
     data: loanApplications,
@@ -42,8 +56,6 @@ export default function LoanApplications() {
     refetch,
   } = useFetchLoanApplications();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
-  if (isLoading) return <MemberLoadingSpinner />;
 
   // Handle initial loading or empty states gracefully
   const applications = loanApplications;
@@ -109,7 +121,9 @@ export default function LoanApplications() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {applications?.length === 0 ? (
+            {isLoading ? (
+              <TableSkeleton rows={5} cols={6} />
+            ) : applications?.length === 0 ? (
               <div className="text-center py-12 bg-gray-50 rounded border border-dashed">
                 <p className="text-muted-foreground">
                   No loan applications found.

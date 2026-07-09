@@ -66,7 +66,32 @@ export default function SaccoAdminReports() {
     error,
   } = useFetchSaccoSummary(selectedYear);
 
-  if (isLoading) return <MemberLoadingSpinner />;
+const SaccoReportsSkeleton = () => (
+  <div className="flex flex-col space-y-6 p-4 md:p-8 animate-pulse">
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-48 bg-slate-200 rounded" />
+        <div className="h-4 w-64 bg-slate-200 rounded" />
+      </div>
+      <div className="h-10 w-48 bg-slate-200 rounded" />
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="h-24 bg-slate-200 rounded-lg" />
+      <div className="h-24 bg-slate-200 rounded-lg" />
+      <div className="h-24 bg-slate-200 rounded-lg" />
+      <div className="h-24 bg-slate-200 rounded-lg" />
+    </div>
+    <div className="h-96 bg-slate-200 rounded-lg" />
+  </div>
+);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <SaccoReportsSkeleton />
+      </div>
+    );
+  }
   if (error)
     return (
       <div className="p-8 text-center text-red-500">Failed to load reports</div>

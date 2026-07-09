@@ -79,7 +79,28 @@ function AccountSettings() {
   const isPercentageFull = totalAllocatedPercentage >= 100;
   const remainingPercentage = Math.max(0, 100 - totalAllocatedPercentage);
 
-  if (isLoadingMember) return <LoadingSpinner />;
+const SettingsSkeleton = () => (
+  <div className="mx-auto p-4 space-y-8 animate-pulse">
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-48 bg-slate-200 rounded" />
+        <div className="h-4 w-64 bg-slate-200 rounded" />
+      </div>
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="lg:col-span-2 h-96 bg-slate-200 rounded-lg" />
+      <div className="h-96 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
+  if (isLoadingMember) {
+    return (
+      <div className="min-h-screen bg-background">
+        <SettingsSkeleton />
+      </div>
+    );
+  }
 
   // Check if employment data exists
   const hasEmploymentData =

@@ -89,7 +89,37 @@ function LoanDetail() {
     const formatCurrency = (amount) => `KES ${parseFloat(amount || 0).toFixed(2)}`;
     const formatDate = (dateStr) => dateStr ? format(new Date(dateStr), "MMM dd, yyyy") : "N/A";
 
-    if (isLoadingLoan || isLoadingMember) return <MemberLoadingSpinner />;
+const PersonalLoanDetailSkeleton = () => (
+  <div className="mx-auto p-4 sm:p-6 space-y-6 animate-pulse">
+    <div className="h-4 w-48 bg-slate-200 rounded" />
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-64 bg-slate-200 rounded" />
+        <div className="h-4 w-40 bg-slate-200 rounded" />
+      </div>
+      <div className="h-10 w-32 bg-slate-200 rounded" />
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="lg:col-span-2 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+        </div>
+        <div className="h-96 bg-slate-200 rounded-lg" />
+      </div>
+      <div className="h-96 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
+    if (isLoadingLoan || isLoadingMember) {
+        return (
+            <div className="min-h-screen bg-gray-50/50">
+                <PersonalLoanDetailSkeleton />
+            </div>
+        );
+    }
     if (!loan) return <div className="p-8 text-center text-muted-foreground">Loan details not found.</div>;
 
     return (
