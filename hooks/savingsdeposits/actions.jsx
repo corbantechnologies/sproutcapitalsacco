@@ -1,11 +1,12 @@
 "use client";
 
 import {
-  getSavingsDeposit,
+  getSavingsDepositDetail,
   getSavingsDeposits,
+  updateSavingsDeposit,
 } from "@/services/savingsdeposits";
 import useAxiosAuth from "../authentication/useAxiosAuth";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 export function useFetchSavingsDeposits() {
   const token = useAxiosAuth();
@@ -20,7 +21,14 @@ export function useFetchSavingsDepositDetail(reference) {
   const token = useAxiosAuth();
   return useQuery({
     queryKey: ["deposit", reference],
-    queryFn: () => getSavingsDeposit(reference, token),
+    queryFn: () => getSavingsDepositDetail(reference, token),
     enabled: !!reference,
+  });
+}
+
+export function useUpdateSavingsDeposit() {
+  const token = useAxiosAuth();
+  return useMutation({
+    mutationFn: (data) => updateSavingsDeposit(data, token),
   });
 }

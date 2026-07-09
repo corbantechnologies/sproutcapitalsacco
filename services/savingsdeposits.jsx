@@ -14,9 +14,18 @@ export const getSavingsDeposits = async (token) => {
   return response?.data;
 };
 
-export const getSavingsDeposit = async (reference, token) => {
+export const getSavingsDepositDetail = async (reference, token) => {
   const response = await apiActions?.get(
     `/api/v1/savingsdeposits/${reference}/`,
+    token
+  );
+  return response?.data;
+};
+
+export const updateSavingsDeposit = async ({ reference, values }, token) => {
+  const response = await apiActions?.patch(
+    `/api/v1/savingsdeposits/${reference}/`,
+    values,
     token
   );
   return response?.data;

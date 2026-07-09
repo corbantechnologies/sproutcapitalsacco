@@ -19,9 +19,48 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { useUpdateSavingsDeposit } from "@/hooks/savingsdeposits/actions";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
+import { Edit } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 function SavingsDepositsTable({ deposits }) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedDeposit, setSelectedDeposit] = useState(null);
+  const [newDate, setNewDate] = useState("");
+  
+  const queryClient = useQueryClient();
+  const updateDepositMutation = useUpdateSavingsDeposit();
+  const pathname = usePathname();
+  const isAdmin = pathname?.includes("/sacco-admin") || pathname?.includes("/superuser");
+  
+  const handleEditClick = (deposit) => {
+    setSelectedDeposit(deposit);
+    // Use transaction_date if available, fallback to created_at
+    const dateStr = deposit.transaction_date || deposit.created_at;
+    setNewDate(dateStr ? dateStr.split("T")[0] : "");
+    setIsEditDialogOpen(true);
+  };
+  
+  const handleUpdateDate = () => {
+    if (!selectedDeposit || !newDate) return;
+    updateDepositMutation.mutate({
+      reference: selectedDeposit.reference,
+      values: { transaction_date: newDate }
+    }, {
+      onSuccess: () => {
+        toast.success("Date updated successfully!");
+        setIsEditDialogOpen(false);
+        queryClient.invalidateQueries({ queryKey: ["deposits"] });
+      },
+      onError: (err) => {
+        toast.error(err?.response?.data?.detail || "Failed to update date");
+      }
+    });
+  };
   const [specificDate, setSpecificDate] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -298,13 +337,18 @@ function SavingsDepositsTable({ deposits }) {
                 <TableHead className="text-white font-semibold">
                   Status
                 </TableHead>
+                {isAdmin && (
+                  <TableHead className="text-white font-semibold text-right">
+                    Actions
+                  </TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
               {paginatedDeposits?.map((deposit) => (
-                <TableRow key={deposit.reference} className="border-b">
+                <TableRow key={deposit.reference} className="border-b hover:bg-gray-50 transition-colors">
                   <TableCell className="text-sm text-gray-700">
-                    {formatDate(deposit.created_at)}
+                    {formatDate(deposit.transaction_date || deposit.created_at)}
                   </TableCell>
                   <TableCell className="text-sm text-gray-700">
                     KES {parseFloat(deposit.amount).toFixed(2)}
@@ -325,6 +369,19 @@ function SavingsDepositsTable({ deposits }) {
                       {deposit.transaction_status}
                     </span>
                   </TableCell>
+                  {isAdmin && (
+                    <TableCell className="text-right">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => handleEditClick(deposit)}
+                        className="text-primary hover:text-primary/80 hover:bg-primary/10"
+                      >
+                        <Edit className="h-4 w-4 mr-2" />
+                        Edit Date
+                      </Button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
             </TableBody>
@@ -371,6 +428,36 @@ function SavingsDepositsTable({ deposits }) {
           </div>
         </div>
       )}
+
+      {/* Edit Date Modal */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Deposit Date</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <Label htmlFor="newDate" className="mb-2 block">Transaction Date</Label>
+            <input
+              type="date"
+              id="newDate"
+              value={newDate}
+              onChange={(e) => setNewDate(e.target.value)}
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+            />
+            <p className="text-xs text-muted-foreground mt-2">
+              Note: Updating this date will automatically update the General Ledger posting date.
+            </p>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)} disabled={updateDepositMutation.isPending}>
+              Cancel
+            </Button>
+            <Button onClick={handleUpdateDate} disabled={updateDepositMutation.isPending || !newDate} className="bg-primary text-white">
+              {updateDepositMutation.isPending ? "Updating..." : "Save Changes"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
