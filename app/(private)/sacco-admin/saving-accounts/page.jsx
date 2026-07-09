@@ -83,11 +83,7 @@ export default function SavingAccountsPage() {
         data: savingsData, 
         isLoading, 
         refetch 
-    } = useFetchSavings({ 
-        page,
-        search: searchTerm || undefined,
-        is_active: statusFilter === "all" ? undefined : (statusFilter === "active" ? "true" : "false")
-    });
+    } = useFetchSavings();
     
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [selectedAccount, setSelectedAccount] = useState(null);

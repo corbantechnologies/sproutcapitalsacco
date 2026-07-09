@@ -4,14 +4,14 @@ import useAxiosAuth from "../authentication/useAxiosAuth";
 import { getSaving, getSavings } from "@/services/savings";
 import { useSession } from "next-auth/react";
 
-export function useFetchSavings(params) {
+export function useFetchSavings() {
   const token = useAxiosAuth();
   const { data: session } = useSession();
   const isTokenReady = !!session?.user?.token;
 
   return useQuery({
-    queryKey: ["savings", params],
-    queryFn: () => getSavings(params, token),
+    queryKey: ["savings"],
+    queryFn: () => getSavings(token),
     enabled: isTokenReady,
   });
 }

@@ -8,8 +8,8 @@ export const createSavingAccount = async (values, token) => {
   return response?.data;
 };
 
-export const getSavings = async (params, token) => {
-  const response = await apiActions?.get("/api/v1/savings/", { ...token, params });
+export const getSavings = async (token) => {
+  const response = await apiActions?.get("/api/v1/savings/",token);
   return response?.data;
 };
 
