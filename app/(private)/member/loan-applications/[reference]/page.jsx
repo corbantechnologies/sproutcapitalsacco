@@ -169,7 +169,37 @@ export default function LoanApplicationDetail({ params }) {
     return application?.projection?.schedule || [];
   }, [application]);
 
-  if (isPending) return <MemberLoadingSpinner />;
+const LoanApplicationDetailSkeleton = () => (
+  <div className="mx-auto p-4 sm:p-6 space-y-6 animate-pulse">
+    <div className="h-4 w-48 bg-slate-200 rounded" />
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-64 bg-slate-200 rounded" />
+        <div className="h-4 w-40 bg-slate-200 rounded" />
+      </div>
+      <div className="h-10 w-32 bg-slate-200 rounded" />
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="lg:col-span-3 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+        </div>
+        <div className="h-96 bg-slate-200 rounded-lg" />
+      </div>
+      <div className="h-96 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
+  if (isPending) {
+    return (
+      <div className="min-h-screen bg-gray-50/50">
+        <LoanApplicationDetailSkeleton />
+      </div>
+    );
+  }
   if (isError || !application)
     return (
       <div className="p-8">
@@ -230,7 +260,7 @@ export default function LoanApplicationDetail({ params }) {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-xl font-semibold text-gray-900">
                 {application.product} Application
               </h1>
             </div>
@@ -331,7 +361,7 @@ export default function LoanApplicationDetail({ params }) {
                   <p className="text-sm text-muted-foreground">
                     Requested Amount
                   </p>
-                  <p className="text-2xl font-bold text-gray-900">
+                  <p className="text-xl font-semibold text-gray-900">
                     {formatCurrency(application.requested_amount)}
                   </p>
                 </div>
@@ -589,7 +619,7 @@ export default function LoanApplicationDetail({ params }) {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
             <div className="bg-white rounded shadow-xl w-full max-w-md">
               <div className="flex items-center justify-between p-6 border-b">
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-xl font-semibold text-gray-900">
                   Update Application
                 </h2>
                 <Button

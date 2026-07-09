@@ -32,6 +32,20 @@ import UpdateSavingTypeModal from "@/forms/savingtypes/UpdateSavingType";
 import BulkSavingTypeCreate from "@/forms/savingtypes/BulkSavingTypeCreate";
 import BulkSavingTypeUploadCreate from "@/forms/savingtypes/BulkSavingTypeUploadCreate";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+    return (
+        <div className="space-y-4 w-full animate-pulse p-4">
+            {[...Array(rows)].map((_, i) => (
+                <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+                    {[...Array(cols)].map((_, j) => (
+                        <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+                    ))}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default function SavingTypesSetupPage() {
     const router = useRouter();
     const { data: myself } = useFetchMember();
@@ -44,8 +58,6 @@ export default function SavingTypesSetupPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [selectedType, setSelectedType] = useState(null);
-
-    if (isLoading) return <LoadingSpinner />;
 
     return (
         <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6">
@@ -61,7 +73,7 @@ export default function SavingTypesSetupPage() {
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
-                        <h1 className="text-2xl  tracking-tight text-slate-900 flex items-center gap-2">
+                        <h1 className="text-xl  tracking-tight text-slate-900 flex items-center gap-2">
                             <PiggyBank className="w-6 h-6 text-[#174271]" /> Savings Product Setup
                         </h1>
                         <p className="text-black text-sm italic">
@@ -81,11 +93,11 @@ export default function SavingTypesSetupPage() {
 
             {/* Content Tabs */}
             <Tabs defaultValue="list">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded-xl grid grid-cols-3 gap-1 overflow-hidden">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded grid grid-cols-3 gap-1 overflow-hidden">
 
                     <TabsTrigger
                         value="list"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <ListFilter className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">All Products</span>
@@ -94,7 +106,7 @@ export default function SavingTypesSetupPage() {
 
                     <TabsTrigger
                         value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <Plus className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Batch Entry</span>
@@ -103,7 +115,7 @@ export default function SavingTypesSetupPage() {
 
                     <TabsTrigger
                         value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <FileUp className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden md:inline">Import CSV</span>
@@ -132,7 +144,13 @@ export default function SavingTypesSetupPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {savingTypes?.length > 0 ? (
+                                        {isLoading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={5} className="p-6">
+                                                    <TableSkeleton rows={5} cols={5} />
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : savingTypes?.length > 0 ? (
                                             savingTypes.map((type) => (
                                                 <TableRow key={type.reference} className="hover:bg-slate-50 transition-colors group border-b border-slate-50">
                                                     <TableCell>{type.name}</TableCell>

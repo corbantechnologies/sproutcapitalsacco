@@ -10,7 +10,7 @@ function MemberLayout({ children }) {
   return (
     <div className="min-h-screen bg-white">
       <MemberNavbar />
-      <main>{children}</main>
+      <main className="md:pl-64">{children}</main>
     </div>
   );
 }

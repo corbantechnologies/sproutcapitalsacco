@@ -1,6 +1,5 @@
 "use client";
 
-import LoadingSpinner from "@/components/general/LoadingSpinner";
 import SaccoMembersTable from "@/components/members/SaccoMembersTable";
 import StatsCard from "@/components/saccoadmin/StatsCard";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import CreateMember from "@/forms/members/CreateMember";
 import BulkMemberCreate from "@/forms/members/BulkMemberCreate";
 import BulkMemberUploadCreate from "@/forms/members/BulkMemberUploadCreate";
@@ -16,8 +23,40 @@ import { useFetchMembers } from "@/hooks/members/actions";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { downloadBulkMembersTemplate } from "@/services/members";
 import { downloadAccountsListCSV } from "@/services/transactions";
-import { User, Users, FileUp, FileDown, UsersRound, ChevronDown } from "lucide-react";
+import { User, Users, FileUp, FileDown, UsersRound, ChevronDown, UserPlus, Clock } from "lucide-react";
 import React, { useState } from "react";
+
+const TableSkeleton = ({ rows = 5, cols = 4 }) => {
+  return (
+    <div className="border border-slate-100 rounded overflow-hidden bg-white">
+      <Table>
+        <TableHeader className="bg-slate-50">
+          <TableRow>
+            {Array.from({ length: cols }).map((_, i) => (
+              <TableHead key={i}>
+                <div className="h-4 bg-slate-200 rounded w-16 animate-pulse" />
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {Array.from({ length: rows }).map((_, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {Array.from({ length: cols }).map((_, colIndex) => (
+                <TableCell key={colIndex}>
+                  <div
+                    className="h-4 bg-slate-200 rounded animate-pulse"
+                    style={{ width: `${Math.floor(((rowIndex + colIndex) % 5) * 10) + 40}%` }}
+                  />
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
 
 function Members() {
   const [memberCreateModal, setMemberCreateModal] = useState(false);
@@ -32,11 +71,23 @@ function Members() {
     refetch: refetchMembers,
   } = useFetchMembers();
 
-  if (isLoadingMembers) return <LoadingSpinner />;
-
   // Calculate pending approvals
   const pendingApprovals =
     members?.filter((member) => !member?.is_approved).length || 0;
+
+  // Calculate members joined this month
+  const joinedThisMonth =
+    members?.filter((member) => {
+      if (!member?.created_at) return false;
+      const date = new Date(member.created_at);
+      const now = new Date();
+      return (
+        date.getMonth() === now.getMonth() &&
+        date.getFullYear() === now.getFullYear()
+      );
+    }).length || 0;
+
+  const skeletonValue = <div className="h-7 w-16 bg-slate-200 animate-pulse rounded" />;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -44,7 +95,7 @@ function Members() {
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold ">
+            <h1 className="text-xl sm:text-xl lg:text-xl font-semibold ">
               Members
             </h1>
             <p className="text-gray-500 mt-1">Manage your members</p>
@@ -147,23 +198,33 @@ function Members() {
         </div>
 
         {/* Stats Cards Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           <StatsCard
             title="Total Members"
-            value={members?.length || 0}
+            value={isLoadingMembers ? skeletonValue : members?.length || 0}
             Icon={Users}
             description="Active members in the system"
           />
           <StatsCard
+            title="Joined This Month"
+            value={isLoadingMembers ? skeletonValue : joinedThisMonth}
+            Icon={UserPlus}
+            description="Members registered this month"
+          />
+          <StatsCard
             title="Pending Approvals"
-            value={pendingApprovals}
-            Icon={Users}
+            value={isLoadingMembers ? skeletonValue : pendingApprovals}
+            Icon={Clock}
             description="Members awaiting approval"
           />
         </div>
 
         {/* Members Table */}
-        <SaccoMembersTable members={members} refetchMembers={refetchMembers} />
+        {isLoadingMembers ? (
+          <TableSkeleton rows={8} cols={4} />
+        ) : (
+          <SaccoMembersTable members={members} refetchMembers={refetchMembers} />
+        )}
 
         {/* Member Create Modals */}
         <CreateMember

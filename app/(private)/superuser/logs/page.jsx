@@ -89,10 +89,10 @@ export default function AuditLogsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">System Audit Logs</h1>
+      <h1 className="text-xl font-semibold text-slate-900">System Audit Logs</h1>
       
       {/* Filters */}
-      <div className="bg-white p-4 rounded-lg shadow border grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="bg-white p-4 rounded shadow border grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <div>
           <Label htmlFor="search" className="text-sm font-medium text-gray-700">
             Text Search
@@ -183,7 +183,7 @@ export default function AuditLogsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow border overflow-hidden">
+      <div className="bg-white rounded shadow border overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -288,7 +288,7 @@ export default function AuditLogsPage() {
       {/* JSON Payload Modal */}
       {selectedLog && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setSelectedLog(null)}>
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded shadow-xl w-full max-w-3xl max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="p-4 border-b flex items-center justify-between">
               <h3 className="text-lg font-semibold">Audit Log Details</h3>
               <Button variant="ghost" size="icon" onClick={() => setSelectedLog(null)}>
@@ -309,14 +309,14 @@ export default function AuditLogsPage() {
                 </div>
               </div>
               
-              <div className="border-b pb-4 bg-slate-50 p-4 rounded-lg border">
-                <p className="text-xs text-slate-500 uppercase tracking-wider font-bold mb-2">Description</p>
+              <div className="border-b pb-4 bg-slate-50 p-4 rounded border">
+                <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">Description</p>
                 <p className="text-slate-800 text-sm leading-relaxed">{selectedLog.description || "No description provided."}</p>
               </div>
               
               <div>
                 <h4 className="text-sm font-semibold text-slate-800 mb-2 border-b pb-1">Request Payload</h4>
-                <div className="bg-slate-900 rounded-md p-4 overflow-x-auto">
+                <div className="bg-slate-900 rounded p-4 overflow-x-auto">
                   <pre className="text-green-400 text-xs font-mono">
                     {selectedLog.request_payload 
                       ? JSON.stringify(selectedLog.request_payload, null, 2) 
@@ -327,7 +327,7 @@ export default function AuditLogsPage() {
 
               <div>
                 <h4 className="text-sm font-semibold text-slate-800 mb-2 border-b pb-1">Response Payload</h4>
-                <div className="bg-slate-900 rounded-md p-4 overflow-x-auto">
+                <div className="bg-slate-900 rounded p-4 overflow-x-auto">
                   <pre className="text-blue-400 text-xs font-mono">
                     {selectedLog.response_payload 
                       ? JSON.stringify(selectedLog.response_payload, null, 2) 

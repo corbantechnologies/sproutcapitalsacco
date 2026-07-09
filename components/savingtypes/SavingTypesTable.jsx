@@ -15,6 +15,11 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Search } from "lucide-react";
 
+const getPageNumbers = (currentPage, totalPages) => {
+  return [currentPage];
+};;;
+
+
 function SavingTypesTable({ savingTypes }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -133,8 +138,7 @@ function SavingTypesTable({ savingTypes }) {
               >
                 Previous
               </Button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
+              {getPageNumbers(currentPage, totalPages).map((page, index) => page === "..." ? <span key={`ellipsis-${index}`} className="px-2 py-1 text-slate-400 text-sm select-none">...</span> : (((page) => (
                   <Button
                     key={page}
                     onClick={() => handlePageChange(page)}
@@ -147,8 +151,7 @@ function SavingTypesTable({ savingTypes }) {
                   >
                     {page}
                   </Button>
-                )
-              )}
+                ))(page)))}
               <Button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}

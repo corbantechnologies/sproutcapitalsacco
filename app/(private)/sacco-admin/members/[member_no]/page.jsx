@@ -56,6 +56,20 @@ import { Download, Loader2 } from "lucide-react";
 import EmptyState from "@/components/general/EmptyState";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
+const MemberDetailSkeleton = () => (
+  <div className="mx-auto space-y-8 animate-pulse p-4 md:p-6">
+    <div className="h-4 w-48 bg-slate-200 rounded" />
+    <div className="h-40 bg-slate-200 rounded-lg" />
+    <div className="grid lg:grid-cols-3 gap-8">
+      <div className="lg:col-span-2 space-y-8">
+        <div className="h-64 bg-slate-200 rounded-lg" />
+        <div className="h-48 bg-slate-200 rounded-lg" />
+      </div>
+      <div className="h-64 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
 function MemberDetail() {
   const { member_no } = useParams();
   const token = useAxiosAuth();
@@ -238,7 +252,13 @@ function MemberDetail() {
   if (member?.is_treasurer) activeRoles.push("Treasurer");
   if (member?.is_bookkeeper) activeRoles.push("Bookkeeper");
 
-  if (isLoadingMember) return <LoadingSpinner />;
+  if (isLoadingMember) {
+    return (
+      <div className="min-h-screen bg-background">
+        <MemberDetailSkeleton />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-6">
@@ -278,7 +298,7 @@ function MemberDetail() {
 
               <div className="flex-1 space-y-4">
                 <div>
-                  <h1 className="text-2xl md:text-4xl font-bold text-foreground mb-2">
+                  <h1 className="text-xl md:text-xl font-semibold text-foreground mb-2">
                     {member?.first_name}{" "}
                     {member?.middle_name && member.middle_name + " "}
                     {member?.last_name}
@@ -408,12 +428,17 @@ function MemberDetail() {
               {member?.savings?.length > 0 ? (
                 <>
                   {paginate(member.savings, savingsPage).map((account) => (
-                    <InfoField
+                    <Link
                       key={account.reference}
-                      icon={Wallet2}
-                      label={`${account.account_type} - ${account.account_number}`}
-                      value={`${formatBalance(account.balance)} KES`}
-                    />
+                      href={`/sacco-admin/saving-accounts/${account.reference}`}
+                      className="block transition-transform hover:scale-[1.01]"
+                    >
+                      <InfoField
+                        icon={Wallet2}
+                        label={`${account.account_type} - ${account.account_number}`}
+                        value={`${formatBalance(account.balance)} KES`}
+                      />
+                    </Link>
                   ))}
                   <PaginationControls
                     currentPage={savingsPage}
@@ -534,7 +559,7 @@ function MemberDetail() {
           <div className="lg:col-span-2 space-y-8">
             <Card className="shadow-md">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-2xl">
+                <CardTitle className="flex items-center gap-2 text-xl">
                   <User className="h-6 w-6 text-primary" />
                   Personal Information
                 </CardTitle>
@@ -572,7 +597,7 @@ function MemberDetail() {
             {hasEmploymentData && (
               <Card className="shadow-md">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-2xl">
+                  <CardTitle className="flex items-center gap-2 text-xl">
                     <Building className="h-6 w-6 text-primary" />
                     Employment Details
                   </CardTitle>
@@ -601,7 +626,7 @@ function MemberDetail() {
               <Card className="shadow-md border-l-4 border-l-indigo-500">
                 <CardHeader>
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
-                    <CardTitle className="flex items-center gap-2 text-2xl">
+                    <CardTitle className="flex items-center gap-2 text-xl">
                       <Shield className="h-6 w-6 text-primary" />
                       Guarantor Profile
                     </CardTitle>
@@ -642,7 +667,7 @@ function MemberDetail() {
 
                   {member.guarantor_profile.guarantees?.length > 0 && (
                     <div className="mt-6">
-                      <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 ml-1">
+                      <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-3 ml-1">
                         Active Guarantees
                       </h4>
                       <div className="overflow-x-auto">

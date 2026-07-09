@@ -35,9 +35,9 @@ export default function SuperuserMemberDetail() {
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-6 space-y-6">
-      <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+      <div className="flex justify-between items-center bg-white p-4 rounded shadow-sm border border-slate-200">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">
+          <h1 className="text-xl font-semibold text-slate-900">
             {member?.salutation} {member?.first_name} {member?.last_name}
           </h1>
           <p className="text-slate-500">{member?.member_no}</p>

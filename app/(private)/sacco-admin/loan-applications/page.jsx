@@ -55,6 +55,20 @@ import { downloadLoanApplicationsTemplate } from "@/services/loanapplications";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import toast from "react-hot-toast";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+  return (
+    <div className="space-y-4 w-full animate-pulse p-4">
+      {[...Array(rows)].map((_, i) => (
+        <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+          {[...Array(cols)].map((_, j) => (
+            <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function AdminLoanApplications() {
   const { data: loanApplications, isLoading } = useFetchLoanApplications();
   const userMemberNo = useUserMemberNo();
@@ -67,15 +81,13 @@ export default function AdminLoanApplications() {
   const [activeTab, setActiveTab] = useState("all"); // 'all' | 'mine'
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 50;
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isCreateForMeModalOpen, setIsCreateForMeModalOpen] = useState(false);
   const [isAdminCreateModalOpen, setIsAdminCreateModalOpen] = useState(false);
   const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState(false);
   const token = useAxiosAuth();
-
-  if (isLoading) return <MemberLoadingSpinner />;
 
   // 1. Filter by Tab (Ownership)
   let filteredApps = loanApplications || [];
@@ -149,7 +161,7 @@ export default function AdminLoanApplications() {
 
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-xl font-semibold text-gray-900">
               Loan Applications
             </h1>
             <p className="text-muted-foreground mt-1">
@@ -217,8 +229,8 @@ export default function AdminLoanApplications() {
           </Popover>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 flex flex-col gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          <div className="lg:col-span-3 flex flex-col gap-4">
 
 
             {/* Controls Section */}
@@ -286,8 +298,12 @@ export default function AdminLoanApplications() {
                   </CardDescription>
                 </div>
               </CardHeader>
-              <CardContent className="p-0">
-                {!paginatedApps || paginatedApps.length === 0 ? (
+               <CardContent className="p-0">
+                {isLoading ? (
+                  <div className="p-6">
+                    <TableSkeleton rows={8} cols={7} />
+                  </div>
+                ) : !paginatedApps || paginatedApps.length === 0 ? (
                   <div className="text-center py-12 px-4">
                     <div className="inline-flex items-center justify-center w-12 h-12 rounded bg-gray-100 mb-4">
                       <FileText className="h-6 w-6 text-gray-400" />
@@ -317,9 +333,6 @@ export default function AdminLoanApplications() {
                     <Table>
                       <TableHeader>
                         <TableRow className="bg-gray-50/50 hover:bg-gray-50/50 block sm:table-row">
-                          <TableHead className="hidden sm:table-cell">
-                            Reference
-                          </TableHead>
                           <TableHead className="hidden sm:table-cell">
                             Applicant
                           </TableHead>
@@ -413,15 +426,12 @@ export default function AdminLoanApplications() {
                             </TableCell>
 
                             {/* Desktop View */}
-                            <TableCell className="hidden sm:table-cell font-mono text-sm font-medium text-gray-900">
-                              {app.reference}
-                            </TableCell>
                             <TableCell className="hidden sm:table-cell">
                               <div className="flex flex-col">
-                                <span className="font-medium text-sm">
+                                <span className="font-semibold text-slate-800 text-sm">
                                   {app.member_name}
                                 </span>
-                                <span className="text-xs text-muted-foreground">
+                                <span className="text-xs text-slate-500 font-mono">
                                   {app.member}
                                 </span>
                               </div>
@@ -526,7 +536,7 @@ export default function AdminLoanApplications() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white z-10">
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-xl font-semibold text-gray-900">
                 New Loan Application (For Myself)
               </h2>
               <Button
@@ -552,7 +562,7 @@ export default function AdminLoanApplications() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white z-10">
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-xl font-semibold text-gray-900">
                 New Loan Application (For Member)
               </h2>
               <Button
@@ -577,7 +587,7 @@ export default function AdminLoanApplications() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white z-10">
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-xl font-semibold text-gray-900">
                 Bulk Upload Process
               </h2>
               <Button

@@ -21,6 +21,11 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 
+const getPageNumbers = (currentPage, totalPages) => {
+  return [currentPage];
+};;;
+
+
 function VenturesTable({ ventures, isLoading, route }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [filterType, setFilterType] = useState("All");
@@ -190,8 +195,7 @@ function VenturesTable({ ventures, isLoading, route }) {
               >
                 Previous
               </Button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
+              {getPageNumbers(currentPage, totalPages).map((page, index) => page === "..." ? <span key={`ellipsis-${index}`} className="px-2 py-1 text-slate-400 text-sm select-none">...</span> : (((page) => (
                   <Button
                     key={page}
                     onClick={() => handlePageChange(page)}
@@ -204,8 +208,7 @@ function VenturesTable({ ventures, isLoading, route }) {
                   >
                     {page}
                   </Button>
-                ),
-              )}
+                ),)(page)))}
               <Button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}

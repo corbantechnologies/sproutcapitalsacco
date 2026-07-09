@@ -51,6 +51,31 @@ import { useFetchLoanPenaltiesByLoanAccountReference } from "@/hooks/loanpenalti
 import CreateLoanPenalty from "@/forms/loanpenalties/CreateLoanPenalty";
 import UpdateLoanPenalty from "@/forms/loanpenalties/UpdateLoanPenalty";
 
+const LoanDetailSkeleton = () => (
+  <div className="mx-auto p-4 sm:p-6 space-y-6 animate-pulse">
+    <div className="h-4 w-48 bg-slate-200 rounded" />
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-64 bg-slate-200 rounded" />
+        <div className="h-4 w-40 bg-slate-200 rounded" />
+      </div>
+      <div className="h-10 w-32 bg-slate-200 rounded" />
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="lg:col-span-3 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+        </div>
+        <div className="h-96 bg-slate-200 rounded-lg" />
+      </div>
+      <div className="h-96 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
 export default function LoanAccountDetail({ params }) {
   const { member_no, loan_reference } = use(params);
   const {
@@ -81,12 +106,19 @@ export default function LoanAccountDetail({ params }) {
     refetchPenalties();
   };
 
-  if (isLoanLoading) return <LoadingSpinner />;
+  if (isLoanLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50/50">
+        <LoanDetailSkeleton />
+      </div>
+    );
+  }
+
   if (!loan)
     return (
       <div className="p-8 text-center">
         <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
-        <h2 className="text-xl font-bold">Loan Account Not Found</h2>
+        <h2 className="text-xl font-semibold">Loan Account Not Found</h2>
         <p className="text-muted-foreground mt-2">The loan account details could not be retrieved.</p>
         <Button
           variant="link"
@@ -139,7 +171,7 @@ export default function LoanAccountDetail({ params }) {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-xl font-semibold text-gray-900">
                 {loan.product} Account
               </h1>
               <Badge className={getStatusColor(loan.status)} variant="outline">
@@ -171,12 +203,12 @@ export default function LoanAccountDetail({ params }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
               <Card className="bg-white border-l-4 border-l-[#174271]">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
+                  <CardTitle className="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center gap-2">
                     <Info className="h-4 w-4" /> Outstanding Balance
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold text-[#174271]">
+                  <p className="text-xl font-semibold text-[#174271]">
                     {formatCurrency(loan.outstanding_balance)}
                   </p>
                 </CardContent>
@@ -184,12 +216,12 @@ export default function LoanAccountDetail({ params }) {
 
               <Card className="bg-white border-l-4 border-l-green-500">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <CardTitle className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Principal Amount
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold text-slate-900">
+                  <p className="text-xl font-semibold text-slate-900">
                     {formatCurrency(loan.principal)}
                   </p>
                 </CardContent>
@@ -197,12 +229,12 @@ export default function LoanAccountDetail({ params }) {
 
               <Card className="bg-white border-l-4 border-l-amber-500">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <CardTitle className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Interest Accrued
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold text-slate-900">
+                  <p className="text-xl font-semibold text-slate-900">
                     {formatCurrency(loan.total_interest_accrued)}
                   </p>
                 </CardContent>
@@ -210,12 +242,12 @@ export default function LoanAccountDetail({ params }) {
 
               <Card className="bg-white border-l-4 border-l-indigo-500">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <CardTitle className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Processing Fee
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold text-slate-900">
+                  <p className="text-xl font-semibold text-slate-900">
                     {formatCurrency(loan.processing_fee)}
                   </p>
                 </CardContent>
@@ -225,12 +257,12 @@ export default function LoanAccountDetail({ params }) {
               {parseFloat(loan.total_penalties_owed) > 0 && (
                 <Card className="bg-white border-l-4 border-l-red-500">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-xs font-bold uppercase tracking-wider text-red-500 flex items-center gap-2">
+                    <CardTitle className="text-xs font-semibold uppercase tracking-wider text-red-500 flex items-center gap-2">
                       <AlertTriangle className="h-4 w-4" /> Penalties Owed
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-2xl font-bold text-red-600">
+                    <p className="text-xl font-semibold text-red-600">
                       {formatCurrency(loan.total_penalties_owed)}
                     </p>
                     <p className="text-[10px] text-muted-foreground mt-1">Total outstanding penalty balance</p>
@@ -241,12 +273,12 @@ export default function LoanAccountDetail({ params }) {
               {loan.status !== "Closed" && (
                 <Card className="bg-white border-l-4 border-l-purple-500">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                    <CardTitle className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Estimated Clearance
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-2xl font-bold text-purple-700">
+                    <p className="text-xl font-semibold text-purple-700">
                       {formatCurrency(loan.total_clearance_amount)}
                     </p>
                     <p className="text-[10px] text-muted-foreground mt-1">
@@ -295,7 +327,7 @@ export default function LoanAccountDetail({ params }) {
                                 {payment.repayment_type}
                               </Badge>
                             </TableCell>
-                            <TableCell className="text-right font-bold">
+                            <TableCell className="text-right font-semibold">
                               {formatCurrency(payment.amount)}
                             </TableCell>
                           </TableRow>
@@ -455,7 +487,7 @@ export default function LoanAccountDetail({ params }) {
                             <TableCell className="font-mono text-xs">
                               {penalty.installment_code}
                             </TableCell>
-                            <TableCell className="font-bold">
+                            <TableCell className="font-semibold">
                               {formatCurrency(penalty.amount)}
                             </TableCell>
                             <TableCell>
@@ -612,12 +644,12 @@ export default function LoanAccountDetail({ params }) {
                     )}
                     <Separator className="bg-green-200" />
                     <div className="flex justify-between items-center pt-1">
-                      <span className="text-sm font-bold text-green-900">Settlement Only</span>
+                      <span className="text-sm font-semibold text-green-900">Settlement Only</span>
                       <span className="text-lg font-semibold text-green-700">{formatCurrency(payoffQuote.total_payoff_amount)}</span>
                     </div>
                     {parseFloat(loan.total_penalties_owed) > 0 && (
                       <div className="flex justify-between items-center bg-purple-50 border border-purple-200 rounded px-3 py-2 mt-1">
-                        <span className="text-sm font-bold text-purple-900">Full Clearance</span>
+                        <span className="text-sm font-semibold text-purple-900">Full Clearance</span>
                         <span className="text-lg font-semibold text-purple-700">
                           {formatCurrency(parseFloat(payoffQuote.total_payoff_amount) + parseFloat(loan.total_penalties_owed))}
                         </span>
@@ -651,7 +683,7 @@ export default function LoanAccountDetail({ params }) {
                     <User className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900">{loan.member}</p>
+                    <p className="font-semibold text-gray-900">{loan.member}</p>
                     <Link
                       href={`/sacco-admin/members/${member_no}`}
                       className="text-xs text-primary hover:underline"

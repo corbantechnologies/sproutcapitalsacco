@@ -97,9 +97,9 @@ function BulkFeePaymentUpload({ onBatchSuccess }) {
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <div
-                    className={`border-2 border-dashed rounded p-12 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
+                    className={`border border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
                         file
                             ? "border-green-500 bg-green-50/50"
                             : "border-slate-200 bg-slate-50/30 hover:border-[#174271] hover:bg-slate-50"
@@ -115,13 +115,13 @@ function BulkFeePaymentUpload({ onBatchSuccess }) {
                     />
 
                     {file ? (
-                        <div className="flex flex-col items-center space-y-4">
-                            <div className="p-4 bg-green-100 rounded text-green-600 shadow-sm animate-in zoom-in">
-                                <FileCheck className="w-10 h-10" />
+                        <div className="flex flex-col items-center space-y-3">
+                            <div className="p-3 bg-green-100 rounded text-green-600 shadow-sm animate-in zoom-in">
+                                <FileCheck className="w-8 h-8" />
                             </div>
                             <div>
-                                <p className="font-bold text-lg text-slate-900">{file.name}</p>
-                                <p className="text-sm text-slate-500 font-mono uppercase tracking-wider">
+                                <p className="font-bold text-base text-slate-900">{file.name}</p>
+                                <p className="text-[10px] text-slate-500 font-mono uppercase tracking-wider">
                                     {(file.size / 1024).toFixed(2)} KB • READY TO UPLOAD
                                 </p>
                             </div>
@@ -132,21 +132,21 @@ function BulkFeePaymentUpload({ onBatchSuccess }) {
                                     e.stopPropagation();
                                     clearFile();
                                 }}
-                                className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 text-xs px-4"
                             >
-                                <X className="w-4 h-4 mr-2" /> Change Selection
+                                <X className="w-3.5 h-3.5 mr-2" /> Change Selection
                             </Button>
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center space-y-4">
-                            <div className="p-4 bg-white rounded text-slate-400 shadow-sm border border-slate-100">
-                                <FileUp className="w-10 h-10" />
+                        <div className="flex flex-col items-center space-y-3">
+                            <div className="p-3 bg-white rounded text-slate-400 shadow-sm border border-slate-100">
+                                <FileUp className="w-8 h-8" />
                             </div>
                             <div className="space-y-1">
-                                <p className="font-bold text-lg text-slate-800">
+                                <p className="font-bold text-base text-slate-800">
                                     Click to browse 
                                 </p>
-                                <p className="text-sm text-slate-500">Only CSV files are supported for bulk processing</p>
+                                <p className="text-xs text-slate-500">Only CSV files are supported for bulk processing</p>
                             </div>
                         </div>
                     )}
@@ -155,7 +155,7 @@ function BulkFeePaymentUpload({ onBatchSuccess }) {
                 <div className="flex justify-center">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-[#12345a] text-white px-12 h-12 rounded font-bold shadow-lg shadow-[#174271]/20 transition-all active:scale-95 disabled:opacity-50"
+                        className="bg-[#174271] hover:bg-[#12345a] text-white px-12 h-10 rounded font-bold shadow-md transition-all active:scale-95 disabled:opacity-50 text-sm"
                         disabled={loading || !file}
                     >
                         {loading ? "Uploading Data..." : "Start Import"}

@@ -85,7 +85,7 @@ export default function GLAccountReferencePage() {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#ea1315]"></div>
+                <div className="animate-spin rounded h-8 w-8 border-b-2 border-[#ea1315]"></div>
             </div>
         );
     }
@@ -113,7 +113,7 @@ export default function GLAccountReferencePage() {
                         Back to Accounting
                     </Link>
                     <div className="flex items-center gap-3">
-                        <h1 className="text-2xl text-slate-900">
+                        <h1 className="text-xl text-slate-900">
                             {account.name}
                         </h1>
                         <Badge variant="outline" className="bg-white border-slate-200 text-slate-500 px-2 py-0 h-6">
@@ -150,7 +150,7 @@ export default function GLAccountReferencePage() {
                         <div className="flex items-center justify-between">
                             <div className="space-y-1">
                                 <p className="text-xs text-slate-400 uppercase tracking-wider">Current Balance</p>
-                                <h3 className="text-2xl text-slate-900 font-mono">
+                                <h3 className="text-xl text-slate-900 font-mono">
                                     KES {Number(account.balance).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                 </h3>
                             </div>
@@ -166,7 +166,7 @@ export default function GLAccountReferencePage() {
                         <div className="flex items-center justify-between">
                             <div className="space-y-1">
                                 <p className="text-xs text-slate-400 uppercase tracking-wider">Account Type</p>
-                                <h3 className="text-2xl text-slate-900 capitalize">
+                                <h3 className="text-xl text-slate-900 capitalize">
                                     {account.category?.toLowerCase()}
                                 </h3>
                             </div>
@@ -182,7 +182,7 @@ export default function GLAccountReferencePage() {
                         <div className="flex items-center justify-between">
                             <div className="space-y-1">
                                 <p className="text-xs text-slate-400 uppercase tracking-wider">Total Debits</p>
-                                <h3 className="text-2xl text-emerald-600 font-mono">
+                                <h3 className="text-xl text-emerald-600 font-mono">
                                     KES {totals.debit.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                 </h3>
                             </div>
@@ -198,7 +198,7 @@ export default function GLAccountReferencePage() {
                         <div className="flex items-center justify-between">
                             <div className="space-y-1">
                                 <p className="text-xs text-slate-400 uppercase tracking-wider">Total Credits</p>
-                                <h3 className="text-2xl text-rose-600 font-mono">
+                                <h3 className="text-xl text-rose-600 font-mono">
                                     KES {totals.credit.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                 </h3>
                             </div>
@@ -211,7 +211,7 @@ export default function GLAccountReferencePage() {
             </div>
 
             {/* Ledger Table */}
-            <Card className="border-none shadow-sm bg-white rounded-lg">
+            <Card className="border-none shadow-sm bg-white rounded">
                 <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 border-b">
                     <div className="space-y-1">
                         <CardTitle className="text-lg flex items-center gap-2">
@@ -271,7 +271,7 @@ export default function GLAccountReferencePage() {
                                             {entry.batch_details?.description || "No description provided"}
                                         </div>
                                         <div className="text-[10px] text-[#ea1315] mt-1 uppercase tracking-wider flex items-center gap-1">
-                                            <span className="w-1 h-1 rounded-full bg-[#ea1315]"></span>
+                                            <span className="w-1 h-1 rounded bg-[#ea1315]"></span>
                                             {entry.created_by || "System"}
                                         </div>
                                     </TableCell>

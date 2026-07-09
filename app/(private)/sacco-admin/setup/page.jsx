@@ -63,6 +63,24 @@ export default function SetupPage() {
     const [isCreateSavingModalOpen, setIsCreateSavingModalOpen] = useState(false);
     const [isCreateLoanModalOpen, setIsCreateLoanModalOpen] = useState(false);
 
+const SetupSkeleton = () => (
+  <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6 animate-pulse">
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-48 bg-slate-200 rounded" />
+        <div className="h-4 w-64 bg-slate-200 rounded" />
+      </div>
+      <div className="h-10 w-32 bg-slate-200 rounded" />
+    </div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+      {[...Array(5)].map((_, i) => (
+        <div key={i} className="h-28 bg-slate-200 rounded-lg" />
+      ))}
+    </div>
+    <div className="h-96 bg-slate-200 rounded-lg" />
+  </div>
+);
+
     if (
         isLoadingMyself ||
         isLoadingGLAccounts ||
@@ -71,7 +89,7 @@ export default function SetupPage() {
         isLoadingSavingTypes ||
         isLoadingLoanProducts
     ) {
-        return <LoadingSpinner />;
+        return <SetupSkeleton />;
     }
 
     const glSetupDone = glaccounts?.length > 0;
@@ -127,7 +145,7 @@ export default function SetupPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+                    <h1 className="text-xl font-semibold tracking-tight text-slate-900">
                         SACCO Configuration Hub
                     </h1>
                     <p className="text-black text-sm">
@@ -243,7 +261,7 @@ export default function SetupPage() {
 
                         <TabsTrigger
                             value="loans"
-                            className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                            className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                         >
                             Loan Products
                         </TabsTrigger>

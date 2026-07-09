@@ -24,6 +24,11 @@ import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { updateWithdrawal } from "@/services/savingswithdrawals";
 import toast from "react-hot-toast";
 
+const getPageNumbers = (currentPage, totalPages) => {
+  return [currentPage];
+};;;
+
+
 function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
   const token = useAxiosAuth();
   const [currentPage, setCurrentPage] = useState(1);
@@ -476,7 +481,7 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
             >
               Previous
             </Button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            {getPageNumbers(currentPage, totalPages).map((page, index) => page === "..." ? <span key={`ellipsis-${index}`} className="px-2 py-1 text-slate-400 text-sm select-none">...</span> : (((page) => (
               <Button
                 key={page}
                 onClick={() => handlePageChange(page)}
@@ -488,7 +493,7 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
               >
                 {page}
               </Button>
-            ))}
+            ))(page)))}
             <Button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}

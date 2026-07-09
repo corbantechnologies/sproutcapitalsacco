@@ -46,7 +46,7 @@ const SummaryCard = ({ title, amount, count, icon: Icon, colorClass }) => (
       <Icon className={`h-4 w-4 ${colorClass}`} />
     </CardHeader>
     <CardContent>
-      <div className="text-2xl font-bold">{formatCurrency(amount)}</div>
+      <div className="text-xl font-semibold">{formatCurrency(amount)}</div>
       {count !== undefined && (
         <p className="text-xs text-muted-foreground">{count} transactions</p>
       )}
@@ -66,7 +66,32 @@ export default function SaccoAdminReports() {
     error,
   } = useFetchSaccoSummary(selectedYear);
 
-  if (isLoading) return <MemberLoadingSpinner />;
+const SaccoReportsSkeleton = () => (
+  <div className="flex flex-col space-y-6 p-4 md:p-8 animate-pulse">
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-48 bg-slate-200 rounded" />
+        <div className="h-4 w-64 bg-slate-200 rounded" />
+      </div>
+      <div className="h-10 w-48 bg-slate-200 rounded" />
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="h-24 bg-slate-200 rounded-lg" />
+      <div className="h-24 bg-slate-200 rounded-lg" />
+      <div className="h-24 bg-slate-200 rounded-lg" />
+      <div className="h-24 bg-slate-200 rounded-lg" />
+    </div>
+    <div className="h-96 bg-slate-200 rounded-lg" />
+  </div>
+);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <SaccoReportsSkeleton />
+      </div>
+    );
+  }
   if (error)
     return (
       <div className="p-8 text-center text-red-500">Failed to load reports</div>
@@ -101,7 +126,7 @@ export default function SaccoAdminReports() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-xl font-semibold tracking-tight">
             Financial Reports
           </h1>
           <p className="text-muted-foreground">
@@ -161,7 +186,7 @@ export default function SaccoAdminReports() {
             <Users className="h-4 w-4 text-orange-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl font-semibold">
               {summary?.totals?.total_new_members}
             </div>
             <p className="text-xs text-muted-foreground">

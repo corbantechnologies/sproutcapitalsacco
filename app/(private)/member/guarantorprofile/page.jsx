@@ -93,7 +93,30 @@ export default function GuarantorProfilePage() {
     }
   };
 
-  if (isPending) return <MemberLoadingSpinner />;
+const GuarantorProfileSkeleton = () => (
+  <div className="mx-auto p-4 sm:p-6 space-y-6 animate-pulse">
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-48 bg-slate-200 rounded" />
+        <div className="h-4 w-64 bg-slate-200 rounded" />
+      </div>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="h-28 bg-slate-200 rounded-lg" />
+      <div className="h-28 bg-slate-200 rounded-lg" />
+      <div className="h-28 bg-slate-200 rounded-lg" />
+    </div>
+    <div className="h-96 bg-slate-200 rounded-lg" />
+  </div>
+);
+
+  if (isPending) {
+    return (
+      <div className="min-h-screen bg-gray-50/50">
+        <GuarantorProfileSkeleton />
+      </div>
+    );
+  }
   if (isError || !profile)
     return (
       <div className="p-8">
@@ -144,7 +167,7 @@ export default function GuarantorProfilePage() {
   return (
     <div className="space-y-6 mx-auto px-4 py-4">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h1 className="text-xl font-semibold tracking-tight text-gray-900">
           Guarantor Profile
         </h1>
         <p className="text-muted-foreground">
@@ -162,7 +185,7 @@ export default function GuarantorProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className={`text-2xl font-bold ${stat.color}`}>
+              <div className={`text-xl font-semibold ${stat.color}`}>
                 {stat.value}
               </div>
             </CardContent>
@@ -309,7 +332,7 @@ export default function GuarantorProfilePage() {
                         <span className="text-muted-foreground">
                           Remaining to Cover:
                         </span>
-                        <span className="font-bold text-amber-600">
+                        <span className="font-semibold text-amber-600">
                           {formatCurrency(selectedRequest.remaining_to_cover)}
                         </span>
                       </div>

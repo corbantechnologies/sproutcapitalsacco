@@ -34,6 +34,20 @@ import Link from "next/link";
 import BulkLoanDisbursementCreate from "@/forms/loandisbursements/BulkLoanDisbursementCreate";
 import BulkLoanDisbursementUploadCreate from "@/forms/loandisbursements/BulkLoanDisbursementUploadCreate";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+    return (
+        <div className="space-y-4 w-full animate-pulse p-4">
+            {[...Array(rows)].map((_, i) => (
+                <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+                    {[...Array(cols)].map((_, j) => (
+                        <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+                    ))}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default function LoansManagementPage() {
     const router = useRouter();
     const { data: loans, isLoading, refetch } = useFetchLoans();
@@ -54,8 +68,6 @@ export default function LoansManagementPage() {
             return matchesSearch && matchesStatus;
         });
     }, [loans, searchTerm, statusFilter]);
-
-    if (isLoading) return <LoadingSpinner />;
 
     return (
         <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6">
@@ -83,24 +95,24 @@ export default function LoansManagementPage() {
 
             {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="border shadow-sm bg-[#174271] text-white rounded-xl">
+                <Card className="border shadow-sm bg-[#174271] text-white rounded">
                     <CardHeader className="p-6">
                         <CardDescription className="text-white/60 font-semibold uppercase tracking-widest text-[10px]">Active Accounts</CardDescription>
-                        <CardTitle className="text-3xl font-semibold tracking-tight">{loans?.length || 0}</CardTitle>
+                        <CardTitle className="text-xl font-semibold tracking-tight">{loans?.length || 0}</CardTitle>
                     </CardHeader>
                 </Card>
-                <Card className="border shadow-sm bg-white rounded-xl">
+                <Card className="border shadow-sm bg-white rounded">
                     <CardHeader className="p-6">
                         <CardDescription className="text-slate-400 font-semibold uppercase tracking-widest text-[10px]">Pending Approval</CardDescription>
-                        <CardTitle className="text-3xl font-semibold tracking-tight text-slate-800">
+                        <CardTitle className="text-xl font-semibold tracking-tight text-slate-800">
                             {loans?.filter(l => l.application?.status === 'Pending')?.length || 0}
                         </CardTitle>
                     </CardHeader>
                 </Card>
-                <Card className="border shadow-sm bg-white rounded-xl">
+                <Card className="border shadow-sm bg-white rounded">
                     <CardHeader className="p-6">
                         <CardDescription className="text-slate-400 font-semibold uppercase tracking-widest text-[10px]">Approved (Awaiting Funding)</CardDescription>
-                        <CardTitle className="text-3xl font-semibold tracking-tight text-emerald-600">
+                        <CardTitle className="text-xl font-semibold tracking-tight text-emerald-600">
                             {loans?.filter(l => l.application?.status === 'Approved')?.length || 0}
                         </CardTitle>
                     </CardHeader>
@@ -109,10 +121,10 @@ export default function LoansManagementPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="list">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded-xl grid grid-cols-3 gap-1 overflow-hidden">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded grid grid-cols-3 gap-1 overflow-hidden">
                     <TabsTrigger
                         value="list"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <ListFilter className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">List View</span>
@@ -120,7 +132,7 @@ export default function LoansManagementPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <Plus className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Manual Batch</span>
@@ -128,7 +140,7 @@ export default function LoansManagementPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <FileUp className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden md:inline">CSV Upload</span>
@@ -139,23 +151,23 @@ export default function LoansManagementPage() {
                 {/* List Tab */}
                 <TabsContent value="list" className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-6">
                     {/* Filter Bar */}
-                    <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4 items-center">
+                    <div className="bg-white rounded p-4 shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4 items-center">
                         <div className="flex-1 relative group w-full">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-[#174271] transition-colors" />
                             <Input
                                 placeholder="Search by member name or account number..."
-                                className="pl-12 h-12 rounded-lg border-slate-100 focus:border-[#174271] bg-slate-50/50 shadow-none border-0 ring-offset-transparent focus-visible:ring-1 focus-visible:ring-slate-200"
+                                className="pl-12 h-12 rounded border-slate-100 focus:border-[#174271] bg-slate-50/50 shadow-none border-0 ring-offset-transparent focus-visible:ring-1 focus-visible:ring-slate-200"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-                            <div className="inline-flex bg-slate-100/50 rounded-lg p-1 gap-1 border border-slate-200/50">
+                            <div className="inline-flex bg-slate-100/50 rounded p-1 gap-1 border border-slate-200/50">
                                 {['all', 'Approved', 'Disbursed', 'Pending'].map((status) => (
                                     <button
                                         key={status}
                                         onClick={() => setStatusFilter(status)}
-                                        className={`px-4 h-9 rounded-md text-[10px] font-semibold uppercase tracking-widest transition-all whitespace-nowrap ${statusFilter === status
+                                        className={`px-4 h-9 rounded text-[10px] font-semibold uppercase tracking-widest transition-all whitespace-nowrap ${statusFilter === status
                                             ? "bg-white text-[#174271] shadow-sm ring-1 ring-slate-200"
                                             : "text-slate-400 hover:text-slate-600"
                                             }`}
@@ -168,7 +180,7 @@ export default function LoansManagementPage() {
                     </div>
 
                     {/* Loans Table */}
-                    <Card className="border shadow-sm rounded-xl overflow-hidden bg-white">
+                    <Card className="border shadow-sm rounded overflow-hidden bg-white">
                         <CardHeader className="bg-white border-b px-8 py-6">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -193,7 +205,13 @@ export default function LoansManagementPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {filteredLoans.length > 0 ? (
+                                        {isLoading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={8} className="p-6">
+                                                    <TableSkeleton rows={6} cols={8} />
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : filteredLoans.length > 0 ? (
                                             filteredLoans.map((loan) => (
                                                 <TableRow key={loan.reference} className="hover:bg-slate-50/50 transition-all border-b last:border-0 group h-20">
                                                     <TableCell>
@@ -231,7 +249,7 @@ export default function LoansManagementPage() {
                                             ))
                                         ) : (
                                             <TableRow>
-                                                <TableCell colSpan={6} className="text-center py-24 text-slate-300 font-semibold uppercase tracking-[0.2em] text-sm">
+                                                <TableCell colSpan={8} className="text-center py-24 text-slate-300 font-semibold uppercase tracking-[0.2em] text-sm">
                                                     No loan accounts found
                                                 </TableCell>
                                             </TableRow>
@@ -250,7 +268,7 @@ export default function LoansManagementPage() {
 
                 {/* Bulk Upload Tab */}
                 <TabsContent value="bulk-upload" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none bg-white rounded-xl p-8 mt-4">
+                    <Card className="shadow-sm border-none bg-white rounded p-8 mt-4">
                         <CardContent className="p-0">
                             <BulkLoanDisbursementUploadCreate onBatchSuccess={refetch} />
                         </CardContent>

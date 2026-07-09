@@ -5,7 +5,7 @@ function SaccoAdminLayout({ children }) {
   return (
     <div className="admin-theme min-h-screen bg-white">
       <SaccoAdminNavbar />
-      <main>{children}</main>
+      <main className="md:pl-64">{children}</main>
     </div>
   );
 }

@@ -33,9 +33,9 @@ function UpdateMemberRole({ isOpen, onClose, refetchMember, member }) {
           initialValues={{
             is_member: member?.is_member || false,
             is_sacco_admin: member?.is_sacco_admin || false,
-            is_sacco_staff: member?.is_sacco_staff || false,
-            is_treasurer: member?.is_treasurer || false,
-            is_bookkeeper: member?.is_bookkeeper || false,
+            // is_sacco_staff: member?.is_sacco_staff || false,
+            // is_treasurer: member?.is_treasurer || false,
+            // is_bookkeeper: member?.is_bookkeeper || false,
           }}
           enableReinitialize
           onSubmit={async (values) => {

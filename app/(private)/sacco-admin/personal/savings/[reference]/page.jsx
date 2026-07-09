@@ -42,7 +42,7 @@ function SavingsDetail() {
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [depositModalOpen, setDepositModalOpen] = useState(false);
-  const itemsPerPage = 10;
+  const itemsPerPage = 50;
 
   const {
     isLoading: isLoadingSaving,
@@ -150,7 +150,36 @@ function SavingsDetail() {
     doc.save(`savings_report_${saving.account_number}.pdf`);
   };
 
-  if (isLoadingSaving || isLoadingMember) return <MemberLoadingSpinner />;
+const PersonalSavingDetailSkeleton = () => (
+  <div className="mx-auto p-4 sm:p-6 space-y-6 animate-pulse">
+    <div className="h-4 w-48 bg-slate-200 rounded" />
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-64 bg-slate-200 rounded" />
+        <div className="h-4 w-40 bg-slate-200 rounded" />
+      </div>
+      <div className="h-10 w-32 bg-slate-200 rounded" />
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="lg:col-span-2 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+        </div>
+        <div className="h-96 bg-slate-200 rounded-lg" />
+      </div>
+      <div className="h-96 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
+  if (isLoadingSaving || isLoadingMember) {
+    return (
+      <div className="min-h-screen bg-gray-50/50">
+        <PersonalSavingDetailSkeleton />
+      </div>
+    );
+  }
   if (!saving || !member)
     return (
       <div className="p-8 text-center text-muted-foreground">
@@ -178,7 +207,7 @@ function SavingsDetail() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-xl font-semibold text-gray-900">
                 {saving.account_type}
               </h1>
               <Badge
@@ -236,7 +265,7 @@ function SavingsDetail() {
                     <span className="text-muted-foreground">
                       Available Balance
                     </span>
-                    <span className="font-bold text-2xl text-[#045e32]">
+                    <span className="font-semibold text-xl text-[#045e32]">
                       {formatCurrency(saving.balance)}
                     </span>
                   </div>

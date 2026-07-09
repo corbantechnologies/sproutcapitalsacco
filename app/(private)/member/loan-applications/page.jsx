@@ -35,6 +35,20 @@ import { formatCurrency } from "@/lib/utils";
 import { CreateLoanApplication } from "@/forms/loanapplications/CreateLoanApplication";
 import { LoanProductShowcase } from "@/components/loans/LoanProductShowcase";
 
+const TableSkeleton = ({ rows = 5, cols = 5 }) => {
+  return (
+    <div className="space-y-4 w-full animate-pulse p-4">
+      {[...Array(rows)].map((_, i) => (
+        <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+          {[...Array(cols)].map((_, j) => (
+            <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function LoanApplications() {
   const {
     data: loanApplications,
@@ -42,8 +56,6 @@ export default function LoanApplications() {
     refetch,
   } = useFetchLoanApplications();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
-  if (isLoading) return <MemberLoadingSpinner />;
 
   // Handle initial loading or empty states gracefully
   const applications = loanApplications;
@@ -83,7 +95,7 @@ export default function LoanApplications() {
 
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-xl font-semibold text-slate-900 tracking-tight">
               Loan Applications
             </h1>
             <p className="text-slate-500 mt-1">
@@ -109,7 +121,9 @@ export default function LoanApplications() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {applications?.length === 0 ? (
+            {isLoading ? (
+              <TableSkeleton rows={5} cols={6} />
+            ) : applications?.length === 0 ? (
               <div className="text-center py-12 bg-gray-50 rounded border border-dashed">
                 <p className="text-muted-foreground">
                   No loan applications found.
@@ -187,7 +201,7 @@ export default function LoanApplications() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white z-10">
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-xl font-semibold text-gray-900">
                 New Loan Application
               </h2>
               <Button

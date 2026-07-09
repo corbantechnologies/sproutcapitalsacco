@@ -31,6 +31,20 @@ import UpdateFeeTypeModal from "@/forms/feetypes/UpdateFeeType";
 import BulkFeeTypeCreate from "@/forms/feetypes/BulkFeeTypeCreate";
 import BulkFeeTypeUploadCreate from "@/forms/feetypes/BulkFeeTypeUploadCreate";
 
+const TableSkeleton = ({ rows = 5, cols = 7 }) => {
+    return (
+        <div className="space-y-4 w-full animate-pulse p-4">
+            {[...Array(rows)].map((_, i) => (
+                <div key={i} className="flex gap-4 items-center py-2 border-b border-slate-100 last:border-0">
+                    {[...Array(cols)].map((_, j) => (
+                        <div key={j} className="h-6 bg-slate-100 rounded flex-1" />
+                    ))}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default function FeeTypesSetupPage() {
     const router = useRouter();
     const { data: myself } = useFetchMember();
@@ -43,8 +57,6 @@ export default function FeeTypesSetupPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [selectedFee, setSelectedFee] = useState(null);
-
-    if (isLoading) return <LoadingSpinner />;
 
     return (
         <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6">
@@ -80,10 +92,10 @@ export default function FeeTypesSetupPage() {
 
             {/* Content Tabs */}
             <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded-xl grid grid-cols-3 gap-1 overflow-hidden">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto rounded grid grid-cols-3 gap-1 overflow-hidden">
                     <TabsTrigger
                         value="list"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <ListFilter className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Current Fees</span>
@@ -91,7 +103,7 @@ export default function FeeTypesSetupPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-create"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <Plus className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden sm:inline">Batch Entry</span>
@@ -99,7 +111,7 @@ export default function FeeTypesSetupPage() {
                     </TabsTrigger>
                     <TabsTrigger
                         value="bulk-upload"
-                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                        className="flex items-center justify-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-all rounded data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
                     >
                         <FileUp className="w-4 h-4 flex-shrink-0" />
                         <span className="hidden md:inline">Import CSV</span>
@@ -129,7 +141,13 @@ export default function FeeTypesSetupPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {feetypes?.length > 0 ? (
+                                        {isLoading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={7} className="p-6">
+                                                    <TableSkeleton rows={5} cols={7} />
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : feetypes?.length > 0 ? (
                                             feetypes.map((fee) => (
                                                 <TableRow key={fee.reference}>
                                                     <TableCell>{fee.name}</TableCell>
@@ -159,7 +177,7 @@ export default function FeeTypesSetupPage() {
                                             ))
                                         ) : (
                                             <TableRow>
-                                                <TableCell colSpan={6} className="text-center h-48 text-slate-400 text-sm font-medium italic py-12">
+                                                <TableCell colSpan={7} className="text-center h-48 text-slate-400 text-sm font-medium italic py-12">
                                                     No fee types defined yet.
                                                 </TableCell>
                                             </TableRow>

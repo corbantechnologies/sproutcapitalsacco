@@ -38,7 +38,7 @@ function LoanDetail() {
     const [currentPage, setCurrentPage] = useState(1);
     const [isMpesaModalOpen, setIsMpesaModalOpen] = useState(false);
 
-    const itemsPerPage = 10;
+    const itemsPerPage = 50;
 
     const { isLoading: isLoadingLoan, data: loan } = useFetchLoanDetail(reference);
     const { isLoading: isLoadingMember } = useFetchMember();
@@ -89,7 +89,37 @@ function LoanDetail() {
     const formatCurrency = (amount) => `KES ${parseFloat(amount || 0).toFixed(2)}`;
     const formatDate = (dateStr) => dateStr ? format(new Date(dateStr), "MMM dd, yyyy") : "N/A";
 
-    if (isLoadingLoan || isLoadingMember) return <MemberLoadingSpinner />;
+const PersonalLoanDetailSkeleton = () => (
+  <div className="mx-auto p-4 sm:p-6 space-y-6 animate-pulse">
+    <div className="h-4 w-48 bg-slate-200 rounded" />
+    <div className="flex justify-between items-center">
+      <div className="space-y-2">
+        <div className="h-6 w-64 bg-slate-200 rounded" />
+        <div className="h-4 w-40 bg-slate-200 rounded" />
+      </div>
+      <div className="h-10 w-32 bg-slate-200 rounded" />
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="lg:col-span-2 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+          <div className="h-24 bg-slate-200 rounded-lg" />
+        </div>
+        <div className="h-96 bg-slate-200 rounded-lg" />
+      </div>
+      <div className="h-96 bg-slate-200 rounded-lg" />
+    </div>
+  </div>
+);
+
+    if (isLoadingLoan || isLoadingMember) {
+        return (
+            <div className="min-h-screen bg-gray-50/50">
+                <PersonalLoanDetailSkeleton />
+            </div>
+        );
+    }
     if (!loan) return <div className="p-8 text-center text-muted-foreground">Loan details not found.</div>;
 
     return (
@@ -111,7 +141,7 @@ function LoanDetail() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
-                            <h1 className="text-3xl font-bold text-gray-900">{loan.product} Loan</h1>
+                            <h1 className="text-xl font-semibold text-gray-900">{loan.product} Loan</h1>
                             <Badge
                                 variant={loan.status === 'Active' ? 'default' : 'secondary'}
                                 className={loan.status === 'Active' ? 'bg-[#045e32] text-white' : ''}
@@ -154,19 +184,19 @@ function LoanDetail() {
                             <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                 <Card className="border-l-4 border-l-[#174271]">
                                     <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Outstanding Balance</CardTitle></CardHeader>
-                                    <CardContent><p className="text-3xl font-bold text-[#174271]">{formatCurrency(loan.outstanding_balance)}</p></CardContent>
+                                    <CardContent><p className="text-xl font-semibold text-[#174271]">{formatCurrency(loan.outstanding_balance)}</p></CardContent>
                                 </Card>
                                 <Card className="border-l-4 border-l-green-600">
                                     <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Principal</CardTitle></CardHeader>
-                                    <CardContent><p className="text-3xl font-bold">{formatCurrency(loan.principal)}</p></CardContent>
+                                    <CardContent><p className="text-xl font-semibold">{formatCurrency(loan.principal)}</p></CardContent>
                                 </Card>
                                 <Card className="border-l-4 border-l-amber-500">
                                     <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Interest Accrued</CardTitle></CardHeader>
-                                    <CardContent><p className="text-3xl font-bold">{formatCurrency(loan.total_interest_accrued)}</p></CardContent>
+                                    <CardContent><p className="text-xl font-semibold">{formatCurrency(loan.total_interest_accrued)}</p></CardContent>
                                 </Card>
                                 <Card className="border-l-4 border-l-[#045e32]">
                                     <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Total Loan Amount</CardTitle></CardHeader>
-                                    <CardContent><p className="text-3xl font-bold text-[#045e32]">{formatCurrency(loan.total_loan_amount)}</p></CardContent>
+                                    <CardContent><p className="text-xl font-semibold text-[#045e32]">{formatCurrency(loan.total_loan_amount)}</p></CardContent>
                                 </Card>
                             </div>
 
@@ -309,7 +339,7 @@ function LoanDetail() {
                                                         {t.type}
                                                     </Badge>
                                                 </TableCell>
-                                                <TableCell className="font-bold">{formatCurrency(t.amount)}</TableCell>
+                                                <TableCell className="font-semibold">{formatCurrency(t.amount)}</TableCell>
                                                 <TableCell>{t.payment_method || t.method || 'N/A'}</TableCell>
                                                 <TableCell>{t.status || 'Completed'}</TableCell>
                                             </TableRow>

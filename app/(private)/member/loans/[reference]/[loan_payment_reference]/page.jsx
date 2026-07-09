@@ -92,7 +92,24 @@ export default function LoanPaymentProcessing() {
         }, 5000);
     };
 
-    if (isLoadingLoanPayment && !isPolling) return <MemberLoadingSpinner />;
+const PaymentSkeleton = () => (
+  <div className="w-full max-w-md shadow-lg bg-white rounded-lg p-6 space-y-4 animate-pulse">
+    <div className="flex items-center space-x-2">
+      <div className="h-8 w-8 bg-slate-200 rounded" />
+      <div className="h-6 w-48 bg-slate-200 rounded" />
+    </div>
+    <div className="h-4 w-full bg-slate-200 rounded" />
+    <div className="h-10 w-full bg-slate-200 rounded mt-6" />
+  </div>
+);
+
+    if (isLoadingLoanPayment && !isPolling) {
+        return (
+            <div className="min-h-screen bg-gray-50/50 p-4 sm:p-8 flex items-center justify-center">
+                <PaymentSkeleton />
+            </div>
+        );
+    }
 
     if (!loan_payment) return <div className="p-8 text-center">Loan payment not found</div>;
 
@@ -119,7 +136,7 @@ export default function LoanPaymentProcessing() {
                         >
                             <ArrowLeft className="h-4 w-4" />
                         </Button>
-                        <CardTitle className="text-2xl font-bold text-[#045e32]">
+                        <CardTitle className="text-xl font-semibold text-[#045e32]">
                             Complete Loan Payment
                         </CardTitle>
                     </div>
@@ -132,7 +149,7 @@ export default function LoanPaymentProcessing() {
                     <div className="bg-gray-50 p-4 rounded space-y-3 border">
                         <div className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground">Amount</span>
-                            <span className="font-bold text-lg">
+                            <span className="font-semibold text-lg">
                                 {formatCurrency(loan_payment.amount)}
                             </span>
                         </div>
@@ -262,7 +279,7 @@ export default function LoanPaymentProcessing() {
                         </div>
                     )}
                 </CardContent>
-                <CardFooter className="flex justify-center border-t p-4 bg-gray-50 rounded-b-xl">
+                <CardFooter className="flex justify-center border-t p-4 bg-gray-50 rounded-b">
                     <p className="text-xs text-muted-foreground text-center">
                         A prompt will be sent to your phone. Enter your M-Pesa PIN to
                         authorize the transaction.
