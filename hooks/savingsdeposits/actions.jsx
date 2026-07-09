@@ -4,6 +4,8 @@ import {
   getSavingsDepositDetail,
   getSavingsDeposits,
   updateSavingsDeposit,
+  bulkUpdateSavingsDepositsCSV,
+  bulkUpdateSavingsDepositsJSON,
 } from "@/services/savingsdeposits";
 import useAxiosAuth from "../authentication/useAxiosAuth";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -30,5 +32,19 @@ export function useUpdateSavingsDeposit() {
   const token = useAxiosAuth();
   return useMutation({
     mutationFn: (data) => updateSavingsDeposit(data, token),
+  });
+}
+
+export function useBulkUpdateSavingsDepositsCSV() {
+  const token = useAxiosAuth();
+  return useMutation({
+    mutationFn: (data) => bulkUpdateSavingsDepositsCSV(data, token),
+  });
+}
+
+export function useBulkUpdateSavingsDepositsJSON() {
+  const token = useAxiosAuth();
+  return useMutation({
+    mutationFn: (data) => bulkUpdateSavingsDepositsJSON(data, token),
   });
 }

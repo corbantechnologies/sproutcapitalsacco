@@ -20,11 +20,12 @@ import {
 } from "@/components/ui/table";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { useUpdateSavingsDeposit } from "@/hooks/savingsdeposits/actions";
+import { useUpdateSavingsDeposit, useBulkUpdateSavingsDepositsJSON } from "@/hooks/savingsdeposits/actions";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { Edit } from "lucide-react";
+import { Edit, CheckSquare } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { Checkbox } from "@/components/ui/checkbox";
 
 function SavingsDepositsTable({ deposits }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,8 +35,50 @@ function SavingsDepositsTable({ deposits }) {
   
   const queryClient = useQueryClient();
   const updateDepositMutation = useUpdateSavingsDeposit();
+  const bulkUpdateMutation = useBulkUpdateSavingsDepositsJSON();
   const pathname = usePathname();
   const isAdmin = pathname?.includes("/sacco-admin") || pathname?.includes("/superuser");
+  
+  const [selectedDeposits, setSelectedDeposits] = useState([]);
+  const [isBulkEditDialogOpen, setIsBulkEditDialogOpen] = useState(false);
+  const [bulkNewDate, setBulkNewDate] = useState("");
+
+  const handleSelectAll = (checked, currentDeposits) => {
+    if (checked) {
+      setSelectedDeposits(currentDeposits.map(d => d.reference));
+    } else {
+      setSelectedDeposits([]);
+    }
+  };
+
+  const handleSelectDeposit = (checked, reference) => {
+    if (checked) {
+      setSelectedDeposits(prev => [...prev, reference]);
+    } else {
+      setSelectedDeposits(prev => prev.filter(ref => ref !== reference));
+    }
+  };
+
+  const handleBulkUpdate = () => {
+    if (selectedDeposits.length === 0 || !bulkNewDate) return;
+    
+    const updates = selectedDeposits.map(ref => ({
+      reference: ref,
+      transaction_date: bulkNewDate
+    }));
+
+    bulkUpdateMutation.mutate(updates, {
+      onSuccess: () => {
+        toast.success(`Updated ${selectedDeposits.length} deposits successfully!`);
+        setIsBulkEditDialogOpen(false);
+        setSelectedDeposits([]);
+        queryClient.invalidateQueries({ queryKey: ["deposits"] });
+      },
+      onError: (err) => {
+        toast.error(err?.response?.data?.error || "Failed to update dates");
+      }
+    });
+  };
   
   const handleEditClick = (deposit) => {
     setSelectedDeposit(deposit);
@@ -299,13 +342,23 @@ function SavingsDepositsTable({ deposits }) {
                 <option value="Standing Order">Standing Order</option>
               </select>
             </div>
-            <div className="flex items-end">
+            <div className="flex flex-col gap-2">
               <Button
                 onClick={resetFilters}
                 className="w-full bg-gray-200 text-gray-700 hover:bg-gray-300"
               >
                 Reset Filters
               </Button>
+              {isAdmin && selectedDeposits.length > 0 && (
+                <Button
+                  variant="outline"
+                  className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+                  onClick={() => setIsBulkEditDialogOpen(true)}
+                >
+                  <CheckSquare className="w-4 h-4 mr-2" />
+                  Bulk Edit ({selectedDeposits.length})
+                </Button>
+              )}
             </div>
           </div>
         </CardContent>
@@ -322,8 +375,20 @@ function SavingsDepositsTable({ deposits }) {
       {filteredDeposits && filteredDeposits.length > 0 && (
         <div className="overflow-x-auto">
           <Table>
-            <TableHeader>
-              <TableRow className="bg-primary hover:bg-primary">
+            <TableHeader className="bg-[#174271] hover:bg-[#174271]">
+              <TableRow>
+                {isAdmin && (
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={
+                        paginatedDeposits?.length > 0 &&
+                        paginatedDeposits.every((d) => selectedDeposits.includes(d.reference))
+                      }
+                      onCheckedChange={(checked) => handleSelectAll(checked, paginatedDeposits)}
+                      className="border-white/50 data-[state=checked]:bg-white data-[state=checked]:text-[#174271]"
+                    />
+                  </TableHead>
+                )}
                 <TableHead className="text-white font-semibold">Date</TableHead>
                 <TableHead className="text-white font-semibold">
                   Amount
@@ -347,6 +412,14 @@ function SavingsDepositsTable({ deposits }) {
             <TableBody>
               {paginatedDeposits?.map((deposit) => (
                 <TableRow key={deposit.reference} className="border-b hover:bg-gray-50 transition-colors">
+                  {isAdmin && (
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedDeposits.includes(deposit.reference)}
+                        onCheckedChange={(checked) => handleSelectDeposit(checked, deposit.reference)}
+                      />
+                    </TableCell>
+                  )}
                   <TableCell className="text-sm text-gray-700">
                     {formatDate(deposit.transaction_date || deposit.created_at)}
                   </TableCell>
@@ -454,6 +527,36 @@ function SavingsDepositsTable({ deposits }) {
             </Button>
             <Button onClick={handleUpdateDate} disabled={updateDepositMutation.isPending || !newDate} className="bg-primary text-white">
               {updateDepositMutation.isPending ? "Updating..." : "Save Changes"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bulk Edit Date Modal */}
+      <Dialog open={isBulkEditDialogOpen} onOpenChange={setIsBulkEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Bulk Edit Dates</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <Label htmlFor="bulkNewDate" className="mb-2 block">New Transaction Date for {selectedDeposits.length} deposits</Label>
+            <input
+              type="date"
+              id="bulkNewDate"
+              value={bulkNewDate}
+              onChange={(e) => setBulkNewDate(e.target.value)}
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+            />
+            <p className="text-xs text-muted-foreground mt-2">
+              Note: Updating these dates will automatically update the General Ledger posting date for all selected deposits.
+            </p>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsBulkEditDialogOpen(false)} disabled={bulkUpdateMutation.isPending}>
+              Cancel
+            </Button>
+            <Button onClick={handleBulkUpdate} disabled={bulkUpdateMutation.isPending || !bulkNewDate} className="bg-primary text-white">
+              {bulkUpdateMutation.isPending ? "Updating..." : "Save Changes"}
             </Button>
           </DialogFooter>
         </DialogContent>

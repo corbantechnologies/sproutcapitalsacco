@@ -52,17 +52,32 @@ export const bulkUploadSavingsDeposits = async (values, token) => {
 };
 
 export const downloadSavingsDepositsTemplate = async (token) => {
-  const config = { ...token, responseType: "blob" };
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+    responseType: "blob",
+  };
   const response = await apiActions?.get("/api/v1/savingsdeposits/bulk/template/", config);
+  return response?.data;
+};
 
-  // Create blob link to download
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  const link = document.createElement("a");
-  link.href = url;
-  link.setAttribute("download", "savings_deposits_bulk_template.csv");
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
+// Bulk Update Dates
+export const downloadBulkUpdateTemplate = async (token, depositType = "") => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+    responseType: "blob",
+  };
+  const url = depositType 
+    ? `/api/v1/savingsdeposits/bulk/update/template/?deposit_type=${encodeURIComponent(depositType)}` 
+    : `/api/v1/savingsdeposits/bulk/update/template/`;
+  const response = await apiActions?.get(url, config);
+  return response?.data;
+};
 
+export const bulkUpdateSavingsDepositsCSV = async (values, token) => {
+  await apiMultipartActions?.post("/api/v1/savingsdeposits/bulk/update/upload/", values, token);
+};
+
+export const bulkUpdateSavingsDepositsJSON = async (updates, token) => {
+  const response = await apiActions?.patch("/api/v1/savingsdeposits/bulk/update/json/", { updates }, token);
   return response?.data;
 };

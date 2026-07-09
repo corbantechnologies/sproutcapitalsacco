@@ -31,6 +31,7 @@ import {
 import CreateDepositAdmin from "@/forms/savingsdeposits/CreateDepositAdmin";
 import BulkSavingDepositCreate from "@/forms/savingsdeposits/BulkSavingDepositCreate";
 import BulkSavingDepositUploadCreate from "@/forms/savingsdeposits/BulkSavingDepositUploadCreate";
+import BulkSavingDepositEditUpload from "@/forms/savingsdeposits/BulkSavingDepositEditUpload";
 
 export default function SavingDepositsPage() {
     const router = useRouter();
@@ -85,7 +86,7 @@ export default function SavingDepositsPage() {
 
             {/* Main Content Tabs */}
             <Tabs defaultValue="list">
-                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto grid grid-cols-3 gap-1 rounded-xl overflow-hidden min-w-0">
+                <TabsList className="bg-white border p-1 shadow-sm mb-6 w-full h-auto grid grid-cols-4 gap-1 rounded-xl overflow-hidden min-w-0">
 
                     <TabsTrigger
                         value="list"
@@ -110,6 +111,14 @@ export default function SavingDepositsPage() {
                     >
                         <span className="hidden md:inline">CSV Upload</span>
                         <span className="md:hidden">CSV Upload</span>
+                    </TabsTrigger>
+
+                    <TabsTrigger
+                        value="bulk-edit-upload"
+                        className="flex items-center justify-center gap-2 px-3 py-3 text-xs sm:text-sm font-medium transition-all rounded-lg data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] data-[state=active]:shadow-sm"
+                    >
+                        <span className="hidden md:inline">Edit Dates CSV</span>
+                        <span className="md:hidden">Edit Dates CSV</span>
                     </TabsTrigger>
 
                 </TabsList>
@@ -244,6 +253,15 @@ export default function SavingDepositsPage() {
                     <Card className="shadow-sm border-none bg-white rounded p-8">
                         <CardContent>
                             <BulkSavingDepositUploadCreate onBatchSuccess={refetch} />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                {/* Bulk Edit Upload Tab */}
+                <TabsContent value="bulk-edit-upload" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <Card className="shadow-sm border-none bg-white rounded p-8">
+                        <CardContent>
+                            <BulkSavingDepositEditUpload onBatchSuccess={refetch} />
                         </CardContent>
                     </Card>
                 </TabsContent>
