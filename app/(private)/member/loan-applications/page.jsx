@@ -111,89 +111,95 @@ export default function LoanApplications() {
           </Button>
         </div>
 
-        <LoanProductShowcase />
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          <div className="lg:col-span-3 flex flex-col gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Applications</CardTitle>
+                <CardDescription>
+                  A list of your recent loan applications and their status.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
+                  <TableSkeleton rows={5} cols={6} />
+                ) : applications?.length === 0 ? (
+                  <div className="text-center py-12 bg-gray-50 rounded border border-dashed">
+                    <p className="text-muted-foreground">
+                      No loan applications found.
+                    </p>
+                    <Button
+                      variant="link"
+                      onClick={() => setIsCreateModalOpen(true)}
+                      className="text-[#045e32] mt-2"
+                    >
+                      Start your first application
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="rounded border">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="bg-gray-50">
+                          <TableHead>Reference</TableHead>
+                          <TableHead>Product</TableHead>
+                          <TableHead>Requested Amount</TableHead>
+                          <TableHead>Date Applied</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead className="text-right">Action</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {applications?.map((app) => (
+                          <TableRow key={app.reference}>
+                            <TableCell className="font-mono text-sm">
+                              {app.reference}
+                            </TableCell>
+                            <TableCell>{app.product}</TableCell>
+                            <TableCell>
+                              {formatCurrency(app.requested_amount)}
+                            </TableCell>
+                            <TableCell>
+                              {format(new Date(app.created_at), "MMM dd, yyyy")}
+                            </TableCell>
+                            <TableCell>
+                              <Badge
+                                className={`font-normal ${getStatusColor(
+                                  app.status,
+                                )}`}
+                                variant="secondary"
+                              >
+                                {app.status}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Button
+                                asChild
+                                variant="ghost"
+                                size="sm"
+                                className="text-[#045e32] hover:text-[#045e32] hover:bg-green-50"
+                              >
+                                <Link
+                                  href={`/member/loan-applications/${app.reference}`}
+                                >
+                                  View
+                                </Link>
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Applications</CardTitle>
-            <CardDescription>
-              A list of your recent loan applications and their status.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <TableSkeleton rows={5} cols={6} />
-            ) : applications?.length === 0 ? (
-              <div className="text-center py-12 bg-gray-50 rounded border border-dashed">
-                <p className="text-muted-foreground">
-                  No loan applications found.
-                </p>
-                <Button
-                  variant="link"
-                  onClick={() => setIsCreateModalOpen(true)}
-                  className="text-[#045e32] mt-2"
-                >
-                  Start your first application
-                </Button>
-              </div>
-            ) : (
-              <div className="rounded border">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-gray-50">
-                      <TableHead>Reference</TableHead>
-                      <TableHead>Product</TableHead>
-                      <TableHead>Requested Amount</TableHead>
-                      <TableHead>Date Applied</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Action</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {applications?.map((app) => (
-                      <TableRow key={app.reference}>
-                        <TableCell className="font-mono text-sm">
-                          {app.reference}
-                        </TableCell>
-                        <TableCell>{app.product}</TableCell>
-                        <TableCell>
-                          {formatCurrency(app.requested_amount)}
-                        </TableCell>
-                        <TableCell>
-                          {format(new Date(app.created_at), "MMM dd, yyyy")}
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            className={`font-normal ${getStatusColor(
-                              app.status,
-                            )}`}
-                            variant="secondary"
-                          >
-                            {app.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button
-                            asChild
-                            variant="ghost"
-                            size="sm"
-                            className="text-[#045e32] hover:text-[#045e32] hover:bg-green-50"
-                          >
-                            <Link
-                              href={`/member/loan-applications/${app.reference}`}
-                            >
-                              View
-                            </Link>
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          <div className="lg:col-span-1">
+            <LoanProductShowcase />
+          </div>
+        </div>
       </div>
 
       {/* Custom Modal for Loan Application */}
