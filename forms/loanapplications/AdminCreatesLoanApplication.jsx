@@ -123,7 +123,11 @@ export const AdminCreatesLoanApplicationForm = ({ onSuccess }) => {
                                         </option>
                                         {availableProducts.map((product) => (
                                             <option key={product?.reference} value={product?.name}>
-                                                {product?.name} - {product?.interest_method} ({product?.interest_rate}% p.a) {product?.processing_fee}% processing fee
+                                                {product?.name} - {product?.interest_method} ({product?.interest_rate}% p.a){" "}
+                                                {product?.processing_fee_type === "Fixed"
+                                                    ? `KES ${product?.processing_fee_fixed_amount} processing fee`
+                                                    : `${product?.processing_fee}% processing fee`}
+                                                {product?.is_onboarding_only ? " [Onboarding]" : ""}
                                             </option>
                                         ))}
                                     </select>
