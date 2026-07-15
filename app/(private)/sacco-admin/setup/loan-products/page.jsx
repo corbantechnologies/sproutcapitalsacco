@@ -135,6 +135,7 @@ export default function LoanProductsSetupPage() {
                                             <TableHead>Method</TableHead>
                                             <TableHead>Interest / Fee</TableHead>
                                             <TableHead>Ledger Tracking</TableHead>
+                                            <TableHead>Status</TableHead>
                                             <TableHead>Action</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -156,11 +157,26 @@ export default function LoanProductsSetupPage() {
                                                         <div className="flex items-center justify-center gap-2">
                                                             <span className="text-sm font-semibold text-green-700 font-mono">{p.interest_rate}%</span>
                                                             <span className="text-slate-200">|</span>
-                                                            <span className="text-sm font-semibold text-amber-600 font-mono">{p.processing_fee}%</span>
+                                                            {p.processing_fee_type === "Fixed" ? (
+                                                                <span className="text-sm font-semibold text-amber-600 font-mono">KES {p.processing_fee_fixed_amount}</span>
+                                                            ) : (
+                                                                <span className="text-sm font-semibold text-amber-600 font-mono">{p.processing_fee}%</span>
+                                                            )}
                                                         </div>
                                                     </TableCell>
                                                     <TableCell>
                                                         {p.gl_principal_asset}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {p.is_onboarding_only ? (
+                                                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-700 border border-amber-200">
+                                                                Onboarding Only
+                                                            </span>
+                                                        ) : (
+                                                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-green-50 text-green-700 border border-green-100">
+                                                                Active
+                                                            </span>
+                                                        )}
                                                     </TableCell>
                                                     <TableCell>
                                                         <Button
