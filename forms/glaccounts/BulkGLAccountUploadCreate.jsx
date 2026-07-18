@@ -69,7 +69,7 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
     return (
         <div className="max-w-3xl mx-auto space-y-8 py-4">
             <div className="text-center space-y-2">
-                <h2 className="text-2xl font-bold text-slate-900 text-[#174271]">Bulk Upload GL Accounts</h2>
+                <h2 className="text-2xl font-bold text-slate-900 text-[var(--accent)]">Bulk Upload GL Accounts</h2>
                 <p className="text-slate-500 text-sm max-w-md mx-auto">
                     Import multiple General Ledger accounts at once using a CSV file.
                 </p>
@@ -79,7 +79,7 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="bg-white p-2 rounded shadow-sm">
-                            <Download className="w-5 h-5 text-[#174271]" />
+                            <Download className="w-5 h-5 text-[var(--accent)]" />
                         </div>
                         <div>
                             <p className="text-sm font-bold text-slate-800">CSV Template</p>
@@ -90,7 +90,7 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
                         variant="outline"
                         size="sm"
                         onClick={handleDownloadTemplate}
-                        className="border-[#174271] text-[#174271] hover:bg-[#174271] hover:text-white"
+                        className="border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white"
                     >
                         Download Template
                     </Button>
@@ -101,7 +101,7 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
                 <div
                     className={`border-2 border-dashed rounded p-12 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
                         ? "border-green-500 bg-green-50/50"
-                        : "border-slate-200 bg-slate-50/30 hover:border-[#174271] hover:bg-slate-50"
+                        : "border-slate-200 bg-slate-50/30 hover:border-[var(--accent)] hover:bg-slate-50"
                         }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
@@ -154,7 +154,7 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
                 <div className="flex justify-center">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-[#12345a] text-white px-12 h-12 rounded font-bold shadow-lg shadow-[#174271]/20 transition-all active:scale-95 disabled:opacity-50"
+                        className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-12 h-12 rounded font-bold shadow-lg shadow-[var(--accent)]/20 transition-all active:scale-95 disabled:opacity-50"
                         disabled={loading || !file}
                     >
                         {loading ? "Uploading Data..." : "Start Import"}

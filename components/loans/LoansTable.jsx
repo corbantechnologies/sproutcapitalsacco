@@ -127,7 +127,7 @@ function LoansTable({ loans, isLoading, route }) {
           <div className="bg-white shadow-sm border border-slate-100 rounded overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-[#236c2e] hover:bg-[#1a5222]">
+                <TableRow className="bg-[var(--primary)] hover:bg-[var(--primary-hover)]">
                   <TableHead className="text-white font-bold text-sm h-12">
                     Loan Type
                   </TableHead>

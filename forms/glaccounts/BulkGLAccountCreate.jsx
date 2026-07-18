@@ -119,7 +119,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
                                         placeholder="e.g. Cash at Hand"
                                         value={account.name}
                                         onChange={(e) => handleInputChange(index, "name", e.target.value)}
-                                        className="h-9 text-sm border-slate-200 focus:border-[#174271]"
+                                        className="h-9 text-sm border-slate-200 focus:border-[var(--accent)]"
                                     />
                                 </div>
 
@@ -129,7 +129,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
                                         placeholder="e.g. 1010"
                                         value={account.code}
                                         onChange={(e) => handleInputChange(index, "code", e.target.value)}
-                                        className="h-9 text-sm border-slate-200 focus:border-[#174271]"
+                                        className="h-9 text-sm border-slate-200 focus:border-[var(--accent)]"
                                     />
                                 </div>
 
@@ -138,7 +138,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
                                     <select
                                         value={account.category}
                                         onChange={(e) => handleInputChange(index, "category", e.target.value)}
-                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-9 focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
                                     >
                                         {categories.map(cat => (
                                             <option key={cat} value={cat}>{cat}</option>
@@ -153,7 +153,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
                                             id={`active-${index}`}
                                             checked={account.is_active}
                                             onChange={(e) => handleInputChange(index, "is_active", e.target.checked)}
-                                            className="w-4 h-4 accent-[#174271]"
+                                            className="w-4 h-4 accent-[var(--accent)]"
                                         />
                                         <Label htmlFor={`active-${index}`} className="text-xs cursor-pointer">Active</Label>
                                     </div>
@@ -163,7 +163,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
                                             id={`current-${index}`}
                                             checked={account.is_current_account}
                                             onChange={(e) => handleInputChange(index, "is_current_account", e.target.checked)}
-                                            className="w-4 h-4 accent-[#174271]"
+                                            className="w-4 h-4 accent-[var(--accent)]"
                                         />
                                         <Label htmlFor={`current-${index}`} className="text-xs cursor-pointer">Current Account</Label>
                                     </div>
@@ -177,7 +177,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
                             type="button"
                             variant="outline"
                             onClick={addAccount}
-                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-4 text-xs font-bold"
+                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[var(--accent)] hover:border-[var(--accent)] hover:bg-slate-50 flex items-center justify-center gap-2 py-4 text-xs font-bold"
                         >
                             <Plus className="w-4 h-4" /> Add Another Row
                         </Button>
@@ -187,7 +187,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
                 <div className="flex justify-end pt-4">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-[#12345a] text-white px-8 h-10 flex items-center gap-2 font-bold"
+                        className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-8 h-10 flex items-center gap-2 font-bold"
                         disabled={loading}
                     >
                         {loading ? "Processing..." : <><Save className="w-4 h-4" /> Save Batch</>}

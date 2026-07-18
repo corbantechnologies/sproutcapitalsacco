@@ -30,7 +30,7 @@ export default function CreateExistingLoan({ isOpen, onClose }) {
         });
     };
 
-    const selectClass = "w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#174271] focus:border-[#174271] transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:20px] bg-[right_10px_center] bg-no-repeat";
+    const selectClass = "w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent)] focus:border-[var(--accent)] transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:20px] bg-[right_10px_center] bg-no-repeat";
 
     return (
         <Modal
@@ -56,7 +56,7 @@ export default function CreateExistingLoan({ isOpen, onClose }) {
                         <Form className="space-y-4">
                             {/* Member Selection */}
                             <div className="space-y-2">
-                                <Label className="text-[#174271] font-semibold">Member (Member No)</Label>
+                                <Label className="text-[var(--accent)] font-semibold">Member (Member No)</Label>
                                 <select
                                     className={selectClass}
                                     value={values.member}
@@ -73,19 +73,19 @@ export default function CreateExistingLoan({ isOpen, onClose }) {
 
                             {/* Principal */}
                             <div className="space-y-2">
-                                <Label className="text-[#174271] font-semibold">Principal Amount</Label>
+                                <Label className="text-[var(--accent)] font-semibold">Principal Amount</Label>
                                 <Field
                                     as={Input}
                                     type="number"
                                     name="principal"
-                                    className="border-slate-300 h-10 rounded shadow-none focus-visible:ring-1 focus-visible:ring-[#174271]"
+                                    className="border-slate-300 h-10 rounded shadow-none focus-visible:ring-1 focus-visible:ring-[var(--accent)]"
                                     placeholder="Enter principal amount"
                                 />
                             </div>
 
                             {/* Payment Method */}
                             <div className="space-y-2">
-                                <Label className="text-[#174271] font-semibold">Initial Payment Method</Label>
+                                <Label className="text-[var(--accent)] font-semibold">Initial Payment Method</Label>
                                 <select
                                     className={selectClass}
                                     value={values.payment_method}
@@ -105,7 +105,7 @@ export default function CreateExistingLoan({ isOpen, onClose }) {
 
                             {/* GL Principal Asset */}
                             <div className="space-y-2">
-                                <Label className="text-[#174271] font-semibold">GL Principal Asset</Label>
+                                <Label className="text-[var(--accent)] font-semibold">GL Principal Asset</Label>
                                 <select
                                     className={selectClass}
                                     value={values.gl_principal_asset}
@@ -122,7 +122,7 @@ export default function CreateExistingLoan({ isOpen, onClose }) {
 
                             {/* GL Interest Revenue */}
                             <div className="space-y-2">
-                                <Label className="text-[#174271] font-semibold">GL Interest Revenue</Label>
+                                <Label className="text-[var(--accent)] font-semibold">GL Interest Revenue</Label>
                                 <select
                                     className={selectClass}
                                     value={values.gl_interest_revenue}
@@ -139,7 +139,7 @@ export default function CreateExistingLoan({ isOpen, onClose }) {
 
                             {/* GL Penalty Revenue */}
                             <div className="space-y-2">
-                                <Label className="text-[#174271] font-semibold">GL Penalty Revenue</Label>
+                                <Label className="text-[var(--accent)] font-semibold">GL Penalty Revenue</Label>
                                 <select
                                     className={selectClass}
                                     value={values.gl_penalty_revenue}
@@ -166,7 +166,7 @@ export default function CreateExistingLoan({ isOpen, onClose }) {
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting || isCreating}
-                                    className="bg-[#174271] hover:bg-[#12355a] text-white font-semibold px-8 h-10 shadow-sm rounded"
+                                    className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white font-semibold px-8 h-10 shadow-sm rounded"
                                 >
                                     {isSubmitting || isCreating ? "Saving..." : "Onboard Loan"}
                                 </Button>

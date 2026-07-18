@@ -374,7 +374,7 @@ function SavingsDepositsTable({ deposits }) {
       {filteredDeposits && filteredDeposits.length > 0 && (
         <div className="overflow-x-auto border rounded bg-white">
           <Table>
-            <TableHeader className="bg-[#174271] hover:bg-[#174271]">
+            <TableHeader className="bg-[var(--accent)] hover:bg-[var(--accent)]">
               <TableRow>
                 <TableHead className="text-white font-semibold">Date</TableHead>
                 <TableHead className="text-white font-semibold">
@@ -453,7 +453,7 @@ function SavingsDepositsTable({ deposits }) {
             <Button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="bg-primary hover:bg-[#12345a] text-white text-xs font-semibold uppercase tracking-wider h-8 disabled:opacity-50"
+              className="bg-primary hover:bg-[var(--accent-hover)] text-white text-xs font-semibold uppercase tracking-wider h-8 disabled:opacity-50"
             >
               Previous
             </Button>
@@ -473,7 +473,7 @@ function SavingsDepositsTable({ deposits }) {
             <Button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="bg-primary hover:bg-[#12345a] text-white text-xs font-semibold uppercase tracking-wider h-8 disabled:opacity-50"
+              className="bg-primary hover:bg-[var(--accent-hover)] text-white text-xs font-semibold uppercase tracking-wider h-8 disabled:opacity-50"
             >
               Next
             </Button>

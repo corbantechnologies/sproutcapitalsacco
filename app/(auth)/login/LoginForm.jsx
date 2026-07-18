@@ -1,3 +1,4 @@
+import { SACCO_CONFIG } from "@/lib/sacco-config";
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -75,8 +76,8 @@ function LoginForm() {
       <CardHeader className="space-y-2 items-center text-center pb-6">
         <div className="w-20 h-20 relative mb-2 mx-auto">
           <Image
-            src="/sproutLarge.png"
-            alt="Sprout Capital SACCO Logo"
+            src={SACCO_CONFIG.logoUrl}
+            alt={`${SACCO_CONFIG.name} Logo`}
             fill
             className="object-contain"
           />
@@ -161,7 +162,7 @@ function LoginForm() {
         </form>
 
         <div className="text-center pt-2">
-          <p className="text-xs text-gray-400">Secure Access • Sprout Capital SACCO</p>
+          <p className="text-xs text-gray-400">Secure Access • {SACCO_CONFIG.name}</p>
         </div>
       </CardContent>
     </Card>

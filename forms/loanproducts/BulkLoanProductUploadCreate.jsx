@@ -69,7 +69,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
     return (
         <div className="max-w-3xl mx-auto space-y-8 py-4">
             <div className="text-center space-y-2">
-                <h2 className="text-lg font-semibold text-[#174271]">Loan Product Ingestion</h2>
+                <h2 className="text-lg font-semibold text-[var(--accent)]">Loan Product Ingestion</h2>
                 <p className="text-slate-500 text-sm max-w-lg mx-auto font-medium">
                     Automate the creation of complex loan schemes using our standardized CSV Template.
                 </p>
@@ -78,7 +78,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
             <div className="bg-slate-50 rounded p-8 border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
                 <div className="flex items-center gap-5">
                     <div className="bg-white p-4 rounded shadow-sm border border-slate-50">
-                        <Download className="w-7 h-7 text-[#174271]" />
+                        <Download className="w-7 h-7 text-[var(--accent)]" />
                     </div>
                     <div>
                         <p className="text-base font-semibold text-slate-800 tracking-tight">Loan Scheme Template</p>
@@ -88,7 +88,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                     variant="outline"
                     size="lg"
                     onClick={handleDownloadTemplate}
-                    className="border-2 border-[#174271] text-[#174271] hover:bg-[#174271] hover:text-white font-semibold px-8 rounded transition-all shadow-md group h-12"
+                    className="border-2 border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white font-semibold px-8 rounded transition-all shadow-md group h-12"
                 >
                     Download Template
                 </Button>
@@ -97,8 +97,8 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div
                     className={`border-2 border-dashed rounded p-20 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
-                        ? "border-[#174271] bg-[#174271]/5 shadow-inner"
-                        : "border-slate-200 bg-white hover:border-[#174271] hover:bg-slate-50 shadow-sm"
+                        ? "border-[var(--accent)] bg-[var(--accent)]/5 shadow-inner"
+                        : "border-slate-200 bg-white hover:border-[var(--accent)] hover:bg-slate-50 shadow-sm"
                         }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
@@ -112,7 +112,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
 
                     {file ? (
                         <div className="flex flex-col items-center space-y-6 animate-in zoom-in-95 duration-500">
-                            <div className="p-4 bg-[#174271] rounded text-white shadow-2xl shadow-slate-200 ring-8 ring-white">
+                            <div className="p-4 bg-[var(--accent)] rounded text-white shadow-2xl shadow-slate-200 ring-8 ring-white">
                                 <FileCheck className="w-8 h-8" />
                             </div>
                             <div className="space-y-1">
@@ -154,7 +154,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                 <div className="flex justify-center pt-4">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-slate-800 text-white p-4 rounded font-semibold text-md  transition-all active:scale-95 disabled:opacity-20 flex items-center gap-4"
+                        className="bg-[var(--accent)] hover:bg-slate-800 text-white p-4 rounded font-semibold text-md  transition-all active:scale-95 disabled:opacity-20 flex items-center gap-4"
                         disabled={loading || !file}
                     >
                         {loading ? "Synchronizing Data..." : "Engage Bulk Upload"}

@@ -150,7 +150,7 @@ function BulkSavingDepositCreate({ onBatchSuccess }) {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl font-bold text-[#174271]">Batch Savings Deposit</h2>
+                    <h2 className="text-xl font-bold text-[var(--accent)]">Batch Savings Deposit</h2>
                     <p className="text-sm text-gray-500 font-medium">Record multiple member savings deposits manually (max 15).</p>
                 </div>
                 <Button variant="outline" onClick={() => setDeposits([{ ...emptyDeposit }])} className="text-xs h-8">Clear All</Button>

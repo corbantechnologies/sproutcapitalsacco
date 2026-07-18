@@ -69,7 +69,7 @@ function BulkFeeTypeUpload({ onBatchSuccess }) {
     return (
         <div className="max-w-3xl mx-auto space-y-8 py-4">
             <div className="text-center space-y-2">
-                <h2 className="text-2xl font-semibold text-[#174271]">Bulk Import Fee Types</h2>
+                <h2 className="text-2xl font-semibold text-[var(--accent)]">Bulk Import Fee Types</h2>
                 <p className="text-black text-sm max-w-lg mx-auto">
                     Quickly onboard multiple fee definitions using our CSV template.
                     Ensure your GL account names match exactly.
@@ -90,7 +90,7 @@ function BulkFeeTypeUpload({ onBatchSuccess }) {
                     variant="default"
                     size="sm"
                     onClick={handleDownloadTemplate}
-                    className="bg-[#174271] hover:bg-slate-800 text-white font-semibold px-6 h-10 shadow-md shadow-slate-200"
+                    className="bg-[var(--accent)] hover:bg-slate-800 text-white font-semibold px-6 h-10 shadow-md shadow-slate-200"
                 >
                     Get CSV Template
                 </Button>

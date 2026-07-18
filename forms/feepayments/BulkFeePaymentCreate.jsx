@@ -38,7 +38,7 @@ function FeeAccountSelect({ value, onChange, accounts, disabled }) {
           aria-expanded={open}
           disabled={disabled}
           className={cn(
-            "w-full justify-between font-normal h-9 text-sm border-slate-200 hover:bg-white focus:ring-1 focus:ring-[#174271] truncate",
+            "w-full justify-between font-normal h-9 text-sm border-slate-200 hover:bg-white focus:ring-1 focus:ring-[var(--accent)] truncate",
             !value && "text-muted-foreground"
           )}
         >
@@ -214,7 +214,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                                             placeholder="0.00"
                                             value={pay.amount}
                                             onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                            className="h-9 pl-10 text-sm border-slate-200 focus:border-[#174271]"
+                                            className="h-9 pl-10 text-sm border-slate-200 focus:border-[var(--accent)]"
                                         />
                                     </div>
                                 </div>
@@ -224,7 +224,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                                         type="date"
                                         value={pay.transaction_date}
                                         onChange={(e) => handleInputChange(index, "transaction_date", e.target.value)}
-                                        className="h-9 text-sm border-slate-200 focus:border-[#174271]"
+                                        className="h-9 text-sm border-slate-200 focus:border-[var(--accent)]"
                                     />
                                 </div>
                                 <div className="lg:col-span-3 space-y-1.5">
@@ -232,7 +232,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                                     <select
                                         value={pay.payment_method}
                                         onChange={(e) => handleInputChange(index, "payment_method", e.target.value)}
-                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-9 focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
                                         disabled={isLoadingPayments}
                                     >
                                         <option value="">Select method...</option>
@@ -250,7 +250,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                             type="button" 
                             variant="outline" 
                             onClick={addPayment} 
-                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-4 text-xs font-bold"
+                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[var(--accent)] hover:border-[var(--accent)] hover:bg-slate-50 flex items-center justify-center gap-2 py-4 text-xs font-bold"
                         >
                             <Plus className="w-4 h-4" /> Add Another Entry
                         </Button>
@@ -260,7 +260,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                 <div className="flex justify-end pt-4">
                     <Button 
                         type="submit" 
-                        className="bg-[#174271] hover:bg-[#12345a] text-white px-8 h-10 flex items-center gap-2 font-bold"
+                        className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-8 h-10 flex items-center gap-2 font-bold"
                         disabled={loading}
                     >
                         {loading ? "Processing..." : <><Save className="w-4 h-4" /> Save Batch</>}

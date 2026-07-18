@@ -104,7 +104,7 @@ export default function LoanApplications() {
           </div>
           <Button
             onClick={() => setIsCreateModalOpen(true)}
-            className="bg-[#236c2e] hover:bg-[#1a5222] shadow-sm"
+            className="bg-[var(--primary)] hover:bg-[var(--primary-hover)] shadow-sm"
           >
             <Plus className="mr-2 h-4 w-4" />
             New Application

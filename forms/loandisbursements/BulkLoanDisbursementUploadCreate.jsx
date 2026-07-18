@@ -78,7 +78,7 @@ function BulkLoanDisbursementUpload({ onBatchSuccess }) {
             <div className="bg-slate-50 rounded p-4 border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-6">
                     <div className="bg-white p-4 rounded shadow-sm border border-slate-100">
-                        <Download className="w-8 h-8 text-[#174271]" />
+                        <Download className="w-8 h-8 text-[var(--accent)]" />
                     </div>
                     <div>
                         <p className="text-lg font-semibold text-black tracking-tight">Disbursement Template</p>
@@ -98,7 +98,7 @@ function BulkLoanDisbursementUpload({ onBatchSuccess }) {
                 <div
                     className={`border-4 border-dashed rounded p-4 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
                         ? "border-green-500 bg-green-50/30"
-                        : "border-slate-200 bg-white hover:border-[#174271] hover:bg-slate-50/50"
+                        : "border-slate-200 bg-white hover:border-[var(--accent)] hover:bg-slate-50/50"
                         }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
@@ -135,7 +135,7 @@ function BulkLoanDisbursementUpload({ onBatchSuccess }) {
                         </div>
                     ) : (
                         <div className="flex flex-col items-center space-y-6">
-                            <div className="p-8 bg-slate-50 rounded-full text-[#174271]/20 border-4 border-white shadow-inner">
+                            <div className="p-8 bg-slate-50 rounded-full text-[var(--accent)]/20 border-4 border-white shadow-inner">
                                 <FileUp className="w-8 h-8" />
                             </div>
                             <div className="space-y-3">

@@ -266,7 +266,7 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-[#174271] hover:bg-[#12355a]">
+              <TableRow className="bg-[var(--accent)] hover:bg-[var(--accent-hover)]">
                 <TableHead className="text-white font-semibold">Date</TableHead>
                 <TableHead className="text-white font-semibold">
                   Amount
@@ -323,7 +323,7 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
                   <TableCell className="text-sm text-center">
                     <Button
                       size="sm"
-                      className="bg-[#174271] hover:bg-[#12355a] text-white rounded text-[12px] font-bold h-8"
+                      className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded text-[12px] font-bold h-8"
                       onClick={() => handleView(withdrawal)}
                     >
                       View

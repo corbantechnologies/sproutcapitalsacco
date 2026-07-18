@@ -1,3 +1,4 @@
+import { SACCO_CONFIG } from "@/lib/sacco-config";
 "use client";
 
 import React, { useState } from "react";
@@ -31,8 +32,8 @@ function MemberNavbar() {
           className="flex items-center gap-2"
           onClick={() => setIsMenuOpen && setIsMenuOpen(false)}
         >
-          <span className="text-xl font-bold tracking-tight text-[#236c2e]">
-            Sprout Capital Sacco
+          <span className="text-xl font-bold tracking-tight text-[var(--primary)]">
+            {SACCO_CONFIG.name}
             <span className="text-[10px] font-normal uppercase tracking-[2px] opacity-75 ml-1.5 block text-slate-500">MEMBER PORTAL</span>
           </span>
         </Link>
@@ -58,8 +59,8 @@ function MemberNavbar() {
               href={link.href}
               className={`block px-4 py-2.5 text-[14px] font-semibold rounded transition-colors ${
                 isActive
-                  ? "bg-[#236c2e]/10 text-[#236c2e]"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-[#236c2e]"
+                  ? "bg-[var(--primary)]/10 text-[var(--primary)]"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-[var(--primary)]"
               }`}
               onClick={() => setIsMenuOpen && setIsMenuOpen(false)}
             >
@@ -88,7 +89,7 @@ function MemberNavbar() {
   return (
     <>
       {/* Top Navbar */}
-      <header className="bg-[#236c2e] text-white sticky top-0 z-30 shadow h-16 flex items-center justify-between px-4 md:px-6 md:ml-64">
+      <header className="bg-[var(--primary)] text-white sticky top-0 z-30 shadow h-16 flex items-center justify-between px-4 md:px-6 md:ml-64">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
@@ -101,7 +102,7 @@ function MemberNavbar() {
           </Button>
           <Link href="/member/dashboard" className="flex items-center gap-2">
             <span className="text-xl font-bold tracking-tight">
-              Sprout Capital Sacco
+              {SACCO_CONFIG.name}
               <span className="text-[10px] font-normal uppercase tracking-[2px] opacity-75 ml-1.5 hidden sm:inline-block">MEMBER PORTAL</span>
             </span>
           </Link>

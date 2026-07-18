@@ -1,3 +1,4 @@
+import { SACCO_CONFIG } from "@/lib/sacco-config";
 "use client";
 
 import React from "react";
@@ -63,10 +64,10 @@ function SuccessPage() {
             <div className="pt-6 border-t border-gray-100 w-full">
               <div className="flex justify-center items-center gap-2 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
                 <Image
-                  src="/sproutLarge.png"
+                  src={SACCO_CONFIG.logoUrl}
                   width={40}
                   height={40}
-                  alt="Sprout Capital SACCO Logo"
+                  alt={`${SACCO_CONFIG.name} Logo`}
                   className="object-contain"
                 />
                 <span className="font-semibold text-sm text-gray-400">

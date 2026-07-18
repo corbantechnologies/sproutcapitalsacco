@@ -18,7 +18,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 
 export default function MemberHelpCenter() {
-    const primaryColor = "#236c2e";
+    const primaryColor = "var(--primary)";
 
     const quickLinks = [
         { title: "Getting Started", icon: Rocket, desc: "New here? Learn the basics of your portal." },
@@ -54,7 +54,7 @@ export default function MemberHelpCenter() {
         <div className="min-h-screen bg-slate-50/50 p-4 md:p-8 space-y-8 mx-auto">
             {/* Hero Section */}
             <div className="text-center space-y-4 py-8">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#236c2e]/10 text-[#236c2e] text-xs font-semibold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-semibold uppercase tracking-wider">
                     <HelpCircle className="w-4 h-4" />
                     Support Center
                 </div>
@@ -69,9 +69,9 @@ export default function MemberHelpCenter() {
             {/* Quick Link Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {quickLinks.map((link, idx) => (
-                    <Card key={idx} className="hover:border-[#236c2e] transition-all hover:shadow-md cursor-pointer group">
+                    <Card key={idx} className="hover:border-[var(--primary)] transition-all hover:shadow-md cursor-pointer group">
                         <CardHeader className="space-y-4">
-                            <div className="w-10 h-10 rounded bg-slate-100 flex items-center justify-center text-[#236c2e] group-hover:bg-[#236c2e] group-hover:text-white transition-colors">
+                            <div className="w-10 h-10 rounded bg-slate-100 flex items-center justify-center text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-white transition-colors">
                                 <link.icon className="w-6 h-6" />
                             </div>
                             <div>
@@ -87,7 +87,7 @@ export default function MemberHelpCenter() {
                 {/* FAQs Section */}
                 <div className="lg:col-span-2 space-y-6">
                     <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
-                        <ShieldCheck className="w-6 h-6 text-[#236c2e]" />
+                        <ShieldCheck className="w-6 h-6 text-[var(--primary)]" />
                         Frequently Asked Questions
                     </h2>
                     <Card>
@@ -95,7 +95,7 @@ export default function MemberHelpCenter() {
                             <Accordion type="single" collapsible className="w-full">
                                 {faqs.map((faq, idx) => (
                                     <AccordionItem key={idx} value={`item-${idx}`}>
-                                        <AccordionTrigger className="text-left font-semibold text-slate-800 hover:text-[#236c2e]">
+                                        <AccordionTrigger className="text-left font-semibold text-slate-800 hover:text-[var(--primary)]">
                                             {faq.q}
                                         </AccordionTrigger>
                                         <AccordionContent className="text-slate-600 leading-relaxed">
@@ -111,10 +111,10 @@ export default function MemberHelpCenter() {
                 {/* Contact Sidebar */}
                 <div className="space-y-6">
                     <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
-                        <MessageCircle className="w-6 h-6 text-[#236c2e]" />
+                        <MessageCircle className="w-6 h-6 text-[var(--primary)]" />
                         Contact Us
                     </h2>
-                    <Card className="bg-[#236c2e] text-white border-none shadow-lg">
+                    <Card className="bg-[var(--primary)] text-white border-none shadow-lg">
                         <CardHeader>
                             <CardTitle>Still have questions?</CardTitle>
                             <CardDescription className="text-white/80">
@@ -126,7 +126,7 @@ export default function MemberHelpCenter() {
                                 <Mail className="w-5 h-5 flex-shrink-0" />
                                 <div className="text-sm">
                                     <p className="font-semibold">Email Support</p>
-                                    <p className="opacity-80 text-xs">support@sproutsacco.com</p>
+                                    <p className="opacity-80 text-xs">support@wananchimali.com</p>
                                 </div>
                             </div>
                             <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-white/10 rounded text-center sm:text-left">
@@ -137,7 +137,7 @@ export default function MemberHelpCenter() {
                                 </div>
                             </div>
 
-                            <Button className="w-full bg-white text-[#236c2e] hover:bg-slate-100 font-semibold mt-4">
+                            <Button className="w-full bg-white text-[var(--primary)] hover:bg-slate-100 font-semibold mt-4">
                                 Open a Support Ticket
                             </Button>
                         </CardContent>

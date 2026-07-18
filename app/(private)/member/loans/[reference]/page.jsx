@@ -186,9 +186,9 @@ const PersonalLoanDetailSkeleton = () => (
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                             {/* Summary Cards */}
                             <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                <Card className="border-l-4 border-l-[#174271]">
+                                <Card className="border-l-4 border-l-[var(--accent)]">
                                     <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Outstanding Balance</CardTitle></CardHeader>
-                                    <CardContent><p className="text-xl font-semibold text-[#174271]">{formatCurrency(loan.outstanding_balance)}</p></CardContent>
+                                    <CardContent><p className="text-xl font-semibold text-[var(--accent)]">{formatCurrency(loan.outstanding_balance)}</p></CardContent>
                                 </Card>
                                 <Card className="border-l-4 border-l-green-600">
                                     <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-slate-500">Principal</CardTitle></CardHeader>

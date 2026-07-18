@@ -26,7 +26,7 @@ export function LoanProductShowcase({ showTitle = true }) {
     <div className="space-y-4">
       {showTitle && (
         <div className="flex items-center gap-2">
-          <HandCoins className="w-5 h-5 text-[#236c2e]" />
+          <HandCoins className="w-5 h-5 text-[var(--primary)]" />
           <h2 className="text-lg font-bold text-slate-900 tracking-tight">Available Loan Products</h2>
         </div>
       )}
@@ -35,7 +35,7 @@ export function LoanProductShowcase({ showTitle = true }) {
       <Card className="border-slate-200 bg-slate-50/50 shadow-sm">
         <CardContent className="p-3 space-y-2">
           <div className="flex gap-2 items-center">
-            <Info className="w-4 h-4 text-[#236c2e] shrink-0" />
+            <Info className="w-4 h-4 text-[var(--primary)] shrink-0" />
             <span className="text-xs font-semibold text-slate-800">Repayment Methods</span>
           </div>
           <div className="text-[11px] text-slate-500 space-y-1 font-medium leading-relaxed">
@@ -49,12 +49,12 @@ export function LoanProductShowcase({ showTitle = true }) {
         {loanProducts.map((product) => (
           <Card
             key={product.reference}
-            className="border-slate-200 hover:border-[#236c2e]/30 hover:shadow-md transition-all duration-300 flex flex-col"
+            className="border-slate-200 hover:border-[var(--primary)]/30 hover:shadow-md transition-all duration-300 flex flex-col"
           >
             <CardHeader className="p-3 pb-1">
               <div className="flex justify-between items-center">
                 <CardTitle className="text-sm font-bold text-slate-900">{product.name}</CardTitle>
-                <Badge variant="outline" className="text-[9px] font-bold text-[#236c2e] border-emerald-100 bg-emerald-50/30">
+                <Badge variant="outline" className="text-[9px] font-bold text-[var(--primary)] border-emerald-100 bg-emerald-50/30">
                   {product.interest_method}
                 </Badge>
               </div>

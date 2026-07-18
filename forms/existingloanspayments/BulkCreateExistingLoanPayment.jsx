@@ -59,7 +59,7 @@ export default function BulkCreateExistingLoanPayment({ isOpen, onClose, isInlin
         });
     };
 
-    const selectClass = "w-full h-10 px-3 bg-white border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#174271] focus:border-[#174271] transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:18px] bg-[right_10px_center] bg-no-repeat";
+    const selectClass = "w-full h-10 px-3 bg-white border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent)] focus:border-[var(--accent)] transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:18px] bg-[right_10px_center] bg-no-repeat";
 
     const content = (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -67,7 +67,7 @@ export default function BulkCreateExistingLoanPayment({ isOpen, onClose, isInlin
                 {payments.map((payment, index) => (
                     <div
                         key={index}
-                        className="p-5 border border-slate-200 rounded-xl bg-white shadow-sm relative group hover:border-[#174271]/30 transition-all border-t-4 border-t-[#174271]/80"
+                        className="p-5 border border-slate-200 rounded-xl bg-white shadow-sm relative group hover:border-[var(--accent)]/30 transition-all border-t-4 border-t-[var(--accent)]/80"
                     >
                         <div className="flex justify-between items-center mb-4 border-b border-slate-50 pb-2">
                             <span className="text-[10px] items-center flex gap-2 font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-500 uppercase tracking-widest border border-slate-200">
@@ -88,7 +88,7 @@ export default function BulkCreateExistingLoanPayment({ isOpen, onClose, isInlin
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Loan Selection */}
                             <div className="space-y-1.5">
-                                <Label className="text-[11px] font-semibold text-[#174271] uppercase tracking-tight">Loan (Account Number)</Label>
+                                <Label className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-tight">Loan (Account Number)</Label>
                                 <select
                                     className={selectClass}
                                     value={payment.existing_loan}
@@ -105,7 +105,7 @@ export default function BulkCreateExistingLoanPayment({ isOpen, onClose, isInlin
 
                             {/* Payment Method */}
                             <div className="space-y-1.5">
-                                <Label className="text-[11px] font-semibold text-[#174271] uppercase tracking-tight">Payment Method</Label>
+                                <Label className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-tight">Payment Method</Label>
                                 <select
                                     className={selectClass}
                                     value={payment.payment_method}
@@ -122,19 +122,19 @@ export default function BulkCreateExistingLoanPayment({ isOpen, onClose, isInlin
                         <div className="mt-4 pt-4 border-t border-slate-50 grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* Amount */}
                             <div className="space-y-1.5">
-                                <Label className="text-[11px] font-semibold text-[#174271] uppercase tracking-tight">Paid Amount</Label>
+                                <Label className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-tight">Paid Amount</Label>
                                 <Input
                                     type="number"
                                     value={payment.amount}
                                     onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                    className="h-10 border-slate-200 focus:border-[#174271] font-medium"
+                                    className="h-10 border-slate-200 focus:border-[var(--accent)] font-medium"
                                     placeholder="0.00"
                                 />
                             </div>
 
                             {/* Repayment Type */}
                             <div className="space-y-1.5">
-                                <Label className="text-[11px] font-semibold text-[#174271] uppercase tracking-tight">Repayment Type</Label>
+                                <Label className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-tight">Repayment Type</Label>
                                 <select
                                     className={selectClass}
                                     value={payment.repayment_type}
@@ -151,7 +151,7 @@ export default function BulkCreateExistingLoanPayment({ isOpen, onClose, isInlin
 
                             {/* Status */}
                             <div className="space-y-1.5">
-                                <Label className="text-[11px] font-semibold text-[#174271] uppercase tracking-tight">Status</Label>
+                                <Label className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-tight">Status</Label>
                                 <select
                                     className={selectClass}
                                     value={payment.transaction_status}
@@ -170,7 +170,7 @@ export default function BulkCreateExistingLoanPayment({ isOpen, onClose, isInlin
                     type="button"
                     variant="outline"
                     onClick={addPayment}
-                    className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-6 text-sm font-semibold transition-all rounded-xl"
+                    className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[var(--accent)] hover:border-[var(--accent)] hover:bg-slate-50 flex items-center justify-center gap-2 py-6 text-sm font-semibold transition-all rounded-xl"
                 >
                     <Plus className="w-5 h-5" /> Add Another Payment Record
                 </Button>
@@ -190,7 +190,7 @@ export default function BulkCreateExistingLoanPayment({ isOpen, onClose, isInlin
                 <Button
                     type="submit"
                     disabled={isCreating}
-                    className="bg-[#174271] hover:bg-[#12355a] text-white font-semibold px-12 h-12 flex items-center gap-2 shadow-sm rounded transition-all"
+                    className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white font-semibold px-12 h-12 flex items-center gap-2 shadow-sm rounded transition-all"
                 >
                     {isCreating ? (
                         <>

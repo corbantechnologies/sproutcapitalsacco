@@ -34,7 +34,7 @@ const NavItem = ({ link, setIsMenuOpen }) => {
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center justify-between w-full px-4 py-3 text-[14px] font-medium hover:bg-slate-50 rounded-lg transition-colors text-left group"
         >
-          <span className="group-hover:text-[#174271]">{link.label}</span>
+          <span className="group-hover:text-[var(--accent)]">{link.label}</span>
           {isOpen ? (
             <ChevronDown className="w-4 h-4 text-slate-400" />
           ) : (
@@ -48,7 +48,7 @@ const NavItem = ({ link, setIsMenuOpen }) => {
               <Link
                 key={child.href}
                 href={child.href}
-                className="px-4 py-2 text-[13px] text-slate-600 hover:text-[#174271] hover:bg-slate-50 rounded transition-colors"
+                className="px-4 py-2 text-[13px] text-slate-600 hover:text-[var(--accent)] hover:bg-slate-50 rounded transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {child.label}
@@ -63,7 +63,7 @@ const NavItem = ({ link, setIsMenuOpen }) => {
   return (
     <Link
       href={link.href}
-      className="block px-4 py-3 text-[14px] font-medium hover:bg-slate-50 hover:text-[#174271] rounded-lg transition-colors"
+      className="block px-4 py-3 text-[14px] font-medium hover:bg-slate-50 hover:text-[var(--accent)] rounded-lg transition-colors"
       onClick={() => setIsMenuOpen(false)}
     >
       {link.label}
@@ -102,7 +102,7 @@ export default function SuperuserNavbar() {
           }`}
       >
         <div className="p-6 border-b flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-[#174271]">Superuser Menu</h2>
+          <h2 className="text-lg font-semibold text-[var(--accent)]">Superuser Menu</h2>
           <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(false)}>
             <XIcon className="h-5 w-5" />
           </Button>

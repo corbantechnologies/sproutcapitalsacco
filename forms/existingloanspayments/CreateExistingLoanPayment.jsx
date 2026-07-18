@@ -36,7 +36,7 @@ export default function CreateExistingLoanPayment({ isOpen, onClose, initialLoan
         });
     };
 
-    const selectClass = "w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#174271] focus:border-[#174271] transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:20px] bg-[right_10px_center] bg-no-repeat";
+    const selectClass = "w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent)] focus:border-[var(--accent)] transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:20px] bg-[right_10px_center] bg-no-repeat";
 
     return (
         <Modal
@@ -61,7 +61,7 @@ export default function CreateExistingLoanPayment({ isOpen, onClose, initialLoan
                     <Form className="space-y-4">
                         {/* Loan Selection */}
                         <div className="space-y-2">
-                            <Label className="text-[#174271] font-semibold uppercase text-[11px] tracking-wider">Loan (Account Number)</Label>
+                            <Label className="text-[var(--accent)] font-semibold uppercase text-[11px] tracking-wider">Loan (Account Number)</Label>
                             <select
                                 className={selectClass}
                                 value={values.existing_loan}
@@ -78,7 +78,7 @@ export default function CreateExistingLoanPayment({ isOpen, onClose, initialLoan
 
                         {/* Payment Method */}
                         <div className="space-y-2">
-                            <Label className="text-[#174271] font-semibold uppercase text-[11px] tracking-wider">Payment Method</Label>
+                            <Label className="text-[var(--accent)] font-semibold uppercase text-[11px] tracking-wider">Payment Method</Label>
                             <select
                                 className={selectClass}
                                 value={values.payment_method}
@@ -93,19 +93,19 @@ export default function CreateExistingLoanPayment({ isOpen, onClose, initialLoan
 
                         {/* Amount */}
                         <div className="space-y-2">
-                            <Label className="text-[#174271] font-semibold uppercase text-[11px] tracking-wider">Paid Amount</Label>
+                            <Label className="text-[var(--accent)] font-semibold uppercase text-[11px] tracking-wider">Paid Amount</Label>
                             <Field
                                 as={Input}
                                 type="number"
                                 name="amount"
-                                className="h-10 border-slate-300 rounded focus-visible:ring-1 focus-visible:ring-[#174271] shadow-none"
+                                className="h-10 border-slate-300 rounded focus-visible:ring-1 focus-visible:ring-[var(--accent)] shadow-none"
                                 placeholder="0.00"
                             />
                         </div>
 
                         {/* Repayment Type */}
                         <div className="space-y-2">
-                            <Label className="text-[#174271] font-semibold uppercase text-[11px] tracking-wider">Repayment Type</Label>
+                            <Label className="text-[var(--accent)] font-semibold uppercase text-[11px] tracking-wider">Repayment Type</Label>
                             <select
                                 className={selectClass}
                                 value={values.repayment_type}
@@ -122,7 +122,7 @@ export default function CreateExistingLoanPayment({ isOpen, onClose, initialLoan
 
                         {/* Transaction Status */}
                         <div className="space-y-2">
-                            <Label className="text-[#174271] font-semibold uppercase text-[11px] tracking-wider">Status</Label>
+                            <Label className="text-[var(--accent)] font-semibold uppercase text-[11px] tracking-wider">Status</Label>
                             <select
                                 className={selectClass}
                                 value={values.transaction_status}
@@ -146,7 +146,7 @@ export default function CreateExistingLoanPayment({ isOpen, onClose, initialLoan
                             <Button
                                 type="submit"
                                 disabled={isSubmitting || isCreating}
-                                className="bg-[#174271] hover:bg-[#12355a] text-white font-semibold px-10 h-10 flex items-center gap-2 shadow-sm rounded"
+                                className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white font-semibold px-10 h-10 flex items-center gap-2 shadow-sm rounded"
                             >
                                 {isSubmitting || isCreating ? (
                                     <>

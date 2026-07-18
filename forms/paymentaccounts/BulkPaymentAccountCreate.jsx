@@ -114,7 +114,7 @@ function BulkPaymentAccountCreate({ onBatchSuccess }) {
                                         placeholder="e.g. M-Pesa Till 45678"
                                         value={account.name}
                                         onChange={(e) => handleInputChange(index, "name", e.target.value)}
-                                        className="h-10 text-sm border-slate-200 focus:border-[#174271]"
+                                        className="h-10 text-sm border-slate-200 focus:border-[var(--accent)]"
                                     />
                                 </div>
 
@@ -123,7 +123,7 @@ function BulkPaymentAccountCreate({ onBatchSuccess }) {
                                     <select
                                         value={account.gl_account}
                                         onChange={(e) => handleInputChange(index, "gl_account", e.target.value)}
-                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
                                         disabled={isLoadingGL}
                                     >
                                         <option value="">-- Select GL Account --</option>
@@ -142,7 +142,7 @@ function BulkPaymentAccountCreate({ onBatchSuccess }) {
                                         id={`active-p-${index}`}
                                         checked={account.is_active}
                                         onChange={(e) => handleInputChange(index, "is_active", e.target.checked)}
-                                        className="w-4 h-4 accent-[#174271]"
+                                        className="w-4 h-4 accent-[var(--accent)]"
                                     />
                                     <Label htmlFor={`active-p-${index}`} className="text-xs cursor-pointer font-medium text-slate-700">Account is Active</Label>
                                 </div>
@@ -155,7 +155,7 @@ function BulkPaymentAccountCreate({ onBatchSuccess }) {
                             type="button"
                             variant="outline"
                             onClick={addAccount}
-                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-4 text-xs font-bold"
+                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[var(--accent)] hover:border-[var(--accent)] hover:bg-slate-50 flex items-center justify-center gap-2 py-4 text-xs font-bold"
                         >
                             <Plus className="w-4 h-4" /> Add Another Row
                         </Button>
@@ -165,7 +165,7 @@ function BulkPaymentAccountCreate({ onBatchSuccess }) {
                 <div className="flex justify-end pt-4">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-[#12345a] text-white px-10 h-10 flex items-center gap-2 font-bold shadow-md shadow-slate-200"
+                        className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-10 h-10 flex items-center gap-2 font-bold shadow-md shadow-slate-200"
                         disabled={loading || isLoadingGL}
                     >
                         {loading ? "Processing..." : <><Save className="w-4 h-4" /> Save Batch</>}

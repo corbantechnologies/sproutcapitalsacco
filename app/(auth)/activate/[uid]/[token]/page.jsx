@@ -1,3 +1,4 @@
+import { SACCO_CONFIG } from "@/lib/sacco-config";
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -37,7 +38,7 @@ function AccountActivation() {
             Activate Account
           </CardTitle>
           <CardDescription className="text-gray-500 text-base max-w-[90%] mx-auto">
-            Set your password to activate your Sprout Capital SACCO account
+            Set your password to activate your {SACCO_CONFIG.name} account
           </CardDescription>
         </CardHeader>
 

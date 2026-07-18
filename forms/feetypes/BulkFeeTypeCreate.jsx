@@ -74,7 +74,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl font-semibold text-[#174271]">Batch Create Fee Types</h2>
+                    <h2 className="text-xl font-semibold text-[var(--accent)]">Batch Create Fee Types</h2>
                     <p className="text-sm text-gray-500">Define multiple SACCO fees (Registration, Account Opening, etc.) in one go.</p>
                 </div>
                 <Button
@@ -92,7 +92,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                     {fees.map((fee, index) => (
                         <div
                             key={index}
-                            className="p-5 border border-slate-100 rounded bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-[#174271]"
+                            className="p-5 border border-slate-100 rounded bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-[var(--accent)]"
                         >
                             <div className="flex justify-between items-center mb-4">
                                 <span className="text-[10px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-black uppercase tracking-widest">
@@ -117,7 +117,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                                         placeholder="e.g. Registration Fee"
                                         value={fee.name}
                                         onChange={(e) => handleInputChange(index, "name", e.target.value)}
-                                        className="h-10 text-sm border-slate-200 focus:border-[#174271] font-medium"
+                                        className="h-10 text-sm border-slate-200 focus:border-[var(--accent)] font-medium"
                                     />
                                 </div>
 
@@ -128,7 +128,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                                         placeholder=""
                                         value={fee.amount}
                                         onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                        className="h-10 text-sm border-slate-200 focus:border-[#174271] font-semibold text-[#ea1315]"
+                                        className="h-10 text-sm border-slate-200 focus:border-[var(--accent)] font-semibold text-[#ea1315]"
                                     />
                                 </div>
 
@@ -137,7 +137,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                                     <select
                                         value={fee.gl_account}
                                         onChange={(e) => handleInputChange(index, "gl_account", e.target.value)}
-                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
                                         disabled={isLoadingGL}
                                     >
                                         <option value="">-- Select GL --</option>
@@ -156,7 +156,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                                             id={`everyone-${index}`}
                                             checked={fee.is_everyone}
                                             onChange={(e) => handleInputChange(index, "is_everyone", e.target.checked)}
-                                            className="w-3.5 h-3.5 accent-[#174271]"
+                                            className="w-3.5 h-3.5 accent-[var(--accent)]"
                                         />
                                         <Label htmlFor={`everyone-${index}`} className="text-[11px] cursor-pointer text-slate-600">All Members</Label>
                                     </div>
@@ -166,7 +166,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                                             id={`exceed-${index}`}
                                             checked={fee.can_exceed_limit}
                                             onChange={(e) => handleInputChange(index, "can_exceed_limit", e.target.checked)}
-                                            className="w-3.5 h-3.5 accent-[#174271]"
+                                            className="w-3.5 h-3.5 accent-[var(--accent)]"
                                         />
                                         <Label htmlFor={`exceed-${index}`} className="text-[11px] cursor-pointer text-slate-600">Allow Overpay</Label>
                                     </div>
@@ -180,7 +180,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                             type="button"
                             variant="outline"
                             onClick={addFee}
-                            className="w-full border-dashed border-2 border-slate-200 text-black hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-5 text-xs font-semibold transition-all rounded"
+                            className="w-full border-dashed border-2 border-slate-200 text-black hover:text-[var(--accent)] hover:border-[var(--accent)] hover:bg-slate-50 flex items-center justify-center gap-2 py-5 text-xs font-semibold transition-all rounded"
                         >
                             <Plus className="w-4 h-4" /> Add Another Fee Definition
                         </Button>

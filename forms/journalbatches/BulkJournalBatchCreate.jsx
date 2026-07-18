@@ -115,7 +115,7 @@ function BulkJournalBatchCreate({ onBatchSuccess }) {
     <div className="space-y-4 w-full px-4 mx-auto">
       <div className="flex items-center justify-between border-b pb-4">
         <div>
-          <h2 className="text-lg font-semibold text-[#174271]">Multi-Batch Journal Entry</h2>
+          <h2 className="text-lg font-semibold text-[var(--accent)]">Multi-Batch Journal Entry</h2>
           <p className="text-sm text-slate-500 font-medium">Manually compose multiple balanced journal batches.</p>
         </div>
         <Button 
@@ -244,7 +244,7 @@ function BulkJournalBatchCreate({ onBatchSuccess }) {
                     <button 
                         type="button"
                         onClick={() => addEntry(bIndex)}
-                        className="w-full py-3 bg-slate-50/50 hover:bg-slate-50 text-[11px] font-bold text-[#174271] uppercase tracking-wider transition-all"
+                        className="w-full py-3 bg-slate-50/50 hover:bg-slate-50 text-[11px] font-bold text-[var(--accent)] uppercase tracking-wider transition-all"
                     >
                         <Plus className="w-3 h-3 inline mr-1" /> Add Entry Line
                     </button>
@@ -272,7 +272,7 @@ function BulkJournalBatchCreate({ onBatchSuccess }) {
                 type="button"
                 variant="outline"
                 onClick={addBatch}
-                className="w-full md:w-auto border-dashed border-2 py-6 px-12 text-[#174271] font-bold border-slate-200 hover:border-[#174271] transition-all bg-white"
+                className="w-full md:w-auto border-dashed border-2 py-6 px-12 text-[var(--accent)] font-bold border-slate-200 hover:border-[var(--accent)] transition-all bg-white"
             >
                 <Plus className="w-4 h-4 mr-2" /> Add Another Batch
             </Button>

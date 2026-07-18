@@ -62,7 +62,7 @@ export default function BulkCreateExistingLoan({ isOpen, onClose, isInline = fal
         });
     };
 
-    const selectClass = "w-full h-10 px-3 bg-white border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#174271] focus:border-[#174271] transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:18px] bg-[right_10px_center] bg-no-repeat";
+    const selectClass = "w-full h-10 px-3 bg-white border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[var(--accent)] focus:border-[var(--accent)] transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:18px] bg-[right_10px_center] bg-no-repeat";
 
     const content = (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -70,7 +70,7 @@ export default function BulkCreateExistingLoan({ isOpen, onClose, isInline = fal
                 {loans.map((loan, index) => (
                     <div
                         key={index}
-                        className="p-5 border border-slate-200 rounded-xl bg-white shadow-sm relative group hover:border-[#174271]/30 transition-all border-t-4 border-t-[#174271]/80"
+                        className="p-5 border border-slate-200 rounded-xl bg-white shadow-sm relative group hover:border-[var(--accent)]/30 transition-all border-t-4 border-t-[var(--accent)]/80"
                     >
                         <div className="flex justify-between items-center mb-4 border-b border-slate-50 pb-2">
                             <span className="text-[10px] items-center flex gap-2 font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-500 uppercase tracking-widest border border-slate-200">
@@ -91,7 +91,7 @@ export default function BulkCreateExistingLoan({ isOpen, onClose, isInline = fal
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* Member Selection */}
                             <div className="space-y-1.5">
-                                <Label className="text-[11px] font-semibold text-[#174271] uppercase tracking-tight">Member</Label>
+                                <Label className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-tight">Member</Label>
                                 <select
                                     className={selectClass}
                                     value={loan.member}
@@ -108,19 +108,19 @@ export default function BulkCreateExistingLoan({ isOpen, onClose, isInline = fal
 
                             {/* Principal */}
                             <div className="space-y-1.5">
-                                <Label className="text-[11px] font-semibold text-[#174271] uppercase tracking-tight">Principal Amount</Label>
+                                <Label className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-tight">Principal Amount</Label>
                                 <Input
                                     type="number"
                                     value={loan.principal}
                                     onChange={(e) => handleInputChange(index, "principal", e.target.value)}
-                                    className="h-10 border-slate-200 focus:border-[#174271] font-medium"
+                                    className="h-10 border-slate-200 focus:border-[var(--accent)] font-medium"
                                     placeholder="0.00"
                                 />
                             </div>
 
                             {/* Payment Method */}
                             <div className="space-y-1.5">
-                                <Label className="text-[11px] font-semibold text-[#174271] uppercase tracking-tight">Initial Payment Method</Label>
+                                <Label className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-tight">Initial Payment Method</Label>
                                 <select
                                     className={selectClass}
                                     value={loan.payment_method}
@@ -182,7 +182,7 @@ export default function BulkCreateExistingLoan({ isOpen, onClose, isInline = fal
                     type="button"
                     variant="outline"
                     onClick={addLoan}
-                    className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-6 text-sm font-semibold transition-all rounded-xl"
+                    className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[var(--accent)] hover:border-[var(--accent)] hover:bg-slate-50 flex items-center justify-center gap-2 py-6 text-sm font-semibold transition-all rounded-xl"
                 >
                     <Plus className="w-5 h-5" /> Add Another Loan Record
                 </Button>
@@ -202,7 +202,7 @@ export default function BulkCreateExistingLoan({ isOpen, onClose, isInline = fal
                 <Button
                     type="submit"
                     disabled={isCreating}
-                    className="bg-[#174271] hover:bg-[#12355a] text-white font-semibold px-12 h-12 flex items-center gap-2 shadow-sm rounded transition-all"
+                    className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white font-semibold px-12 h-12 flex items-center gap-2 shadow-sm rounded transition-all"
                 >
                     {isCreating ? (
                         <>

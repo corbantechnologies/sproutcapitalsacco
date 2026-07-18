@@ -73,7 +73,7 @@ function BulkUploadCreateExistingLoan({ isOpen, onClose, onBatchSuccess, isInlin
             <div className="bg-blue-50/50 rounded p-6 border border-blue-100 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
                 <div className="flex items-center gap-4">
                     <div className="bg-white p-3 rounded shadow-sm border border-blue-100">
-                        <Download className="w-6 h-6 text-[#174271]" />
+                        <Download className="w-6 h-6 text-[var(--accent)]" />
                     </div>
                     <div>
                         <p className="text-sm font-semibold text-slate-800 uppercase tracking-tighter">Loans Template</p>
@@ -84,7 +84,7 @@ function BulkUploadCreateExistingLoan({ isOpen, onClose, onBatchSuccess, isInlin
                     variant="outline"
                     size="sm"
                     onClick={handleDownloadTemplate}
-                    className="border-[#174271] text-[#174271] hover:bg-[#174271] hover:text-white font-semibold px-6 h-10 transition-all shadow-sm rounded"
+                    className="border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white font-semibold px-6 h-10 transition-all shadow-sm rounded"
                 >
                     Get Template
                 </Button>
@@ -94,7 +94,7 @@ function BulkUploadCreateExistingLoan({ isOpen, onClose, onBatchSuccess, isInlin
                 <div
                     className={`border-2 border-dashed rounded p-12 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
                         ? "border-blue-500 bg-blue-50/20 shadow-sm"
-                        : "border-slate-200 bg-white hover:border-[#174271] hover:bg-slate-50"
+                        : "border-slate-200 bg-white hover:border-[var(--accent)] hover:bg-slate-50"
                         }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
@@ -108,12 +108,12 @@ function BulkUploadCreateExistingLoan({ isOpen, onClose, onBatchSuccess, isInlin
 
                     {file ? (
                         <div className="flex flex-col items-center space-y-4 animate-in fade-in zoom-in-95">
-                            <div className="p-5 bg-[#174271] rounded text-white shadow-sm ring-2 ring-blue-50">
+                            <div className="p-5 bg-[var(--accent)] rounded text-white shadow-sm ring-2 ring-blue-50">
                                 <FileCheck className="w-10 h-10" />
                             </div>
                             <div className="space-y-1">
                                 <p className="font-semibold text-xl text-slate-900 tracking-tight">{file.name}</p>
-                                <p className="text-[12px] text-[#174271] font-semibold uppercase tracking-[0.2em]">
+                                <p className="text-[12px] text-[var(--accent)] font-semibold uppercase tracking-[0.2em]">
                                     {(file.size / 1024).toFixed(2)} KB • ONBOARDING DATA
                                 </p>
                             </div>
@@ -149,7 +149,7 @@ function BulkUploadCreateExistingLoan({ isOpen, onClose, onBatchSuccess, isInlin
                 <div className="flex justify-center pt-2">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-[#12355a] text-white px-24 h-14 rounded font-semibold text-lg shadow-sm transition-all active:scale-95 disabled:opacity-30 flex items-center gap-3 uppercase tracking-tight"
+                        className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-24 h-14 rounded font-semibold text-lg shadow-sm transition-all active:scale-95 disabled:opacity-30 flex items-center gap-3 uppercase tracking-tight"
                         disabled={loading || !file}
                     >
                         {loading ? "Processing..." : "Start Import"}

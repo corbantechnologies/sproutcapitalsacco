@@ -72,7 +72,7 @@ function BulkSavingTypeCreate({ onBatchSuccess }) {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl text-[#174271]">Batch Setup Saving Products</h2>
+                    <h2 className="text-xl text-[var(--accent)]">Batch Setup Saving Products</h2>
                     <p className="text-sm text-gray-500">Define interest rates and guarantee rules for new deposit products.</p>
                     <Button
                         type="button"
