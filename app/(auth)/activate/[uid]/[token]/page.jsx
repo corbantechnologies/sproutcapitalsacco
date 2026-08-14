@@ -55,7 +55,7 @@ function AccountActivation() {
               try {
                 await activateAccount(values);
                 toast?.success("Account Activated Successfully!");
-                router.push("portal.sproutcapitalsacco.co.ke");
+                router.push("https://portal.sproutcapitalsacco.co.ke");
               } catch (error) {
                 toast?.error("Failed to activate account!");
               } finally {

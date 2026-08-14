@@ -57,8 +57,8 @@ function MemberNavbar() {
               key={link.href}
               href={link.href}
               className={`block px-4 py-2.5 text-[14px] font-semibold rounded transition-colors ${isActive
-                  ? "bg-[#236c2e]/10 text-[#236c2e]"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-[#236c2e]"
+                ? "bg-[#236c2e]/10 text-[#236c2e]"
+                : "text-slate-600 hover:bg-slate-50 hover:text-[#236c2e]"
                 }`}
               onClick={() => setIsMenuOpen && setIsMenuOpen(false)}
             >
@@ -75,7 +75,7 @@ function MemberNavbar() {
           className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 rounded font-semibold"
           onClick={() => {
             if (setIsMenuOpen) setIsMenuOpen(false);
-            signOut({ callbackUrl: "portal.sproutcapitalsacco.co.ke" });
+            signOut({ callbackUrl: "https://portal.sproutcapitalsacco.co.ke" });
           }}
         >
           Logout

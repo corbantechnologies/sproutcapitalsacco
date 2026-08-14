@@ -52,7 +52,7 @@ export const authOptions = {
       return session;
     },
   },
-  pages: { signIn: "portal.sproutcapitalsacco.co.ke" },
+  pages: { signIn: "https://portal.sproutcapitalsacco.co.ke" },
 };
 
 const handler = NextAuth(authOptions);

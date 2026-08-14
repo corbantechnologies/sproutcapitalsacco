@@ -75,7 +75,7 @@ export default function ResetPassword() {
                 confirm_password: formData.confirm_password,
             });
             toast.success("Password reset successful! You can now login.");
-            router.push("portal.sproutcapitalsacco.co.ke");
+            router.push("https://portal.sproutcapitalsacco.co.ke");
         } catch (error) {
             console.error(error);
             toast.error(
@@ -207,7 +207,7 @@ export default function ResetPassword() {
 
                     <div className="text-center pt-2">
                         <Link
-                            href="portal.sproutcapitalsacco.co.ke"
+                            href="https://portal.sproutcapitalsacco.co.ke"
                             className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-primary transition-colors"
                         >
                             <ArrowLeft className="w-4 h-4 mr-2" />

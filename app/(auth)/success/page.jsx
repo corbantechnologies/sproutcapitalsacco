@@ -53,7 +53,7 @@ function SuccessPage() {
                 asChild
                 className="w-full h-12 text-base font-bold bg-primary hover:bg-[#045e32] shadow-lg shadow-primary/20 transition-all"
               >
-                <Link href="portal.sproutcapitalsacco.co.ke" aria-label="Go to login">
+                <Link href="https://portal.sproutcapitalsacco.co.ke" aria-label="Go to login">
                   Login Page
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>

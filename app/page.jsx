@@ -63,7 +63,7 @@ function LandingPage() {
               asChild
               className="bg-[#236c2e] hover:bg-[#1a5222] text-white px-8 rounded-md font-bold text-[14px] shadow-sm transition-all shadow-[#236c2e]/10"
             >
-              <Link href="portal.sproutcapitalsacco.co.ke">Member Portal</Link>
+              <Link href="https://portal.sproutcapitalsacco.co.ke">Member Portal</Link>
             </Button>
           </nav>
 
@@ -114,7 +114,7 @@ function LandingPage() {
                 asChild
                 className="w-full bg-[#236c2e] text-white rounded-md h-12 font-bold shadow-md"
               >
-                <Link href="portal.sproutcapitalsacco.co.ke" onClick={() => setIsMenuOpen(false)}>
+                <Link href="https://portal.sproutcapitalsacco.co.ke" onClick={() => setIsMenuOpen(false)}>
                   Access Portal
                 </Link>
               </Button>
@@ -155,7 +155,7 @@ function LandingPage() {
                 asChild
                 className="h-14 px-10 rounded-md text-[16px] font-bold bg-[#236c2e] hover:bg-[#1a5222] text-white shadow-lg shadow-[#236c2e]/20 transition-all"
               >
-                <Link href="portal.sproutcapitalsacco.co.ke">
+                <Link href="https://portal.sproutcapitalsacco.co.ke">
                   Enter Secure Portal
                   <ArrowRight className="ml-2 w-5 h-5 opacity-70" />
                 </Link>
@@ -321,7 +321,7 @@ function LandingPage() {
             asChild
             className="h-14 px-12 rounded-md text-[16px] bg-white text-[#174271] hover:bg-slate-50 shadow-xl transition-all font-bold uppercase tracking-widest"
           >
-            <Link href="portal.sproutcapitalsacco.co.ke">Execute Membership Login</Link>
+            <Link href="https://portal.sproutcapitalsacco.co.ke">Execute Membership Login</Link>
           </Button>
         </div>
       </section>
@@ -373,13 +373,13 @@ function LandingPage() {
                   Portal
                 </span>
                 <Link
-                  href="portal.sproutcapitalsacco.co.ke"
+                  href="https://portal.sproutcapitalsacco.co.ke"
                   className="text-[14px] text-slate-500 hover:text-[#236c2e] font-bold"
                 >
                   Member Access
                 </Link>
                 <Link
-                  href="portal.sproutcapitalsacco.co.ke"
+                  href="https://portal.sproutcapitalsacco.co.ke"
                   className="text-[14px] text-slate-500 hover:text-[#236c2e] font-bold"
                 >
                   Admin Panel
