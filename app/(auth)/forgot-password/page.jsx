@@ -82,7 +82,7 @@ export default function ForgotPassword() {
 
                     <div className="text-center pt-2">
                         <Link
-                            href="/login"
+                            href="portal.sproutcapitalsacco.co.ke"
                             className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-primary transition-colors"
                         >
                             <ArrowLeft className="w-4 h-4 mr-2" />

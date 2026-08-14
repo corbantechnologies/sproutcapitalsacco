@@ -120,7 +120,7 @@ export default function SuperuserNavbar() {
             className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
             onClick={() => {
               setIsMenuOpen(false);
-              signOut({ callbackUrl: "/login" });
+              signOut({ callbackUrl: "portal.sproutcapitalsacco.co.ke" });
             }}
           >
             Logout

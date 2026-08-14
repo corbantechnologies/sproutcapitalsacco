@@ -162,7 +162,7 @@ export default function SaccoAdminNavbar() {
           className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 rounded font-semibold"
           onClick={() => {
             if (setIsMenuOpen) setIsMenuOpen(false);
-            signOut({ callbackUrl: "/login" });
+            signOut({ callbackUrl: "portal.sproutcapitalsacco.co.ke" });
           }}
         >
           Logout

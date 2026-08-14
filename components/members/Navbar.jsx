@@ -56,11 +56,10 @@ function MemberNavbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`block px-4 py-2.5 text-[14px] font-semibold rounded transition-colors ${
-                isActive
+              className={`block px-4 py-2.5 text-[14px] font-semibold rounded transition-colors ${isActive
                   ? "bg-[#236c2e]/10 text-[#236c2e]"
                   : "text-slate-600 hover:bg-slate-50 hover:text-[#236c2e]"
-              }`}
+                }`}
               onClick={() => setIsMenuOpen && setIsMenuOpen(false)}
             >
               {link.label}
@@ -76,7 +75,7 @@ function MemberNavbar() {
           className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 rounded font-semibold"
           onClick={() => {
             if (setIsMenuOpen) setIsMenuOpen(false);
-            signOut({ callbackUrl: "/login" });
+            signOut({ callbackUrl: "portal.sproutcapitalsacco.co.ke" });
           }}
         >
           Logout
@@ -110,9 +109,8 @@ function MemberNavbar() {
 
       {/* Mobile Sidebar (Slides in from Left) */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-white border-r shadow-2xl flex flex-col transition-transform duration-300 md:hidden ${
-          isMobileOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-white border-r shadow-2xl flex flex-col transition-transform duration-300 md:hidden ${isMobileOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         {sidebarContent(setIsMobileOpen)}
       </div>
